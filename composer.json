@@ -1,0 +1,26 @@
+{
+  "require": {
+    "php": ">=7.2.0",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "*",
+    "phpunit/phpunit": "6.5.9",
+    "10up/wp_mock": "0.3.0",
+    "antecedent/patchwork": "*",
+    "php-coveralls/php-coveralls": "^2.1",
+    "squizlabs/php_codesniffer": "*",
+    "wp-coding-standards/wpcs": "*",
+    "rregeer/phpunit-coverage-check": "^0.1.6",
+    "phpunit/phpcov": "*",
+    "phpro/grumphp": "^0.14.2"
+  },
+  "config": {
+    "bin-dir": "bin/"
+  },
+  "autoload": {
+    "psr-4": {
+      "Niteo\\Kafkai\\Plugin\\": "inc"
+    }
+  }
+}
