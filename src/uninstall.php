@@ -19,3 +19,4 @@ require_once __DIR__ . '/vendor/autoload.php';
 /**
  * @todo Write steps for removing plugin traces from the backend.
  */
+
