@@ -1,0 +1,49 @@
+/**
+ * Admin
+ *
+ * 01.. Vendors
+ * 02.. Settings
+ * 03.. Responsive
+ */
+
+/**
+ * 01.. Vendors
+ */
+/* --- Switches --- */
+.switchery {
+	background-color: #ffffff;
+	border: 1px solid #dfdfdf;
+	border-radius: 20px;
+	cursor: pointer;
+	display: inline-block;
+	height: 20px;
+	position: relative;
+	vertical-align: middle;
+	width: 40px;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	box-sizing: content-box;
+	background-clip: content-box;
+}
+.switchery > small {
+	background: #ffffff;
+	border-radius: 100%;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+	height: 20px;
+	position: absolute;
+	top: 0;
+	width: 20px;
+}
+
+/**
+ * 02.. Settings
+ */
+
+
+/**
+ * 03.. Responsive
+ */
+

@@ -4,7 +4,7 @@
  * Description: Plugin to generate and/or import articles from Kafkai. It also fetches the corresponding featured image along with YouTube video for the article and adds it to the database.
  * Version: @##VERSION##@
  * Runtime: 7.2+
- * Author: niteoweb
+ * Author: Niteo
  * Text Domain: kafkai-wp
  * Domain Path: i18n
  * Author URI: https://kafkai.com
@@ -35,6 +35,7 @@ class KafKai {
 		add_action( 'plugins_loaded', array( $this, 'load_textdomain' ) );
 
 		new Config();
+		new Admin();
 	}
 
 	/**
