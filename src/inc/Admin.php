@@ -3,14 +3,16 @@
  * Admin class for the plugin.
  */
 
-namespace Niteo\KafKai\Plugin;
+namespace Niteo\Kafkai\Plugin;
 
 /**
  * Admin options for the plugin.
  *
- * @package Niteo\KafKai\Plugin
+ * @package Niteo\Kafkai\Plugin
  */
 class Admin {
+
+	use Extend\Admin;
 
 	/**
 	 * Class constructor.
@@ -53,6 +55,16 @@ class Admin {
 			'manage_options',
 			Config::PLUGIN_PREFIX . 'generate',
 			array( $this, 'generate' ),
+		);
+
+		// Settings page
+		$settings = add_submenu_page(
+			Config::PLUGIN_PREFIX . 'admin',
+			esc_html__( 'Kafkai Settings', 'kafkai-wp' ),
+			esc_html__( 'Settings', 'kafkai-wp' ),
+			'manage_options',
+			Config::PLUGIN_PREFIX . 'settings',
+			array( $this, 'settings' ),
 		);
 
 		// Load JS conditionally
@@ -123,6 +135,22 @@ class Admin {
 	 */
 	public function generate() : void {
 		require_once Config::$plugin_path . 'inc/admin/views/generate.php';
+	}
+
+	/**
+	 * Displays settings page for the plugin.
+	 *
+	 * @return void
+	 */
+	public function settings() : void {
+		/**
+		 * Process form on submission and grab options from the database
+		 * to fill the form values if available.
+		 */
+		$this->process_settings();
+		$this->get_options();
+
+		require_once Config::$plugin_path . 'inc/admin/views/settings.php';
 	}
 
 }

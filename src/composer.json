@@ -11,7 +11,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Niteo\\KafKai\\Plugin\\": "inc"
+      "Niteo\\Kafkai\\Plugin\\": "inc",
+      "Niteo\\Kafkai\\Plugin\\Extend\\": "inc/traits"
     }
   }
 }
