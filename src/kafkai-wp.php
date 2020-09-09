@@ -12,7 +12,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace Niteo\KafKai\Plugin;
+namespace Niteo\Kafkai\Plugin;
 
 // Stop execution if the file is called directly
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  * Plugin class where all the action happens.
  *
  * @category    Plugins
- * @package     Niteo\KafKai\Plugin
+ * @package     Niteo\Kafkai\Plugin
  */
 class KafKai {
 

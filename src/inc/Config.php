@@ -3,12 +3,12 @@
  * Configuration file for the plugin.
  */
 
-namespace Niteo\KafKai\Plugin;
+namespace Niteo\Kafkai\Plugin;
 
 /**
  * Set configuration options and plugin environment.
  *
- * @package Niteo\KafKai\Plugin
+ * @package Niteo\Kafkai\Plugin
  */
 class Config {
 

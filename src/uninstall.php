@@ -3,10 +3,10 @@
  * File which gets called on plugin uninstall.
  *
  * @since   1.0.0
- * @package Niteo\KafKai\Plugin
+ * @package Niteo\Kafkai\Plugin
  */
 
-namespace Niteo\KafKai\Plugin;
+namespace Niteo\Kafkai\Plugin;
 
 // Prevent unauthorized access
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
