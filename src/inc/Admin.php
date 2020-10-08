@@ -148,7 +148,7 @@ class Admin {
 		 * to fill the form values if available.
 		 */
 		$this->process_settings();
-		$this->get_options();
+		$this->get_settings();
 
 		require_once Config::$plugin_path . 'inc/admin/views/settings.php';
 	}

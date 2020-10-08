@@ -6,6 +6,7 @@
 namespace Niteo\Kafkai\Plugin\Extend;
 
 use Niteo\Kafkai\Plugin\Config;
+use Niteo\Kafkai\Plugin\Admin\Api;
 
 trait Admin {
 
@@ -20,11 +21,12 @@ trait Admin {
 	private $code = 'error';
 
 	/**
-	 * Get plugin option from the database.
+	 * Get settings from the DB.
+	 * This includes credentials, token, and user details, if available.
 	 *
-	 * @return void
+	 * @return false|array
 	 */
-	public function get_options() : void {
+	public function get_settings() {
 
 	}
 
@@ -48,9 +50,59 @@ trait Admin {
 		$user_email    = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'email' ] );
 		$user_password = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'password' ] );
 
+		// Empty fields
 		if ( empty( $user_email ) || empty( $user_password ) ) {
 			$this->response = esc_html__( 'Please provide both email and password for authentication.', 'kafkai-wp' );
+			return;
 		}
+
+		// Save credentials to DB
+		$credentials = array(
+			'email'    => $user_email,
+			'password' => $user_password,
+		);
+		update_option( Config::PLUGIN_PREFIX . 'settings', $credentials );
+
+		// API call for authentication
+		$api      = new Api();
+		$response = $api->authenticate();
+
+		// Request did not go through correctly
+		if ( ! $response ) {
+			$this->response = $api->error;
+			return;
+		}
+
+		// Decode the response
+		$data = json_decode( $api->response, true );
+
+		// Look for errors
+		if ( isset( $data['errors'] ) ) {
+			$this->response = $data['errors'][0];
+			return;
+		}
+
+		// Continue with processing the token
+		if ( ! isset( $data['token'] ) ) {
+			$this->response = sprintf(
+				esc_html__( 'Unable to fetch token from the API. Please try again or %1$scontact support%2$s.', 'kafkai-wp' ),
+				'<a href="https://help.kafkai.com/" target="_blank">',
+				'</a>'
+			);
+			return;
+		}
+
+		// Sanitize user data received from API
+		$user_data = array_map( 'sanitize_text_field', $data );
+
+		// We have token from API
+		// Add it to DB and other available details as it is
+		update_option( Config::PLUGIN_PREFIX . 'token', $user_data['token'] );
+		update_option( Config::PLUGIN_PREFIX . 'api_user', $user_data );
+
+		// Add to response and change code
+		$this->code     = 'success';
+		$this->response = esc_html__( 'Authentication token has been generated successfully via API.', 'kafkai-wp' );
 	}
 
 	/**
@@ -74,7 +126,7 @@ trait Admin {
 	 *
 	 * @return void
 	 */
-	public function add_notice() {
+	public function add_notice() : void {
 		?>
 	<div class="notice notice-<?php echo $this->code; ?> is-dismissible">
 	  <p><?php echo $this->response; ?></p>
