@@ -24,10 +24,29 @@ trait Admin {
 	 * Get settings from the DB.
 	 * This includes credentials, token, and user details, if available.
 	 *
-	 * @return false|array
+	 * @return array
 	 */
-	public function get_settings() {
+	public function get_settings() : array {
+		$credentials = array(
+			'email'    => '',
+			'password' => '',
+		);
 
+		$settings = get_option( Config::PLUGIN_PREFIX . 'settings', $credentials );
+
+		// Sanitize
+		$settings = array_map( 'sanitize_text_field', $settings );
+
+		return $settings;
+	}
+
+	/**
+	 * Get user token from DB.
+	 *
+	 * @return false|string
+	 */
+	public function get_token() {
+		return sanitize_text_field( get_option( Config::PLUGIN_PREFIX . 'token' ) );
 	}
 
 	/**
@@ -132,6 +151,45 @@ trait Admin {
 	  <p><?php echo $this->response; ?></p>
 	</div>
 		<?php
+	}
+
+	/**
+	 * Importing articles for the user.
+	 */
+	public function import_articles() {
+		// Default response is set to error
+		$output = array(
+			'code'     => 'error',
+			'response' => esc_html__( 'There was an error processing your request. Please try again.', 'kafkai-wp' ),
+		);
+
+		// Make connection to API
+		$api      = new Api();
+		$response = $api->call(
+			'/articles',
+			'GET'
+		);
+
+		// If there was a valid response
+		if ( $response ) {
+			$data = json_decode( $api->response, true );
+
+			// If isset $data['errors'], then the request was not successfull
+			$output['code']     = 'success';
+			$output['response'] = $data;
+
+			return $output;
+		}
+
+		$output['response'] = $api->error;
+		return $output;
+	}
+
+	/**
+	 * Send request for generating an article.
+	 */
+	public function generate_article() {
+
 	}
 
 }

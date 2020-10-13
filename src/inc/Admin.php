@@ -125,6 +125,11 @@ class Admin {
 	 * @return void
 	 */
 	public function import() : void {
+		/**
+		 * Fetch generated articles for the user.
+		 */
+		// $data = $this->import_articles();
+
 		require_once Config::$plugin_path . 'inc/admin/views/import.php';
 	}
 
@@ -134,7 +139,12 @@ class Admin {
 	 * @return void
 	 */
 	public function generate() : void {
-		require_once Config::$plugin_path . 'inc/admin/views/generate.php';
+		/**
+		 *
+		 */
+		$this->generate_article();
+
+		 require_once Config::$plugin_path . 'inc/admin/views/generate.php';
 	}
 
 	/**
@@ -148,7 +158,9 @@ class Admin {
 		 * to fill the form values if available.
 		 */
 		$this->process_settings();
-		$this->get_settings();
+
+		$settings = $this->get_settings();
+		$token    = $this->get_token();
 
 		require_once Config::$plugin_path . 'inc/admin/views/settings.php';
 	}
