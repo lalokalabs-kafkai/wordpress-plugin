@@ -27,7 +27,7 @@ class Api {
 	/**
 	 * @var string
 	 */
-	private $api_url = 'https://app.kafkai.com/api/v1';
+	private $_apiurl = 'https://app.kafkai.com/api/v1';
 
 	/**
 	 * @var array
@@ -87,7 +87,7 @@ class Api {
 		// Move ahead with the request
 		if ( 'GET' === $method ) {
 			$request = wp_remote_get(
-				$this->api_url . $endpoint,
+				$this->_apiurl . $endpoint,
 				$this->args
 			);
 		}
@@ -99,7 +99,7 @@ class Api {
 			}
 
 			$request = wp_remote_post(
-				$this->api_url . $endpoint,
+				$this->_apiurl . $endpoint,
 				$this->args
 			);
 		}
