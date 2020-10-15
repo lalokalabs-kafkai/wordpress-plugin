@@ -112,12 +112,16 @@ class Articles {
 
 			// Create data with ID, state, niche, and title
 			foreach ( $data['articles'] as $article ) {
-				$this->_articles[ $article['id'] ] = array(
+				$this->_articles['articles'][ $article['id'] ] = array(
 					'state' => sanitize_text_field( $article['state'] ),
 					'niche' => sanitize_text_field( $article['niche'] ),
 					'title' => sanitize_text_field( $article['title'] ),
+					'date'  => sanitize_text_field( $article['createdAt'] ),
 				);
 			}
+
+			$this->_articles['pageCount'] = absint( $data['pageCount'] );
+			$this->_articles['total']     = absint( $data['total'] );
 
 			// Set transient
 			$this->_set_transient();
@@ -186,6 +190,29 @@ class Articles {
 
 		// Set transient with expiry set to 24 hours
 		set_transient( Config::PLUGIN_PREFIX . 'article_' . $this->_state . '_page' . $this->_page, $this->_articles, 86400 );
+	}
+
+	/**
+	 * Assign niche to pretty names.
+	 *
+	 * @return string
+	 */
+	public function niche_name( string $niche ) : string {
+		$niches = array(
+			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai-wp' ),
+			'HomeAndFamily'   => esc_html__( 'Home and Family', 'kafkai-wp' ),
+			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai-wp' ),
+			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai-wp' ),
+			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai-wp' ),
+			'Seo'             => esc_html__( 'SEO', 'kafkai-wp' ),
+			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai-wp' ),
+		);
+
+		if ( isset( $niches[ $niche ] ) ) {
+			return $niches[ $niche ];
+		}
+
+		return $niche;
 	}
 
 }

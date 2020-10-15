@@ -45,6 +45,15 @@
 	margin: 6px 0;
 	padding-bottom: 5px;
 }
+.widefat .column-title {
+	width: 60%;
+}
+.widefat .column-image {
+	text-align: center;
+}
+.widefat .column-image img {
+	max-width: 32px;
+}
 
 /**
  * 03.. Responsive
