@@ -5,8 +5,6 @@
 
 use Niteo\Kafkai\Plugin\Config;
 
-print_r( $articles->response );
-
 ?>
 
 <div class="wrap">
@@ -78,8 +76,14 @@ print_r( $articles->response );
 						<input id="<?php echo Config::PLUGIN_PREFIX; ?>select-all" type="checkbox">
 					</td>
 
+					<th class="image column-image"></th>
+
 					<th id="title" class="manage-column column-title column-primary">
 						<span><?php esc_html_e( 'Title', 'kafkai-wp' ); ?></span>
+					</th>
+
+					<th id="niche" class="manage-column column-niche">
+						<span><?php esc_html_e( 'Niche', 'kafkai-wp' ); ?></span>
 					</th>
 
 					<th scope="col" id="date" class="manage-column column-date">
@@ -89,9 +93,53 @@ print_r( $articles->response );
 			</thead>
 
 			<tbody id="the-list">
-				<?php if ( 'success' === $articles->code ) : ?>
-					
-				<?php endif; ?>
+				<?php
+
+				if ( 'success' === $articles->code ) :
+					foreach ( $articles->response['articles'] as $key => $data ) :
+						$title = trim( esc_html( $data['title'] ) );
+						$niche = esc_html( $data['niche'] );
+
+						?>
+							<tr id="article-<?php echo esc_attr( $key ); ?> niche-<?php echo $niche; ?> state-<?php echo esc_attr( $data['state'] ); ?>">
+								<th scope="row" class="check-column">
+									<label class="screen-reader-text" for="cb-select-<?php echo esc_attr( $key ); ?>">
+									<?php esc_html_e( 'Select', 'kafkai-wp' ); ?>
+									</label>
+
+									<input id="cb-select-<?php echo esc_attr( $key ); ?>" type="checkbox" name="post[]" value="<?php echo esc_attr( $key ); ?>">
+								</th>
+
+								<td class="image column-image">
+									<img src="<?php echo Config::$plugin_url . 'assets/admin/images/' . strtolower( str_replace( ' ', '_', $articles->niche_name( $niche ) ) ) . '.svg'; ?>" alt="<?php echo $niche; ?>">
+								</td>
+
+								<td class="title column-title column-primary has-row-actions" data-colname="<?php esc_html_e( 'Title', 'kafkai-wp' ); ?>">
+								<?php
+
+								if ( strlen( $title ) > 120 ) {
+									echo substr( $title, 0, 120 ) . '...';
+								} else {
+									echo $title;
+								}
+
+								?>
+								</td>
+
+								<td class="niche column-niche" data-colname="<?php esc_html_e( 'Niche', 'kafkai-wp' ); ?>">
+									<?php echo esc_html( $articles->niche_name( $niche ) ); ?>
+								</td>
+
+								<td class="date column-date" data-colname="<?php esc_html_e( 'Date', 'kafkai-wp' ); ?>">
+									<?php echo esc_html( $data['date'] ); ?>
+								</td>
+							</tr>
+						<?php
+
+						endforeach;
+					endif;
+
+				?>
 
 				<?php if ( 'error' === $articles->code ) : ?>
 					<tr class="no-items">
@@ -112,8 +160,14 @@ print_r( $articles->response );
 						<input id="<?php echo Config::PLUGIN_PREFIX; ?>select-all" type="checkbox">
 					</td>
 
+					<th class="image column-image"></th>
+
 					<th id="title" class="manage-column column-title column-primary">
 						<span><?php esc_html_e( 'Title', 'kafkai-wp' ); ?></span>
+					</th>
+
+					<th id="niche" class="manage-column column-niche">
+						<span><?php esc_html_e( 'Niche', 'kafkai-wp' ); ?></span>
 					</th>
 
 					<th scope="col" id="date" class="manage-column column-date">
