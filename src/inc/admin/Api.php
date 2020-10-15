@@ -121,8 +121,7 @@ class Api {
 	 * @return string|bool
 	 */
 	private function get_token() {
-		return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI0MzhiNTg2My0zNmExLTQ5NTgtYjQ2YS1lNWZlNGZiZWZjMGMiLCJpYXQiOjE1OTk2NDMyNzV9.Gxyi5xRlTwEVIG6il2PurrmQusTJ3K5yHETp65xKqTuNiy_b4JDGjhWur0IMfMt22AMsyNCHTQPjNMII0KE7vA';
-		// return get_option( Config::PLUGIN_PREFIX . 'token' );
+		return get_option( Config::PLUGIN_PREFIX . 'token' );
 	}
 
 	/**
@@ -140,7 +139,7 @@ class Api {
 		if ( ! $token ) {
 			$this->error = sprintf(
 				esc_html__( 'Authorization token is not available. Please go to %1$splugin settings%2$s and provide credentials or re-generate token.', 'kafkai-wp' ),
-				'<a href="' . admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'settings' ) . '">',
+				'<a href="' . admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'admin' ) . '">',
 				'</a>'
 			);
 

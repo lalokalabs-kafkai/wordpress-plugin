@@ -5,6 +5,8 @@
 
 use Niteo\Kafkai\Plugin\Config;
 
+print_r( $articles->response );
+
 ?>
 
 <div class="wrap">
@@ -17,6 +19,16 @@ use Niteo\Kafkai\Plugin\Config;
 	</a>
 
 	<hr class="wp-header-end">
+
+	<?php
+
+		// Show errors as notification
+	if ( 'error' === $articles->code ) {
+		$this->add_notice( $articles->code, $articles->error );
+	}
+
+	?>
+
 	<h2 class="screen-reader-text"><?php esc_html_e( 'Filter pages list', 'kafkai-wp' ); ?></h2>
 
 	<form id="articles-filter" method="get">
@@ -77,11 +89,17 @@ use Niteo\Kafkai\Plugin\Config;
 			</thead>
 
 			<tbody id="the-list">
-				<tr class="no-items">
-					<td class="colspanchange" colspan="3">
-						<?php esc_html_e( 'No articles found.', 'kafkai-wp' ); ?>
-					</td>
-				</tr>
+				<?php if ( 'success' === $articles->code ) : ?>
+					
+				<?php endif; ?>
+
+				<?php if ( 'error' === $articles->code ) : ?>
+					<tr class="no-items">
+						<td class="colspanchange" colspan="3">
+							<?php esc_html_e( 'No articles found.', 'kafkai-wp' ); ?>
+						</td>
+					</tr>
+				<?php endif; ?>
 			</tbody>
 
 			<tfoot>

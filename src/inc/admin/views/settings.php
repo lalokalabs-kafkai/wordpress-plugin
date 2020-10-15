@@ -16,7 +16,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 	// Show notification if $response is set
 	if ( ! empty( $this->response ) ) {
-		$this->add_notice();
+		$this->add_notice( $this->code, $this->response );
 	}
 
 	?>

@@ -5,6 +5,8 @@
 
 namespace Niteo\Kafkai\Plugin;
 
+use Niteo\Kafkai\Plugin\Admin\Articles;
+
 /**
  * Admin options for the plugin.
  *
@@ -37,39 +39,39 @@ class Admin {
 		}
 
 		// Parent menu
-		$menu = add_menu_page(
-			esc_html__( 'Import Article from Kafkai', 'kafkai-wp' ),
+		add_menu_page(
+			esc_html__( 'Kafkai Settings', 'kafkai-wp' ),
 			esc_html__( 'Kafkai', 'kafkai-wp' ),
 			'manage_options',
 			Config::PLUGIN_PREFIX . 'admin',
-			array( $this, 'import' ),
+			array( $this, 'settings' ),
 			'dashicons-format-aside',
 			26
 		);
 
-		// Submenu page
-		$sub_menu = add_submenu_page(
+		// Import page
+		$import_page = add_submenu_page(
 			Config::PLUGIN_PREFIX . 'admin',
-			esc_html__( 'Generate Post with Kafkai', 'kafkai-wp' ),
-			esc_html__( 'Generate Post', 'kafkai-wp' ),
+			esc_html__( 'Import Articles', 'kafkai-wp' ),
+			esc_html__( 'Import Articles', 'kafkai-wp' ),
+			'manage_options',
+			Config::PLUGIN_PREFIX . 'import',
+			array( $this, 'import' ),
+		);
+
+		// Generate page
+		$generate_page = add_submenu_page(
+			Config::PLUGIN_PREFIX . 'admin',
+			esc_html__( 'Generate Article', 'kafkai-wp' ),
+			esc_html__( 'Generate Article', 'kafkai-wp' ),
 			'manage_options',
 			Config::PLUGIN_PREFIX . 'generate',
 			array( $this, 'generate' ),
 		);
 
-		// Settings page
-		$settings = add_submenu_page(
-			Config::PLUGIN_PREFIX . 'admin',
-			esc_html__( 'Kafkai Settings', 'kafkai-wp' ),
-			esc_html__( 'Settings', 'kafkai-wp' ),
-			'manage_options',
-			Config::PLUGIN_PREFIX . 'settings',
-			array( $this, 'settings' ),
-		);
-
 		// Load JS conditionally
-		add_action( 'load-' . $menu, array( $this, 'load_scripts' ) );
-		add_action( 'load-' . $sub_menu, array( $this, 'load_scripts' ) );
+		add_action( 'load-' . $generate_page, array( $this, 'load_scripts' ) );
+		add_action( 'load-' . $import_page, array( $this, 'load_scripts' ) );
 	}
 
 	/**
@@ -127,8 +129,10 @@ class Admin {
 	public function import() : void {
 		/**
 		 * Fetch generated articles for the user.
+		 * All the processing such as checking for page number and state along
+		 * with article fetching is done on class initialization.
 		 */
-		// $data = $this->import_articles();
+		$articles = new Articles();
 
 		require_once Config::$plugin_path . 'inc/admin/views/import.php';
 	}
@@ -139,12 +143,10 @@ class Admin {
 	 * @return void
 	 */
 	public function generate() : void {
-		/**
-		 *
-		 */
+		// Send request for generating article
 		$this->generate_article();
 
-		 require_once Config::$plugin_path . 'inc/admin/views/generate.php';
+		require_once Config::$plugin_path . 'inc/admin/views/generate.php';
 	}
 
 	/**
