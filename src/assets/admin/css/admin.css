@@ -2,7 +2,7 @@
  * Admin
  *
  * 01.. Vendors
- * 02.. Settings
+ * 02.. Pages
  * 03.. Responsive
  */
 
@@ -39,9 +39,12 @@
 }
 
 /**
- * 02.. Settings
+ * 02.. Pages
  */
-
+.tablenav {
+	margin: 6px 0;
+	padding-bottom: 5px;
+}
 
 /**
  * 03.. Responsive
