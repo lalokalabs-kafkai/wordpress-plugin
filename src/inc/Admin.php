@@ -100,6 +100,10 @@ class Admin {
 		);
 
 		wp_localize_script( Config::PLUGIN_SLUG . '-admin', Config::PLUGIN_PREFIX . 'admin_l10n', $localize );
+
+		// Thickbox
+		wp_enqueue_script( 'thickbox' );
+		wp_enqueue_style( 'thickbox' );
 	}
 
 	/**
@@ -134,6 +138,13 @@ class Admin {
 		 */
 		$articles = new Articles();
 
+		// Set page number and check article state
+		$articles->check_page();
+		$articles->check_state();
+
+		// Import articles
+		$articles->import_articles();
+
 		require_once Config::$plugin_path . 'inc/admin/views/import.php';
 	}
 
@@ -144,7 +155,8 @@ class Admin {
 	 */
 	public function generate() : void {
 		// Send request for generating article
-		$this->generate_article();
+		$articles = new Articles();
+		$articles->generate_article();
 
 		require_once Config::$plugin_path . 'inc/admin/views/generate.php';
 	}
