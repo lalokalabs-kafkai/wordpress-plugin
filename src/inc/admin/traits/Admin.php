@@ -6,6 +6,7 @@
 namespace Niteo\Kafkai\Plugin\Extend;
 
 use Niteo\Kafkai\Plugin\Config;
+use Niteo\Kafkai\Plugin\Helper;
 use Niteo\Kafkai\Plugin\Admin\Api;
 
 trait Admin {
@@ -60,7 +61,7 @@ trait Admin {
 		}
 
 		// Verify nonce
-		if ( ! $this->verify_nonce() ) {
+		if ( ! Helper::verify_nonce() ) {
 			$this->response = esc_html__( 'Request could not be validated.', 'kafkai-wp' );
 			return;
 		}
@@ -122,22 +123,6 @@ trait Admin {
 		// Add to response and change code
 		$this->code     = 'success';
 		$this->response = esc_html__( 'Authentication token has been generated successfully via API.', 'kafkai-wp' );
-	}
-
-	/**
-	 * Nonce verification for the request.
-	 *
-	 * @return bool
-	 */
-	private function verify_nonce() : bool {
-		// Nonce verification
-		$nonce = sanitize_text_field( $_POST[ '_' . Config::PLUGIN_PREFIX . 'nonce' ] );
-
-		if ( wp_verify_nonce( $nonce, Config::PLUGIN_SLUG . '-nonce' ) ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**

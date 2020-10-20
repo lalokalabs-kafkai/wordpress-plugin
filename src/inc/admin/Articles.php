@@ -6,6 +6,7 @@
 namespace Niteo\Kafkai\Plugin\Admin;
 
 use Niteo\Kafkai\Plugin\Config;
+use Niteo\Kafkai\Plugin\Helper;
 
 /**
  * Class for managing user articles.
@@ -50,19 +51,40 @@ class Articles {
 	private $_articles = array();
 
 	/**
+	 * @var array
+	 */
+	public $niches = array();
+
+	/**
 	 * On initialization, add default response and check for current page.
 	 */
 	public function __construct() {
-		$this->error = esc_html__( 'There was an error processing your request. Please try again.', 'kafkai-wp' );
+		// Default response
+		// $this->error = esc_html__( 'There was an error processing your request. Please try again.', 'kafkai-wp' );
 
-		// Set proper page number
-		$this->_check_page();
-
-		// Check state
-		$this->_check_state();
-
-		// Get articles from API
-		$this->import_articles();
+		// Add niches
+		$this->niches = array(
+			'Affiliate'       => esc_html__( 'Affiliate', 'kafkai-wp' ),
+			'Automotive'      => esc_html__( 'Automotive', 'kafkai-wp' ),
+			'Business'        => esc_html__( 'Business', 'kafkai-wp' ),
+			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai-wp' ),
+			'Dating'          => esc_html__( 'Dating', 'kafkai-wp' ),
+			'Dogs'            => esc_html__( 'Dogs', 'kafkai-wp' ),
+			'Fashion'         => esc_html__( 'Fashion', 'kafkai-wp' ),
+			'Finance'         => esc_html__( 'Finance', 'kafkai-wp' ),
+			'Health'          => esc_html__( 'Health', 'kafkai-wp' ),
+			'HomeAndFamily'   => esc_html__( 'Home and Family', 'kafkai-wp' ),
+			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai-wp' ),
+			'Nutrition'       => esc_html__( 'Nutrition', 'kafkai-wp' ),
+			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai-wp' ),
+			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai-wp' ),
+			'Seo'             => esc_html__( 'SEO', 'kafkai-wp' ),
+			'Software'        => esc_html__( 'Software', 'kafkai-wp' ),
+			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai-wp' ),
+			'Travel'          => esc_html__( 'Travel', 'kafkai-wp' ),
+			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai-wp' ),
+			'Experimental'    => esc_html__( 'Experimental', 'kafkai-wp' ),
+		);
 	}
 
 	/**
@@ -122,6 +144,7 @@ class Articles {
 
 			$this->_articles['pageCount'] = absint( $data['pageCount'] );
 			$this->_articles['total']     = absint( $data['total'] );
+			$this->_articles['pageNum']   = $this->_page;
 
 			// Set transient
 			$this->_set_transient();
@@ -141,7 +164,7 @@ class Articles {
 	 *
 	 * @return void
 	 */
-	private function _check_page() : void {
+	public function check_page() : void {
 		if ( ! isset( $_GET['paged'] ) ) {
 			return;
 		}
@@ -161,12 +184,12 @@ class Articles {
 	 *
 	 * @return void
 	 */
-	private function _check_state() : void {
-		if ( ! isset( $_GET['status'] ) ) {
+	public function check_state() : void {
+		if ( ! isset( $_GET['state'] ) ) {
 			return;
 		}
 
-		$state = sanitize_text_field( $_GET['status'] );
+		$state = sanitize_text_field( $_GET['state'] );
 
 		if ( empty( $state ) ) {
 			return;
@@ -198,21 +221,67 @@ class Articles {
 	 * @return string
 	 */
 	public function niche_name( string $niche ) : string {
-		$niches = array(
-			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai-wp' ),
-			'HomeAndFamily'   => esc_html__( 'Home and Family', 'kafkai-wp' ),
-			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai-wp' ),
-			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai-wp' ),
-			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai-wp' ),
-			'Seo'             => esc_html__( 'SEO', 'kafkai-wp' ),
-			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai-wp' ),
-		);
-
-		if ( isset( $niches[ $niche ] ) ) {
-			return $niches[ $niche ];
+		if ( isset( $this->niches[ $niche ] ) ) {
+			return $this->niches[ $niche ];
 		}
 
 		return $niche;
+	}
+
+	/**
+	 * Generate article by sending request to the API.
+	 *
+	 * @return void
+	 */
+	public function generate_article() : void {
+		if ( ! isset( $_POST[ Config::PLUGIN_PREFIX . 'generate' ] ) ) {
+			return;
+		}
+
+		// Verify nonce
+		if ( ! Helper::verify_nonce() ) {
+			$this->error = esc_html__( 'Request could not be validated.', 'kafkai-wp' );
+			return;
+		}
+
+		$niche = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'niche' ] );
+		$title = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'title' ] );
+
+		// Empty fields
+		if ( empty( $niche ) || empty( $title ) ) {
+			$this->error = esc_html__( 'Both fields are required for article generation.', 'kafkai-wp' );
+			return;
+		}
+
+		// Make connection to API
+		$api      = new Api();
+		$response = $api->call(
+			'/articles/generate',
+			'POST',
+			array(
+				'niche' => $niche,
+				'title' => $title,
+			)
+		);
+
+		// If there was a valid response
+		if ( $response ) {
+			$data = json_decode( $api->response, true );
+
+			// Check if an error is thrown by the API
+			if ( isset( $data['errors'] ) ) {
+				$this->error = $data['errors'][0];
+				return;
+			}
+
+			$this->code  = 'success';
+			$this->error = esc_html__( 'Article generation has been scheduled. It will be generated shortly.', 'kafkai-wp' );
+
+			return;
+		}
+
+		// Capture the error thrown by the API call
+		$this->error = $api->error;
 	}
 
 }
