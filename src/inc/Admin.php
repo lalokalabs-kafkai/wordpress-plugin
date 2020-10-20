@@ -143,7 +143,7 @@ class Admin {
 		$articles->check_state();
 
 		// Import articles
-		$articles->import_articles();
+		$articles->fetch_articles();
 
 		require_once Config::$plugin_path . 'inc/admin/views/import.php';
 	}

@@ -88,11 +88,11 @@ class Articles {
 	}
 
 	/**
-	 * Importing articles for the user.
+	 * Fetching articles for the user.
 	 *
 	 * @return void
 	 */
-	public function import_articles() : void {
+	public function fetch_articles() : void {
 		// Article state
 		$state = $this->_state;
 
@@ -274,14 +274,29 @@ class Articles {
 				return;
 			}
 
-			$this->code  = 'success';
-			$this->error = esc_html__( 'Article generation has been scheduled. It will be generated shortly.', 'kafkai-wp' );
+			// We should receive article ID
+			if ( isset( $data['id'] ) ) {
+				$this->code  = 'success';
+				$this->error = esc_html__( 'Article generation has been scheduled. It will be generated shortly.', 'kafkai-wp' );
+				return;
+			}
 
+			// Something went wrong, so showing a generic message
+			$this->error = esc_html__( 'Something went wrong while receiving response from the API. Please try again.', 'kafkai-wp' );
 			return;
 		}
 
 		// Capture the error thrown by the API call
 		$this->error = $api->error;
+	}
+
+	/**
+	 * Getting article content from the API.
+	 *
+	 * @return string|array
+	 */
+	public function fetch_single_article() {
+
 	}
 
 }

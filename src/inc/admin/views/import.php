@@ -51,18 +51,24 @@ use Niteo\Kafkai\Plugin\Config;
 			<?php
 
 			if ( 'success' === $articles->code ) :
-				if ( $articles->response['pageNum'] > 0 ) :
+				if ( ! empty( $articles->response['pageNum'] ) ) :
 
 					?>
 				<div class="tablenav-pages">
 					<?php if ( (int) $articles->response['pageCount'] > 1 && (int) $articles->response['pageNum'] !== 1 ) : ?>
-						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>
+						<?php if ( (int) $articles->response['pageNum'] > 2 ) : ?>
+						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
+					<?php endif; ?>
+						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
 					<?php endif; ?>&nbsp;
 
 					<span class="displaying-num">Page <?php echo $articles->response['pageNum']; ?> of <?php echo $articles->response['pageCount']; ?></span>
 
 					<?php if ( (int) $articles->response['pageCount'] > $articles->response['pageNum'] ) : ?>
-						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>
+						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
+						<?php if ( (int) $articles->response['pageCount'] > 2 && ( $articles->response['pageCount'] - $articles->response['pageNum'] ) > 1 ) : ?>
+						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
+					<?php endif; ?>
 					<?php endif; ?>
 				</div>
 					<?php
@@ -138,9 +144,9 @@ use Niteo\Kafkai\Plugin\Config;
 								<?php
 
 								if ( strlen( $title ) > 120 ) {
-									echo substr( $title, 0, 120 ) . '...';
+									echo '<a href="javascript:;" class="import-article" data-id="' . $key . '">' . substr( $title, 0, 120 ) . '</a>...';
 								} else {
-									echo $title;
+									echo '<a href="javascript:;" class="import-article" data-id="' . $key . '">' . $title . '</a>';
 								}
 
 								?>
@@ -219,24 +225,30 @@ use Niteo\Kafkai\Plugin\Config;
 			<?php
 
 			if ( 'success' === $articles->code ) :
-				if ( $articles->response['pageNum'] > 0 ) :
+				if ( ! empty( $articles->response['pageNum'] ) ) :
 
 					?>
-				<div class="tablenav-pages">
+					<div class="tablenav-pages">
 					<?php if ( (int) $articles->response['pageCount'] > 1 && (int) $articles->response['pageNum'] !== 1 ) : ?>
-						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>
-					<?php endif; ?>&nbsp;
+						<?php if ( (int) $articles->response['pageNum'] > 2 ) : ?>
+							<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
+						<?php endif; ?>
+							<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
+						<?php endif; ?>&nbsp;
 
-					<span class="displaying-num">Page <?php echo $articles->response['pageNum']; ?> of <?php echo $articles->response['pageCount']; ?></span>
+						<span class="displaying-num">Page <?php echo $articles->response['pageNum']; ?> of <?php echo $articles->response['pageCount']; ?></span>
 
-					<?php if ( (int) $articles->response['pageCount'] > $articles->response['pageNum'] ) : ?>
-						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>
-					<?php endif; ?>
-				</div>
-					<?php
+						<?php if ( (int) $articles->response['pageCount'] > $articles->response['pageNum'] ) : ?>
+							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
+							<?php if ( (int) $articles->response['pageCount'] > 2 && ( $articles->response['pageCount'] - $articles->response['pageNum'] ) > 1 ) : ?>
+							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
+						<?php endif; ?>
+						<?php endif; ?>
+					</div>
+						<?php
 
+						endif;
 					endif;
-				endif;
 
 			?>
 		</div>
