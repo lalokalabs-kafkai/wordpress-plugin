@@ -59,9 +59,6 @@ class Articles {
 	 * On initialization, add default response and check for current page.
 	 */
 	public function __construct() {
-		// Default response
-		// $this->error = esc_html__( 'There was an error processing your request. Please try again.', 'kafkai-wp' );
-
 		// Add niches
 		$this->niches = array(
 			'Affiliate'       => esc_html__( 'Affiliate', 'kafkai-wp' ),
@@ -85,6 +82,8 @@ class Articles {
 			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai-wp' ),
 			'Experimental'    => esc_html__( 'Experimental', 'kafkai-wp' ),
 		);
+
+		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'fetch_article', array( $this, 'fetch_single_article' ) );
 	}
 
 	/**
@@ -291,12 +290,66 @@ class Articles {
 	}
 
 	/**
-	 * Getting article content from the API.
+	 * AJAX call handler for single article fetch.
 	 *
-	 * @return string|array
+	 * @return void
 	 */
-	public function fetch_single_article() {
+	public function fetch_single_article() : void {
+		// Send response back to the page
+		header( 'Content-Type: application/json' );
+		echo json_encode( $this->_fetch_article_call() );
+		exit;
+	}
 
+	/**
+	 * Making call to the API for fetching the article.
+	 *
+	 * @return array
+	 */
+	private function _fetch_article_call() : array {
+		// Default response
+		$response = array(
+			'code'  => 'error',
+			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai-wp' ),
+		);
+
+		// Check for _nonce and
+		// need article ID as well for making the API call
+		if ( ! isset( $_GET['_nonce'] ) || ! isset( $_GET['article_id'] ) ) {
+			return $response;
+		}
+
+		if ( empty( $_GET['_nonce'] ) || empty( $_GET['article_id'] ) ) {
+			return $response;
+		}
+
+		if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_nonce'] ), Config::PLUGIN_SLUG . '-nonce' ) ) {
+			return $response;
+		}
+
+		// Make connection to API
+		$api  = new Api();
+		$call = $api->call(
+			'/articles/' . sanitize_text_field( $_GET['article_id'] ),
+			'GET'
+		);
+
+		// If there was a valid response
+		if ( $call ) {
+			$data = json_decode( $api->response, true );
+
+			// Check if an error is thrown by the API
+			if ( isset( $data['errors'] ) ) {
+				$response['error'] = $data['errors'][0];
+				return $response;
+			}
+
+			// Looks good, add response to the array
+			$response['code']     = 'success';
+			$response['response'] = $data;
+		}
+
+		return $response;
 	}
 
 }

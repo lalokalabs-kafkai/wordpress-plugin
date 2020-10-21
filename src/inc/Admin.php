@@ -17,11 +17,18 @@ class Admin {
 	use Extend\Admin;
 
 	/**
+	 * @var stdClass
+	 */
+	public $articles;
+
+	/**
 	 * Class constructor.
 	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ), PHP_INT_MAX );
 		add_filter( 'plugin_row_meta', array( $this, 'meta_links' ), 10, 2 );
+
+		$this->articles = new Articles();
 	}
 
 	/**
@@ -96,7 +103,7 @@ class Admin {
 
 		$localize = array(
 			'prefix' => Config::PLUGIN_PREFIX,
-			'nonce'  => wp_create_nonce( Config::PLUGIN_PREFIX . 'nonce' ),
+			'nonce'  => wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ),
 		);
 
 		wp_localize_script( Config::PLUGIN_SLUG . '-admin', Config::PLUGIN_PREFIX . 'admin_l10n', $localize );
@@ -136,14 +143,11 @@ class Admin {
 		 * All the processing such as checking for page number and state along
 		 * with article fetching is done on class initialization.
 		 */
-		$articles = new Articles();
-
-		// Set page number and check article state
-		$articles->check_page();
-		$articles->check_state();
+		$this->articles->check_page();
+		$this->articles->check_state();
 
 		// Import articles
-		$articles->fetch_articles();
+		$this->articles->fetch_articles();
 
 		require_once Config::$plugin_path . 'inc/admin/views/import.php';
 	}
@@ -155,8 +159,7 @@ class Admin {
 	 */
 	public function generate() : void {
 		// Send request for generating article
-		$articles = new Articles();
-		$articles->generate_article();
+		$this->articles->generate_article();
 
 		require_once Config::$plugin_path . 'inc/admin/views/generate.php';
 	}
