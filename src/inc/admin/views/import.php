@@ -21,8 +21,8 @@ use Niteo\Kafkai\Plugin\Config;
 	<?php
 
 		// Show errors as notification
-	if ( 'error' === $articles->code ) {
-		$this->add_notice( $articles->code, $articles->error );
+	if ( 'error' === $this->articles->code ) {
+		$this->add_notice( $this->articles->code, $this->articles->error );
 	}
 
 	?>
@@ -50,24 +50,24 @@ use Niteo\Kafkai\Plugin\Config;
 
 			<?php
 
-			if ( 'success' === $articles->code ) :
-				if ( ! empty( $articles->response['pageNum'] ) ) :
+			if ( 'success' === $this->articles->code ) :
+				if ( ! empty( $this->articles->response['pageNum'] ) ) :
 
 					?>
 				<div class="tablenav-pages">
-					<?php if ( (int) $articles->response['pageCount'] > 1 && (int) $articles->response['pageNum'] !== 1 ) : ?>
-						<?php if ( (int) $articles->response['pageNum'] > 2 ) : ?>
+					<?php if ( (int) $this->articles->response['pageCount'] > 1 && (int) $this->articles->response['pageNum'] !== 1 ) : ?>
+						<?php if ( (int) $this->articles->response['pageNum'] > 2 ) : ?>
 						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
 					<?php endif; ?>
-						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
+						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
 					<?php endif; ?>&nbsp;
 
-					<span class="displaying-num">Page <?php echo $articles->response['pageNum']; ?> of <?php echo $articles->response['pageCount']; ?></span>
+					<span class="displaying-num">Page <?php echo $this->articles->response['pageNum']; ?> of <?php echo $this->articles->response['pageCount']; ?></span>
 
-					<?php if ( (int) $articles->response['pageCount'] > $articles->response['pageNum'] ) : ?>
-						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
-						<?php if ( (int) $articles->response['pageCount'] > 2 && ( $articles->response['pageCount'] - $articles->response['pageNum'] ) > 1 ) : ?>
-						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
+					<?php if ( (int) $this->articles->response['pageCount'] > $this->articles->response['pageNum'] ) : ?>
+						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
+						<?php if ( (int) $this->articles->response['pageCount'] > 2 && ( $this->articles->response['pageCount'] - $this->articles->response['pageNum'] ) > 1 ) : ?>
+						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
 					<?php endif; ?>
 					<?php endif; ?>
 				</div>
@@ -113,14 +113,14 @@ use Niteo\Kafkai\Plugin\Config;
 			<tbody id="the-list">
 				<?php
 
-				if ( 'success' === $articles->code ) :
-					if ( isset( $articles->response['articles'] ) ) :
-						foreach ( $articles->response['articles'] as $key => $data ) :
+				if ( 'success' === $this->articles->code ) :
+					if ( isset( $this->articles->response['articles'] ) ) :
+						foreach ( $this->articles->response['articles'] as $key => $data ) :
 							$key         = esc_attr( $key );
 							$title       = trim( esc_html( $data['title'] ) );
 							$niche       = esc_html( $data['niche'] );
 							$state       = esc_attr( $data['state'] );
-							$niche_image = strtolower( str_replace( ' ', '_', $articles->niche_name( $niche ) ) );
+							$niche_image = strtolower( str_replace( ' ', '_', $this->articles->niche_name( $niche ) ) );
 
 							// Date
 							$date           = new DateTime( esc_html( $data['date'] ) );
@@ -153,7 +153,7 @@ use Niteo\Kafkai\Plugin\Config;
 									</td>
 
 									<td class="niche column-niche" data-colname="<?php esc_html_e( 'Niche', 'kafkai-wp' ); ?>">
-									<?php echo $articles->niche_name( $niche ); ?>
+									<?php echo $this->articles->niche_name( $niche ); ?>
 									</td>
 
 									<td class="date column-date" data-colname="<?php esc_html_e( 'Date', 'kafkai-wp' ); ?>">
@@ -168,7 +168,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 				?>
 
-				<?php if ( 'error' === $articles->code ) : ?>
+				<?php if ( 'error' === $this->articles->code ) : ?>
 					<tr class="no-items">
 						<td class="colspanchange" colspan="3">
 							<?php esc_html_e( 'No articles found.', 'kafkai-wp' ); ?>
@@ -224,24 +224,24 @@ use Niteo\Kafkai\Plugin\Config;
 
 			<?php
 
-			if ( 'success' === $articles->code ) :
-				if ( ! empty( $articles->response['pageNum'] ) ) :
+			if ( 'success' === $this->articles->code ) :
+				if ( ! empty( $this->articles->response['pageNum'] ) ) :
 
 					?>
 					<div class="tablenav-pages">
-					<?php if ( (int) $articles->response['pageCount'] > 1 && (int) $articles->response['pageNum'] !== 1 ) : ?>
-						<?php if ( (int) $articles->response['pageNum'] > 2 ) : ?>
+					<?php if ( (int) $this->articles->response['pageCount'] > 1 && (int) $this->articles->response['pageNum'] !== 1 ) : ?>
+						<?php if ( (int) $this->articles->response['pageNum'] > 2 ) : ?>
 							<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
 						<?php endif; ?>
-							<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
+							<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
 						<?php endif; ?>&nbsp;
 
-						<span class="displaying-num">Page <?php echo $articles->response['pageNum']; ?> of <?php echo $articles->response['pageCount']; ?></span>
+						<span class="displaying-num">Page <?php echo $this->articles->response['pageNum']; ?> of <?php echo $this->articles->response['pageCount']; ?></span>
 
-						<?php if ( (int) $articles->response['pageCount'] > $articles->response['pageNum'] ) : ?>
-							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
-							<?php if ( (int) $articles->response['pageCount'] > 2 && ( $articles->response['pageCount'] - $articles->response['pageNum'] ) > 1 ) : ?>
-							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
+						<?php if ( (int) $this->articles->response['pageCount'] > $this->articles->response['pageNum'] ) : ?>
+							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
+							<?php if ( (int) $this->articles->response['pageCount'] > 2 && ( $this->articles->response['pageCount'] - $this->articles->response['pageNum'] ) > 1 ) : ?>
+							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
 						<?php endif; ?>
 						<?php endif; ?>
 					</div>
@@ -253,4 +253,15 @@ use Niteo\Kafkai\Plugin\Config;
 			?>
 		</div>
 	</form>
+
+	<div id="inline-article-container" class="single-article-container">
+		<div class="article-actions"></div>
+		<div class="error-response"></div>
+
+		<div class="article-content">
+			<h1 class="article-title"></h1>
+			<div class="article-meta"></div>
+			<div class="article-body"></div>
+		</div>
+	</div><!-- .single-article-container -->
 </div>
