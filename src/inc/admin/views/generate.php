@@ -21,8 +21,8 @@ use Niteo\Kafkai\Plugin\Config;
 	<?php
 
 		// Show errors as notification
-	if ( ! empty( $articles->error ) ) {
-		$this->add_notice( $articles->code, $articles->error );
+	if ( ! empty( $this->articles->error ) ) {
+		$this->add_notice( $this->articles->code, $this->articles->error );
 	}
 
 	?>
@@ -43,7 +43,7 @@ use Niteo\Kafkai\Plugin\Config;
 							<?php
 
 								// Article niches
-							foreach ( $articles->niches as $key => $niche ) {
+							foreach ( $this->articles->niches as $key => $niche ) {
 								echo '<option value="' . esc_attr( $key ) . '">' . esc_html( $niche ) . '</option>\n';
 							}
 
