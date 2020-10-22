@@ -31,19 +31,6 @@ use Niteo\Kafkai\Plugin\Config;
 
 	<form id="articles-filter" method="get">
 		<div class="tablenav top">
-			<div class="alignleft actions bulkactions">
-				<label for="bulk-action-selector-top" class="screen-reader-text">
-					<?php esc_html_e( 'Select bulk action', 'kafkai-wp' ); ?>
-				</label>
-
-				<select name="action" id="bulk-action-selector-top">
-					<option value="-1"><?php esc_html_e( 'Bulk actions', 'kafkai-wp' ); ?></option>
-					<option value="import"><?php esc_html_e( 'Import', 'kafkai-wp' ); ?></option>
-				</select>
-
-				<input type="submit" id="doaction" class="button action" value="<?php esc_attr_e( 'Apply', 'kafkai-wp' ); ?>">
-			</div>
-
 			<h2 class="screen-reader-text">
 				<?php esc_html_e( 'Pages list navigation', 'kafkai-wp' ); ?>
 			</h2>
@@ -86,14 +73,6 @@ use Niteo\Kafkai\Plugin\Config;
 		<table class="wp-list-table widefat fixed striped table-view-list articles">
 			<thead>
 				<tr>
-					<td class="manage-column column-cb check-column">
-						<label class="screen-reader-text" for="<?php echo Config::PLUGIN_PREFIX; ?>select-all">
-							<?php esc_html_e( 'Select all', 'kafkai-wp' ); ?>
-						</label>
-
-						<input id="<?php echo Config::PLUGIN_PREFIX; ?>select-all" type="checkbox">
-					</td>
-
 					<th class="image column-image"></th>
 
 					<th id="title" class="manage-column column-title column-primary">
@@ -110,7 +89,7 @@ use Niteo\Kafkai\Plugin\Config;
 				</tr>
 			</thead>
 
-			<tbody id="the-list">
+			<tbody id="article-list">
 				<?php
 
 				if ( 'success' === $this->articles->code ) :
@@ -127,15 +106,7 @@ use Niteo\Kafkai\Plugin\Config;
 							$formatted_date = $date->format( 'Y/m/d' ) . ' at ' . $date->format( 'h:m a' );
 
 							?>
-								<tr id="article-<?php echo $key; ?> niche-<?php echo $niche; ?> state-<?php echo $state; ?>">
-									<th scope="row" class="check-column">
-										<label class="screen-reader-text" for="cb-select-<?php echo $key; ?>">
-									<?php esc_html_e( 'Select', 'kafkai-wp' ); ?>
-										</label>
-
-										<input id="cb-select-<?php echo $key; ?>" type="checkbox" name="post[]" value="<?php echo $key; ?>">
-									</th>
-
+								<tr id="article-<?php echo $key; ?>" class="niche-<?php echo $niche; ?> state-<?php echo $state; ?>">
 									<td class="image column-image">
 										<img src="<?php echo Config::$plugin_url . 'assets/admin/images/' . $niche_image . '.svg'; ?>" alt="<?php echo $niche; ?>">
 									</td>
@@ -179,14 +150,6 @@ use Niteo\Kafkai\Plugin\Config;
 
 			<tfoot>
 				<tr>
-					<td class="manage-column column-cb check-column">
-						<label class="screen-reader-text" for="<?php echo Config::PLUGIN_PREFIX; ?>select-all">
-							<?php esc_html_e( 'Select all', 'kafkai-wp' ); ?>
-						</label>
-
-						<input id="<?php echo Config::PLUGIN_PREFIX; ?>select-all" type="checkbox">
-					</td>
-
 					<th class="image column-image"></th>
 
 					<th id="title" class="manage-column column-title column-primary">
@@ -205,19 +168,6 @@ use Niteo\Kafkai\Plugin\Config;
 		</table>
 
 		<div class="tablenav bottom">
-			<div class="alignleft actions bulkactions">
-				<label for="bulk-action-selector-top" class="screen-reader-text">
-					<?php esc_html_e( 'Select bulk action', 'kafkai-wp' ); ?>
-				</label>
-
-				<select name="action" id="bulk-action-selector-top">
-					<option value="-1"><?php esc_html_e( 'Bulk actions', 'kafkai-wp' ); ?></option>
-					<option value="import"><?php esc_html_e( 'Import', 'kafkai-wp' ); ?></option>
-				</select>
-
-				<input type="submit" id="doaction" class="button action" value="<?php esc_attr_e( 'Apply', 'kafkai-wp' ); ?>">
-			</div>
-
 			<h2 class="screen-reader-text">
 				<?php esc_html_e( 'Pages list navigation', 'kafkai-wp' ); ?>
 			</h2>
