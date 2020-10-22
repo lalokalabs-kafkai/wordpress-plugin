@@ -146,7 +146,7 @@ class Articles {
 			$this->_articles['pageNum']   = $this->_page;
 
 			// Set transient
-			$this->_set_transient();
+			$this->_set_articles_transient();
 
 			$this->code     = 'success';
 			$this->response = $this->_articles;
@@ -205,7 +205,7 @@ class Articles {
 	 *
 	 * @return void
 	 */
-	private function _set_transient() : void {
+	private function _set_articles_transient() : void {
 		if ( ! array( $this->_articles ) ) {
 			return;
 		}

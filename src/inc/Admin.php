@@ -102,8 +102,10 @@ class Admin {
 		wp_enqueue_script( Config::PLUGIN_SLUG . '-admin', Config::$plugin_url . 'assets/admin/js/admin.js', array( 'jquery' ), Config::PLUGIN_VERSION, true );
 
 		$localize = array(
-			'prefix' => Config::PLUGIN_PREFIX,
-			'nonce'  => wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ),
+			'prefix'       => Config::PLUGIN_PREFIX,
+			'nonce'        => wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ),
+			'error_text'   => esc_html__( 'An error was encountered while trying to fetch article from the API. Please close this window and try again.', 'kafkai-wp' ),
+			'window_title' => esc_html__( 'Import Article', 'kafkai-wp' ),
 		);
 
 		wp_localize_script( Config::PLUGIN_SLUG . '-admin', Config::PLUGIN_PREFIX . 'admin_l10n', $localize );

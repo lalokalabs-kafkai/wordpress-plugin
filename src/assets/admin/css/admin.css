@@ -54,6 +54,9 @@
 .widefat .column-image img {
 	max-width: 32px;
 }
+.widefat .state-Generated .column-title {
+	font-weight: bold;
+}
 
 /**
  * 03.. Responsive
