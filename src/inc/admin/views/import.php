@@ -250,7 +250,7 @@ use Niteo\Kafkai\Plugin\Config;
 					?>
 			</p>
 
-			<p class="align-right">
+			<p class="align-right margin-right">
 				<label for="article-import-media">
 					<strong><?php esc_html_e( 'Media', 'kafkai-wp' ); ?></strong>
 				</label>&nbsp;
@@ -261,6 +261,12 @@ use Niteo\Kafkai\Plugin\Config;
 				<input type="checkbox" name="article-import-video" id="import-video" class="switch" checked="checked">
 				<label for="import-video"><?php esc_html_e( 'Video', 'kafkai-wp' ); ?></label>
 			</p>
+
+			<button type="button" class="modal-close">
+				<span class="modal-icon">
+					<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai-wp' ); ?></span>
+				</span>
+			</button>
 		</div>
 
 		<div class="error-response"></div>
