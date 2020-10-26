@@ -39,7 +39,12 @@
       }
     }).done(function(data) {
       if(data.code === 'success') {
-        $('#inline-article-container .article-body').html(data.response.body);
+        var article_body = data.response.body;
+
+        // Turn line breaks into <br>
+        article_body = article_body.replace(/(?:\r\n|\r|\n)/g, '<br>');
+
+        $('#inline-article-container .article-body').html(article_body);
 
         // Open lightbox
         tb_show('Import Article', '#TB_inline?height=600&width=800&inlineId=inline-article-container&modal=true');
@@ -47,5 +52,12 @@
         $('#inline-article-container .error-response').html(data.error);
       }
     });
+  });
+
+  // Close modal
+  $('.single-article-container .modal-close').on('click', function(e) {
+    e.preventDefault();
+
+    tb_remove();
   });
 })(jQuery);

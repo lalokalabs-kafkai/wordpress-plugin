@@ -60,28 +60,71 @@
 
 /* -- Article container (for AJAX call) -- */
 .single-article-container {
+	display: none;
+	position: relative;
 	background: #fff;
 	border: 1px solid #d0d0d0;
 }
 .article-actions {
 	display: flex;
-	padding: 6px 12px;
+	padding: 0 16px;
 	align-items: center;
 }
 .article-actions.top {
 	border-bottom: 1px solid #ccd0d4;
+	position: sticky;
 }
 .article-actions.bottom {
 	border-top: 1px solid #ccd0d4;
 }
 .article-actions p {
-	margin-right: 12px;
+	margin: 9px 12px 9px 0;
 }
 .article-actions .align-right {
 	margin-left: auto;
+	margin-right: 0;
+}
+.article-actions .margin-right {
+	margin-right: 40px;
 }
 .article-content {
-	padding: 12px;
+	padding: 16px;
+}
+
+/* -- Modal -- */
+#TB_ajaxContent.TB_modal {
+	padding: 0 !important;
+	width: 830px !important;
+}
+#TB_ajaxContent p {
+	padding: 0 !important;
+}
+.modal-close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 49px;
+	height: 49px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid transparent;
+	background: none;
+	color: #666;
+	z-index: 1000;
+	cursor: pointer;
+	outline: none;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
+}
+.modal-close .modal-icon {
+	background-image: none;
+}
+.modal-close .modal-icon:before {
+	content: "\f158";
+	font: normal 20px/1 dashicons;
+	speak: none;
+	vertical-align: middle;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /**
