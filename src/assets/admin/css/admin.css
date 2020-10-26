@@ -58,6 +58,32 @@
 	font-weight: bold;
 }
 
+/* -- Article container (for AJAX call) -- */
+.single-article-container {
+	background: #fff;
+	border: 1px solid #d0d0d0;
+}
+.article-actions {
+	display: flex;
+	padding: 6px 12px;
+	align-items: center;
+}
+.article-actions.top {
+	border-bottom: 1px solid #ccd0d4;
+}
+.article-actions.bottom {
+	border-top: 1px solid #ccd0d4;
+}
+.article-actions p {
+	margin-right: 12px;
+}
+.article-actions .align-right {
+	margin-left: auto;
+}
+.article-content {
+	padding: 12px;
+}
+
 /**
  * 03.. Responsive
  */
