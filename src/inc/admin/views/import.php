@@ -205,13 +205,106 @@ use Niteo\Kafkai\Plugin\Config;
 	</form>
 
 	<div id="inline-article-container" class="single-article-container">
-		<div class="article-actions"></div>
+		<div class="article-actions top">
+			<p>
+				<label for="article-import-keywords">
+					<strong><?php esc_html_e( 'Keywords', 'kafkai-wp' ); ?></strong>
+				</label>&nbsp;
+
+				<input name="article-import-keywords" id="article-import-keywords" type="text">
+			</p>
+
+			<p>
+				<label for="article-import-author">
+					<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
+				</label>&nbsp;
+	
+				<?php
+
+					// Fetch users information for publishing the post as another user
+					// Only from Editor, Contributor, Author, and Administrator
+					$users = get_users(
+						array(
+							'role__in' => array( 'editor', 'author', 'contributor', 'administrator' ),
+						)
+					);
+
+					// Make sure the array is not empty
+					if ( ! empty( $users ) ) {
+						echo '<select name="article-import-author" id="article-import-author">';
+
+						// Loop over array
+						foreach ( $users as $user ) {
+							echo sprintf(
+								'<option value="%s">%s</option>',
+								$user->data->ID,
+								$user->data->user_login
+							);
+						}
+
+						echo '</select>';
+					} else {
+						echo esc_html__( 'No users found', 'kafkai-wp' );
+					}
+
+					?>
+			</p>
+
+			<p class="align-right">
+				<label for="article-import-media">
+					<strong><?php esc_html_e( 'Media', 'kafkai-wp' ); ?></strong>
+				</label>&nbsp;
+
+				<input type="checkbox" name="article-import-image" id="import-image" class="switch" checked="checked">
+				<label for="import-image"><?php esc_html_e( 'Image', 'kafkai-wp' ); ?></label>&nbsp;
+
+				<input type="checkbox" name="article-import-video" id="import-video" class="switch" checked="checked">
+				<label for="import-video"><?php esc_html_e( 'Video', 'kafkai-wp' ); ?></label>
+			</p>
+		</div>
+
 		<div class="error-response"></div>
 
 		<div class="article-content">
-			<h1 class="article-title"></h1>
 			<div class="article-meta"></div>
 			<div class="article-body"></div>
+		</div>
+
+		<div class="article-actions bottom">
+			<p>
+				<label for="article-import-status">
+					<strong><?php esc_html_e( 'Status', 'kafkai-wp' ); ?></strong>
+				</label>&nbsp;
+
+				<?php
+
+					// Fetch post status options for the user
+					$statuses = get_post_statuses();
+
+					// Make sure the array is not empty
+				if ( ! empty( $statuses ) ) {
+					echo '<select name="article-import-status" id="article-import-status">';
+
+					// Loop over array
+					foreach ( $statuses as $status ) {
+						echo sprintf(
+							'<option value="%s">%s</option>',
+							str_replace( ' ', '_', strtolower( $status ) ),
+							$status
+						);
+					}
+
+					echo '</select>';
+				} else {
+					echo esc_html__( 'Unable to fetch status', 'kafkai-wp' );
+				}
+
+				?>
+			</p>
+
+			<p class="align-right">
+				<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai-wp' ); ?>" class="button button-primary">
+			</p>
 		</div>
 	</div><!-- .single-article-container -->
 </div>
