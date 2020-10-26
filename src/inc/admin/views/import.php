@@ -178,26 +178,26 @@ use Niteo\Kafkai\Plugin\Config;
 				if ( ! empty( $this->articles->response['pageNum'] ) ) :
 
 					?>
-					<div class="tablenav-pages">
-					<?php if ( (int) $this->articles->response['pageCount'] > 1 && (int) $this->articles->response['pageNum'] !== 1 ) : ?>
-						<?php if ( (int) $this->articles->response['pageNum'] > 2 ) : ?>
-							<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
-						<?php endif; ?>
-							<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
-						<?php endif; ?>&nbsp;
+						<div class="tablenav-pages">
+						<?php if ( (int) $this->articles->response['pageCount'] > 1 && (int) $this->articles->response['pageNum'] !== 1 ) : ?>
+								<?php if ( (int) $this->articles->response['pageNum'] > 2 ) : ?>
+									<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
+								<?php endif; ?>
+									<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
+								<?php endif; ?>&nbsp;
 
-						<span class="displaying-num">Page <?php echo $this->articles->response['pageNum']; ?> of <?php echo $this->articles->response['pageCount']; ?></span>
+								<span class="displaying-num">Page <?php echo $this->articles->response['pageNum']; ?> of <?php echo $this->articles->response['pageCount']; ?></span>
 
-						<?php if ( (int) $this->articles->response['pageCount'] > $this->articles->response['pageNum'] ) : ?>
-							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
-							<?php if ( (int) $this->articles->response['pageCount'] > 2 && ( $this->articles->response['pageCount'] - $this->articles->response['pageNum'] ) > 1 ) : ?>
-							<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
-						<?php endif; ?>
-						<?php endif; ?>
-					</div>
-						<?php
+							<?php if ( (int) $this->articles->response['pageCount'] > $this->articles->response['pageNum'] ) : ?>
+									<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
+									<?php if ( (int) $this->articles->response['pageCount'] > 2 && ( $this->articles->response['pageCount'] - $this->articles->response['pageNum'] ) > 1 ) : ?>
+									<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
+								<?php endif; ?>
+							<?php endif; ?>
+						</div>
+					<?php
 
-						endif;
+					endif;
 					endif;
 
 			?>
@@ -205,80 +205,79 @@ use Niteo\Kafkai\Plugin\Config;
 	</form>
 
 	<div id="inline-article-container" class="single-article-container">
-		<div class="article-actions top">
-			<p>
-				<label for="article-import-keywords">
-					<strong><?php esc_html_e( 'Keywords', 'kafkai-wp' ); ?></strong>
-				</label>&nbsp;
+		<div class="single-article-scrollable">
+			<div class="article-actions top">
+				<p>
+					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords">
+						<strong><?php esc_html_e( 'Keywords', 'kafkai-wp' ); ?></strong>
+					</label>&nbsp;
 
-				<input name="article-import-keywords" id="article-import-keywords" type="text">
-			</p>
+					<input name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords" type="text">
+				</p>
 
-			<p>
-				<label for="article-import-author">
-					<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
-				</label>&nbsp;
-	
-				<?php
+				<p>
+					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-author">
+						<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
+					</label>&nbsp;
+		
+					<?php
 
-					// Fetch users information for publishing the post as another user
-					// Only from Editor, Contributor, Author, and Administrator
-					$users = get_users(
-						array(
-							'role__in' => array( 'editor', 'author', 'contributor', 'administrator' ),
-						)
-					);
+						// Fetch users information for publishing the post as another user
+						// Only from Editor, Contributor, Author, and Administrator
+						$users = get_users(
+							array(
+								'role__in' => array( 'editor', 'author', 'contributor', 'administrator' ),
+							)
+						);
 
-					// Make sure the array is not empty
-					if ( ! empty( $users ) ) {
-						echo '<select name="article-import-author" id="article-import-author">';
+						// Make sure the array is not empty
+						if ( ! empty( $users ) ) {
+							echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-author" id="' . Config::PLUGIN_PREFIX . 'article-import-author">';
 
-						// Loop over array
-						foreach ( $users as $user ) {
-							echo sprintf(
-								'<option value="%s">%s</option>',
-								$user->data->ID,
-								$user->data->user_login
-							);
+							// Loop over array
+							foreach ( $users as $user ) {
+								echo sprintf(
+									'<option value="%s">%s</option>',
+									$user->data->ID,
+									$user->data->user_login
+								);
+							}
+
+							echo '</select>';
+						} else {
+							echo esc_html__( 'No users found', 'kafkai-wp' );
 						}
 
-						echo '</select>';
-					} else {
-						echo esc_html__( 'No users found', 'kafkai-wp' );
-					}
+						?>
+				</p>
 
-					?>
-			</p>
+				<p class="align-right margin-right">
+					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-media">
+						<strong><?php esc_html_e( 'Media', 'kafkai-wp' ); ?></strong>
+					</label>&nbsp;
 
-			<p class="align-right margin-right">
-				<label for="article-import-media">
-					<strong><?php esc_html_e( 'Media', 'kafkai-wp' ); ?></strong>
-				</label>&nbsp;
+					<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" class="switch" checked="checked">
+					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image"><?php esc_html_e( 'Image', 'kafkai-wp' ); ?></label>&nbsp;
 
-				<input type="checkbox" name="article-import-image" id="import-image" class="switch" checked="checked">
-				<label for="import-image"><?php esc_html_e( 'Image', 'kafkai-wp' ); ?></label>&nbsp;
+					<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" class="switch" checked="checked">
+					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video"><?php esc_html_e( 'Video', 'kafkai-wp' ); ?></label>
+				</p>
 
-				<input type="checkbox" name="article-import-video" id="import-video" class="switch" checked="checked">
-				<label for="import-video"><?php esc_html_e( 'Video', 'kafkai-wp' ); ?></label>
-			</p>
+				<button type="button" class="modal-close">
+					<span class="modal-icon">
+						<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai-wp' ); ?></span>
+					</span>
+				</button>
+			</div>
 
-			<button type="button" class="modal-close">
-				<span class="modal-icon">
-					<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai-wp' ); ?></span>
-				</span>
-			</button>
-		</div>
-
-		<div class="error-response"></div>
-
-		<div class="article-content">
-			<div class="article-meta"></div>
-			<div class="article-body"></div>
-		</div>
+			<div class="article-content">
+				<div class="article-body"></div>
+			</div>
+		</div><!-- .single-article-scrollable -->
 
 		<div class="article-actions bottom">
 			<p>
-				<label for="article-import-status">
+				<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-status">
 					<strong><?php esc_html_e( 'Status', 'kafkai-wp' ); ?></strong>
 				</label>&nbsp;
 
@@ -289,7 +288,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 					// Make sure the array is not empty
 				if ( ! empty( $statuses ) ) {
-					echo '<select name="article-import-status" id="article-import-status">';
+					echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-status" id="' . Config::PLUGIN_PREFIX . 'article-import-status">';
 
 					// Loop over array
 					foreach ( $statuses as $status ) {
@@ -309,6 +308,7 @@ use Niteo\Kafkai\Plugin\Config;
 			</p>
 
 			<p class="align-right">
+				<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_id" id="<?php echo Config::PLUGIN_PREFIX; ?>article_id">
 				<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai-wp' ); ?>" class="button button-primary">
 			</p>
 		</div>

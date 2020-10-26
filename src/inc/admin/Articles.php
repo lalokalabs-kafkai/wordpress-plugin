@@ -327,26 +327,40 @@ class Articles {
 			return $response;
 		}
 
-		// Make connection to API
-		$api  = new Api();
-		$call = $api->call(
-			'/articles/' . sanitize_text_field( $_GET['article_id'] ),
-			'GET'
-		);
+		try {
+			// Make connection to API
+			$api  = new Api();
+			$call = $api->call(
+				'/articles/' . sanitize_text_field( $_GET['article_id'] ),
+				'GET'
+			);
 
-		// If there was a valid response
-		if ( $call ) {
-			$data = json_decode( $api->response, true );
+			// If there was a valid response
+			if ( $call ) {
+				$data = json_decode( $api->response, true );
 
-			// Check if an error is thrown by the API
-			if ( isset( $data['errors'] ) ) {
-				$response['error'] = $data['errors'][0];
+				// Check if an error is thrown by the API
+				if ( isset( $data['errors'] ) ) {
+					$response['error'] = $data['errors'][0];
+					return $response;
+				}
+
+				// Check for exceptions
+				if ( isset( $data[0] ) ) {
+					if ( isset( $data[0]['exception'] ) || isset( $data[0]['message'] ) ) {
+						$response['error'] = $data[0]['message'];
+						return $response;
+					}
+				}
+
+				// Looks good, add response to the array
+				$response['code']     = 'success';
+				$response['response'] = $data;
 				return $response;
 			}
-
-			// Looks good, add response to the array
-			$response['code']     = 'success';
-			$response['response'] = $data;
+		} catch ( \Exception $e ) {
+			$response['error'] = $e->getMessage();
+			return $response;
 		}
 
 		return $response;

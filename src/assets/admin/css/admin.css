@@ -62,20 +62,28 @@
 .single-article-container {
 	display: none;
 	position: relative;
-	background: #fff;
-	border: 1px solid #d0d0d0;
+}
+.single-article-scrollable {
+	overflow: auto;
+	height: 100%;
 }
 .article-actions {
 	display: flex;
-	padding: 0 16px;
+	padding: 13px 16px;
 	align-items: center;
+	background: #f3f3f3;
+	position: absolute;
+	right: 0;
+	left: 0;
+	height: 30px;
 }
 .article-actions.top {
-	border-bottom: 1px solid #ccd0d4;
-	position: sticky;
+	border-bottom: 1px solid #dddddd;
+	top: 0;
 }
-.article-actions.bottom {
-	border-top: 1px solid #ccd0d4;
+.article-actions.bottom {	
+	border-top: 1px solid #dddddd;
+	bottom: 0;
 }
 .article-actions p {
 	margin: 9px 12px 9px 0;
@@ -85,16 +93,25 @@
 	margin-right: 0;
 }
 .article-actions .margin-right {
-	margin-right: 40px;
+	margin-right: 32px;
 }
-.article-content {
-	padding: 16px;
+.article-content .article-body {
+	padding: 80px 16px;
+	line-height: 1.650;
+}
+.single-article-error {
+	display: none;
+	background: #f64747;
+}
+.error-response {
+	color: #ffffff;
+	padding: 20px;
 }
 
 /* -- Modal -- */
 #TB_ajaxContent.TB_modal {
 	padding: 0 !important;
-	width: 830px !important;
+	width: 802px !important;
 }
 #TB_ajaxContent p {
 	padding: 0 !important;
@@ -103,8 +120,8 @@
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 49px;
-	height: 49px;
+	width: 44px;
+	height: 57px;
 	margin: 0;
 	padding: 0;
 	border: 1px solid transparent;
