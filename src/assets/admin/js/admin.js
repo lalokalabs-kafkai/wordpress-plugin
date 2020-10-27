@@ -77,7 +77,7 @@
   });
 
   // Close modal
-  $('.single-article-container .modal-close, #TB_overlay').on('click', function(e) {
+  $(document).on('click', '.modal-close, .TB_overlayBG', function(e) {
     e.preventDefault();
 
     tb_remove();

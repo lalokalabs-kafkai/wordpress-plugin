@@ -327,11 +327,22 @@ class Articles {
 			return $response;
 		}
 
+		// Check for transient
+		$article_id = sanitize_text_field( $_GET['article_id'] );
+		$transient  = get_transient( Config::PLUGIN_PREFIX . 'single_' . $article_id );
+
+		if ( $transient ) {
+			$response['code']     = 'success';
+			$response['response'] = $transient;
+
+			return $response;
+		}
+
 		try {
 			// Make connection to API
 			$api  = new Api();
 			$call = $api->call(
-				'/articles/' . sanitize_text_field( $_GET['article_id'] ),
+				'/articles/' . $article_id,
 				'GET'
 			);
 
@@ -356,6 +367,10 @@ class Articles {
 				// Looks good, add response to the array
 				$response['code']     = 'success';
 				$response['response'] = $data;
+
+				// Set transient with expiry set to 24 hours
+				set_transient( Config::PLUGIN_PREFIX . 'single_' . $data['id'], $data, 86400 );
+
 				return $response;
 			}
 		} catch ( \Exception $e ) {
