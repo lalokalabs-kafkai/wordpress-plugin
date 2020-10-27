@@ -271,6 +271,7 @@ use Niteo\Kafkai\Plugin\Config;
 			</div>
 
 			<div class="article-content">
+				<h1 class="article-title"></h1>
 				<div class="article-body"></div>
 			</div>
 		</div><!-- .single-article-scrollable -->

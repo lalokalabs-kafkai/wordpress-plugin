@@ -335,6 +335,9 @@
 .widefat .state-Generated .column-title {
 	font-weight: bold;
 }
+.widefat td {
+  font-size: 0.875rem;
+}
 
 /* -- Article container (for AJAX call) -- */
 .single-article-container {
@@ -373,9 +376,17 @@
 .article-actions .margin-right {
 	margin-right: 32px;
 }
+.article-content {
+  padding: 80px 16px;
+}
+.article-content .article-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  line-height: 1.250;
+}
 .article-content .article-body {
-	padding: 80px 16px;
-	line-height: 1.650;
+  line-height: 1.650;
+  font-size: 0.938rem;
 }
 .single-article-error {
 	display: none;

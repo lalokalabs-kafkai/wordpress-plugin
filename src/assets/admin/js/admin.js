@@ -52,7 +52,10 @@
       },
       error: function(xhr, status, error) {
         if(status === 'error') {
-          $('#inline-article-container .error-response').html(kafkaiwp_admin_l10n.error_text);
+          notification(kafkaiwp_admin_l10n.error_text, 'error');
+
+          table.find('.' + kafkaiwp_admin_l10n.prefix + 'ajax_overlay').remove();
+          first_td.find('.' + kafkaiwp_admin_l10n.prefix + 'loading').remove();
         }
       }
     }).done(function(data) {
@@ -67,6 +70,7 @@
         // Turn line breaks into <br> and add HTML to article body
         article_body = article_body.replace(/(?:\r\n|\r|\n)/g, '<br>');
         $('#inline-article-container .article-body').html(article_body);
+        $('#inline-article-container .article-title').html(data.response.title);
 
         // Open lightbox
         tb_show(kafkaiwp_admin_l10n.window_title, '#TB_inline?height=604&width=772&inlineId=inline-article-container&modal=true');
