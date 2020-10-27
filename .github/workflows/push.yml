@@ -1,13 +1,13 @@
-on: push
-name: Tests
+# on: push
+# name: Tests
 
-jobs:
-  onMasterOrPR:
-    name: On master or PR
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@master
-    - name: Install Dependencies
-      run: make vendor
-    - name: Lint
-      run: make fmt
+# jobs:
+#   onMasterOrPR:
+#     name: On master or PR
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@master
+#     - name: Install Dependencies
+#       run: make vendor
+#     - name: Lint
+#       run: make fmt

@@ -209,7 +209,7 @@ use Niteo\Kafkai\Plugin\Config;
 			<div class="article-actions top">
 				<p>
 					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords">
-						<strong><?php esc_html_e( 'Keywords', 'kafkai-wp' ); ?></strong>
+						<strong><?php esc_html_e( 'Keyword', 'kafkai-wp' ); ?></strong>
 					</label>&nbsp;
 
 					<input name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords" type="text">
@@ -309,6 +309,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 			<p class="align-right">
 				<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_id" id="<?php echo Config::PLUGIN_PREFIX; ?>article_id">
+				<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_content" id="<?php echo Config::PLUGIN_PREFIX; ?>article_content">
 				<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai-wp' ); ?>" class="button button-primary">
 			</p>
 		</div>
