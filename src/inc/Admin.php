@@ -99,7 +99,8 @@ class Admin {
 		wp_enqueue_style( Config::PLUGIN_SLUG . '-admin', Config::$plugin_url . 'assets/admin/css/admin.css', false, Config::PLUGIN_VERSION );
 
 		// Localize and enqueue script
-		wp_enqueue_script( Config::PLUGIN_SLUG . '-admin', Config::$plugin_url . 'assets/admin/js/admin.js', array( 'jquery' ), Config::PLUGIN_VERSION, true );
+		wp_enqueue_script( Config::PLUGIN_SLUG . '-vendors', Config::$plugin_url . 'assets/admin/js/vendors.js', false, Config::PLUGIN_VERSION, true );
+		wp_enqueue_script( Config::PLUGIN_SLUG . '-admin', Config::$plugin_url . 'assets/admin/js/admin.js', array( 'jquery', Config::PLUGIN_SLUG . '-vendors' ), Config::PLUGIN_VERSION, true );
 
 		$localize = array(
 			'prefix'       => Config::PLUGIN_PREFIX,
