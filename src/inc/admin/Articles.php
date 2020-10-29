@@ -84,6 +84,7 @@ class Articles {
 		);
 
 		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'fetch_article', array( $this, 'fetch_single_article' ) );
+		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'import_article', array( $this, 'import_single_article' ) );
 	}
 
 	/**
@@ -295,42 +296,117 @@ class Articles {
 	 * @return void
 	 */
 	public function fetch_single_article() : void {
-		// Send response back to the page
+		// Response and header
 		header( 'Content-Type: application/json' );
-		echo json_encode( $this->_fetch_article_call() );
-		exit;
-	}
-
-	/**
-	 * Making call to the API for fetching the article.
-	 *
-	 * @return array
-	 */
-	private function _fetch_article_call() : array {
-		// Default response
 		$response = array(
 			'code'  => 'error',
 			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai-wp' ),
 		);
 
-		// Check for _nonce and
-		// need article ID as well for making the API call
+		// Verify AJAX call for nonce and article ID
+		if ( $this->_verify_ajax_call() ) {
+			$article_id = sanitize_text_field( $_GET['article_id'] );
+
+			// Make fetch call to the API
+			$response = $this->_fetch_article_call( $article_id, $response );
+		}
+
+		// Send response back to the page
+		echo json_encode( $response );
+		exit;
+	}
+
+	/**
+	 * AJAX call handler for single article import.
+	 *
+	 * @return void
+	 */
+	public function import_single_article() : void {
+		// Response and header
+		header( 'Content-Type: application/json' );
+		$response = array(
+			'code'  => 'error',
+			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai-wp' ),
+		);
+
+		// Verify AJAX call for nonce and article ID
+		if ( ! $this->_verify_ajax_call() ) {
+			echo json_encode( $response );
+			exit;
+		}
+
+		if ( ! $this->_verify_import_call() ) {
+			$response['error'] = esc_html__( 'Keyword is required if the Image or Video option is checked. Please provide a keyword or uncheck both of the media options.', 'kafkai-wp' );
+
+			echo json_encode( $response );
+			exit;
+		}
+
+		// Make fetch call to the API
+		$article_id = sanitize_text_field( $_GET['article_id'] );
+		$response   = $this->_fetch_article_call( $article_id, $response );
+
+		// On success, insert post into the database
+		// Post that, we add Image & video via the API calls
+
+		// Send response back to the page
+		echo json_encode( $response );
+		exit;
+	}
+
+	/**
+	 * Check for _nonce and article ID. These two are must to proceed
+	 * with the article request.
+	 *
+	 * @return bool
+	 */
+	private function _verify_ajax_call() : bool {
+		// Check for _nonce and need article ID as well for making the API call
 		if ( ! isset( $_GET['_nonce'] ) || ! isset( $_GET['article_id'] ) ) {
-			return $response;
+			return false;
 		}
 
 		if ( empty( $_GET['_nonce'] ) || empty( $_GET['article_id'] ) ) {
-			return $response;
+			return false;
 		}
 
 		if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_nonce'] ), Config::PLUGIN_SLUG . '-nonce' ) ) {
-			return $response;
+			return false;
 		}
 
-		// Check for transient
-		$article_id = sanitize_text_field( $_GET['article_id'] );
-		$transient  = get_transient( Config::PLUGIN_PREFIX . 'single_' . $article_id );
+		return true;
+	}
 
+	/**
+	 * Verify import call to check for presence of keyword for adding image and video
+	 * to the post.
+	 *
+	 * @return boolean
+	 */
+	private function _verify_import_call() {
+		if ( ! isset( $_GET['article_keyword'] ) || ! isset( $_GET['article_image'] ) || ! isset( $_GET['article_video'] ) ) {
+			return false;
+		}
+
+		if ( empty( $_GET['article_keyword'] ) || empty( $_GET['article_image'] ) || empty( $_GET['article_video'] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Making call to the API for fetching the article.
+	 *
+	 * @param string $article_id Article ID used to make a call to the API endpoint
+	 * @param array  $response Array containing default response
+	 *
+	 * @return array
+	 */
+	private function _fetch_article_call( $article_id, $response ) : array {
+		$transient = get_transient( Config::PLUGIN_PREFIX . 'single_' . $article_id );
+
+		// Check for transient
 		if ( $transient ) {
 			$response['code']     = 'success';
 			$response['response'] = $transient;

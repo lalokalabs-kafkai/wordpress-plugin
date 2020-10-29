@@ -115,9 +115,9 @@ use Niteo\Kafkai\Plugin\Config;
 								<?php
 
 								if ( strlen( $title ) > 120 ) {
-									echo '<a href="javascript:;" class="import-article" data-id="' . $key . '">' . substr( $title, 0, 120 ) . '</a>...';
+									echo '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . substr( $title, 0, 120 ) . '</a>...';
 								} else {
-									echo '<a href="javascript:;" class="import-article" data-id="' . $key . '">' . $title . '</a>';
+									echo '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . $title . '</a>';
 								}
 
 								?>
@@ -204,115 +204,121 @@ use Niteo\Kafkai\Plugin\Config;
 		</div>
 	</form>
 
-	<div id="inline-article-container" class="single-article-container">
-		<div class="single-article-scrollable">
-			<div class="article-actions top">
-				<p>
-					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords">
-						<strong><?php esc_html_e( 'Keyword', 'kafkai-wp' ); ?></strong>
-					</label>&nbsp;
+	<div id="<?php echo Config::PLUGIN_PREFIX; ?>inline-article-container" class="single-article-container">
+		<form method="post" id="<?php echo Config::PLUGIN_PREFIX; ?>import_form">
+			<div class="single-article-scrollable">
+				<div class="article-actions top">
+					<p>
+						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keyword">
+							<strong><?php esc_html_e( 'Keyword', 'kafkai-wp' ); ?></strong>
+						</label>&nbsp;
 
-					<input name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keywords" type="text">
-				</p>
+						<input name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keyword" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keyword" type="text">
+					</p>
 
-				<p>
-					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-author">
-						<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
-					</label>&nbsp;
-		
-					<?php
+					<p>
+						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-author">
+							<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
+						</label>&nbsp;
+			
+						<?php
 
-						// Fetch users information for publishing the post as another user
-						// Only from Editor, Contributor, Author, and Administrator
-						$users = get_users(
-							array(
-								'role__in' => array( 'editor', 'author', 'contributor', 'administrator' ),
-							)
-						);
+							// Fetch users information for publishing the post as another user
+							// Only from Editor, Contributor, Author, and Administrator
+							$users = get_users(
+								array(
+									'role__in' => array( 'editor', 'author', 'contributor', 'administrator' ),
+								)
+							);
 
-						// Make sure the array is not empty
-						if ( ! empty( $users ) ) {
-							echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-author" id="' . Config::PLUGIN_PREFIX . 'article-import-author">';
+							// Make sure the array is not empty
+							if ( ! empty( $users ) ) {
+								echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-author" id="' . Config::PLUGIN_PREFIX . 'article-import-author">';
 
-							// Loop over array
-							foreach ( $users as $user ) {
-								echo sprintf(
-									'<option value="%s">%s</option>',
-									$user->data->ID,
-									$user->data->user_login
-								);
+								// Loop over array
+								foreach ( $users as $user ) {
+									echo sprintf(
+										'<option value="%s">%s</option>',
+										$user->data->ID,
+										$user->data->user_login
+									);
+								}
+
+								echo '</select>';
+							} else {
+								echo esc_html__( 'No users found', 'kafkai-wp' );
 							}
 
-							echo '</select>';
-						} else {
-							echo esc_html__( 'No users found', 'kafkai-wp' );
-						}
+							?>
+					</p>
 
-						?>
-				</p>
+					<p class="align-right margin-right">
+						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-media">
+							<strong><?php esc_html_e( 'Media', 'kafkai-wp' ); ?></strong>
+						</label>&nbsp;
 
-				<p class="align-right margin-right">
-					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-media">
-						<strong><?php esc_html_e( 'Media', 'kafkai-wp' ); ?></strong>
+						<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" class="switch" checked="checked">
+						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image"><?php esc_html_e( 'Image', 'kafkai-wp' ); ?></label>&nbsp;
+
+						<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" class="switch" checked="checked">
+						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video"><?php esc_html_e( 'Video', 'kafkai-wp' ); ?></label>
+					</p>
+
+					<button type="button" class="modal-close">
+						<span class="modal-icon">
+							<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai-wp' ); ?></span>
+						</span>
+					</button>
+				</div>
+
+				<div class="article-content">
+					<div class="article-meta">
+						<div><span class="article-meta-chars">N/A</span> <?php esc_html_e( 'Chars', 'kafkai-wp' ); ?></div>
+						<div><span class="article-meta-words">N/A</span> <?php esc_html_e( 'Words', 'kafkai-wp' ); ?></div>
+					</div>
+
+					<h1 class="article-title"></h1>
+					<div class="article-body"></div>
+				</div>
+			</div><!-- .single-article-scrollable -->
+
+			<div class="article-actions bottom">
+				<p>
+					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-status">
+						<strong><?php esc_html_e( 'Status', 'kafkai-wp' ); ?></strong>
 					</label>&nbsp;
 
-					<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" class="switch" checked="checked">
-					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image"><?php esc_html_e( 'Image', 'kafkai-wp' ); ?></label>&nbsp;
+					<?php
 
-					<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" class="switch" checked="checked">
-					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video"><?php esc_html_e( 'Video', 'kafkai-wp' ); ?></label>
-				</p>
+						// Fetch post status options for the user
+						$statuses = get_post_statuses();
 
-				<button type="button" class="modal-close">
-					<span class="modal-icon">
-						<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai-wp' ); ?></span>
-					</span>
-				</button>
-			</div>
+						// Make sure the array is not empty
+					if ( ! empty( $statuses ) ) {
+						echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-status" id="' . Config::PLUGIN_PREFIX . 'article-import-status">';
 
-			<div class="article-content">
-				<h1 class="article-title"></h1>
-				<div class="article-body"></div>
-			</div>
-		</div><!-- .single-article-scrollable -->
+						// Loop over array
+						foreach ( $statuses as $status ) {
+							echo sprintf(
+								'<option value="%s">%s</option>',
+								str_replace( ' ', '_', strtolower( $status ) ),
+								$status
+							);
+						}
 
-		<div class="article-actions bottom">
-			<p>
-				<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-status">
-					<strong><?php esc_html_e( 'Status', 'kafkai-wp' ); ?></strong>
-				</label>&nbsp;
-
-				<?php
-
-					// Fetch post status options for the user
-					$statuses = get_post_statuses();
-
-					// Make sure the array is not empty
-				if ( ! empty( $statuses ) ) {
-					echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-status" id="' . Config::PLUGIN_PREFIX . 'article-import-status">';
-
-					// Loop over array
-					foreach ( $statuses as $status ) {
-						echo sprintf(
-							'<option value="%s">%s</option>',
-							str_replace( ' ', '_', strtolower( $status ) ),
-							$status
-						);
+						echo '</select>';
+					} else {
+						echo esc_html__( 'Unable to fetch status', 'kafkai-wp' );
 					}
 
-					echo '</select>';
-				} else {
-					echo esc_html__( 'Unable to fetch status', 'kafkai-wp' );
-				}
+					?>
+				</p>
 
-				?>
-			</p>
-
-			<p class="align-right">
-				<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_id" id="<?php echo Config::PLUGIN_PREFIX; ?>article_id">
-				<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_content" id="<?php echo Config::PLUGIN_PREFIX; ?>article_content">
-				<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai-wp' ); ?>" class="button button-primary">
-			</p>
-		</div>
+				<p class="align-right">
+					<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_id" id="<?php echo Config::PLUGIN_PREFIX; ?>article_id">
+					<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" id="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai-wp' ); ?>" class="button button-primary">
+				</p>
+			</div>
+	</form><!-- form -->
 	</div><!-- .single-article-container -->
 </div>
