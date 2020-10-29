@@ -248,8 +248,8 @@ class Articles {
 		$title = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'title' ] );
 
 		// Empty fields
-		if ( empty( $niche ) || empty( $title ) ) {
-			$this->error = esc_html__( 'Both fields are required for article generation.', 'kafkai-wp' );
+		if ( empty( $niche ) ) {
+			$this->error = esc_html__( 'Niche is required for article generation.', 'kafkai-wp' );
 			return;
 		}
 
@@ -277,7 +277,11 @@ class Articles {
 			// We should receive article ID
 			if ( isset( $data['id'] ) ) {
 				$this->code  = 'success';
-				$this->error = esc_html__( 'Article generation has been scheduled. It will be generated shortly.', 'kafkai-wp' );
+				$this->error = sprintf(
+					esc_html__( 'Article generation has been scheduled. Please wait a few minutes. Go to %1$sImport Articles%2$s to review generated articles.', 'kafkai-wp' ),
+					'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) . '">',
+					'</a>'
+				);
 				return;
 			}
 
@@ -331,13 +335,6 @@ class Articles {
 
 		// Verify AJAX call for nonce and article ID
 		if ( ! $this->_verify_ajax_call() ) {
-			echo json_encode( $response );
-			exit;
-		}
-
-		if ( ! $this->_verify_import_call() ) {
-			$response['error'] = esc_html__( 'Keyword is required if the Image or Video option is checked. Please provide a keyword or uncheck both of the media options.', 'kafkai-wp' );
-
 			echo json_encode( $response );
 			exit;
 		}
@@ -405,32 +402,6 @@ class Articles {
 		}
 
 		if ( ! wp_verify_nonce( sanitize_text_field( $_GET['_nonce'] ), Config::PLUGIN_SLUG . '-nonce' ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Verify import call to check for presence of keyword for adding image and video
-	 * to the post.
-	 *
-	 * @return boolean
-	 */
-	private function _verify_import_call() : bool {
-		if ( ! isset( $_GET['article_keyword'] ) || ! isset( $_GET['article_image'] ) || ! isset( $_GET['article_video'] ) ) {
-			return false;
-		}
-
-		if ( empty( $_GET['article_image'] ) || empty( $_GET['article_video'] ) ) {
-			return false;
-		}
-
-		if ( 'off' === $_GET['article_image'] && 'off' === $_GET['article_video'] ) {
-			return true;
-		}
-
-		if ( empty( $_GET['article_keyword'] ) ) {
 			return false;
 		}
 
@@ -516,6 +487,19 @@ class Articles {
 		}
 
 		return $article_author;
+	}
+
+	/**
+	 * Adds featured image to the imported post.
+	 *
+	 * @param int    $id ID of the imported post
+	 * @param array  $response Response to be sent back to the page
+	 * @param string $keyword Keyword to search the API
+	 *
+	 * @return boolen
+	 */
+	private function _add_article_image( $id, $response, $keyword ) {
+
 	}
 
 }

@@ -50,25 +50,15 @@ class Admin {
 			esc_html__( 'Kafkai Settings', 'kafkai-wp' ),
 			esc_html__( 'Kafkai', 'kafkai-wp' ),
 			'manage_options',
-			Config::PLUGIN_PREFIX . 'admin',
-			array( $this, 'settings' ),
+			Config::PLUGIN_PREFIX . 'generate',
+			array( $this, 'generate' ),
 			'dashicons-format-aside',
 			26
 		);
 
-		// Import page
-		$import_page = add_submenu_page(
-			Config::PLUGIN_PREFIX . 'admin',
-			esc_html__( 'Import Articles', 'kafkai-wp' ),
-			esc_html__( 'Import Articles', 'kafkai-wp' ),
-			'manage_options',
-			Config::PLUGIN_PREFIX . 'import',
-			array( $this, 'import' ),
-		);
-
 		// Generate page
 		$generate_page = add_submenu_page(
-			Config::PLUGIN_PREFIX . 'admin',
+			Config::PLUGIN_PREFIX . 'generate',
 			esc_html__( 'Generate Article', 'kafkai-wp' ),
 			esc_html__( 'Generate Article', 'kafkai-wp' ),
 			'manage_options',
@@ -76,9 +66,30 @@ class Admin {
 			array( $this, 'generate' ),
 		);
 
+		// Import page
+		$import_page = add_submenu_page(
+			Config::PLUGIN_PREFIX . 'generate',
+			esc_html__( 'Import Article', 'kafkai-wp' ),
+			esc_html__( 'Import Article', 'kafkai-wp' ),
+			'manage_options',
+			Config::PLUGIN_PREFIX . 'import',
+			array( $this, 'import' ),
+		);
+
+		// Settings page
+		$settings_page = add_submenu_page(
+			Config::PLUGIN_PREFIX . 'generate',
+			esc_html__( 'Settings', 'kafkai-wp' ),
+			esc_html__( 'Settings', 'kafkai-wp' ),
+			'manage_options',
+			Config::PLUGIN_PREFIX . 'settings',
+			array( $this, 'settings' ),
+		);
+
 		// Load JS conditionally
 		add_action( 'load-' . $generate_page, array( $this, 'load_scripts' ) );
 		add_action( 'load-' . $import_page, array( $this, 'load_scripts' ) );
+		add_action( 'load-' . $settings_page, array( $this, 'load_scripts' ) );
 	}
 
 	/**

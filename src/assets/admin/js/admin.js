@@ -98,7 +98,7 @@
   $(document).on('submit', '#' + kafkaiwp_admin_l10n.prefix + 'import_form', function(e) {
     e.preventDefault();
 
-    var formData, button, article_id, keyword, image, video;
+    var formData, button, article_id;
 
     // For fetching the article ID
     formData = new FormData(document.getElementById(kafkaiwp_admin_l10n.prefix + 'import_form'));
@@ -106,32 +106,12 @@
     // Import form button
     button = $('#' + kafkaiwp_admin_l10n.prefix + 'article_import');
 
-    // Move if article_id and keyword are not empty
+    // Move if article_id is not empty
     article_id = formData.get(kafkaiwp_admin_l10n.prefix + 'article_id');
-    keyword = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-keyword');
-    image = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-image');
-    video = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-video');
 
     if(!article_id) {
       notification(kafkaiwp_admin_l10n.missing_id, 'error');
       return;
-    }
-
-    // We only need keyword for image or video
-    if(image === 'on' || video === 'on') {
-      if(!keyword) {
-        notification(kafkaiwp_admin_l10n.missing_keyword, 'error');
-        return;
-      }
-    }
-
-    // Replace null with "off"
-    if(image === null) {
-      image = 'off';
-    }
-
-    if(video === null) {
-      video = 'off';
     }
 
     // We do everything via AJAX (very similar to fetching article for viewing)
@@ -141,9 +121,6 @@
       data: {
         action: kafkaiwp_admin_l10n.prefix + 'import_article',
         article_id: article_id,
-        article_image: image,
-        article_video: video,
-        article_keyword: keyword,
         article_author: formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-author'),
         article_status: formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-status'),
         _nonce: kafkaiwp_admin_l10n.nonce
