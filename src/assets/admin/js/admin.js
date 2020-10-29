@@ -26,13 +26,16 @@
   $('.fetch-article').on('click', function(e) {
     e.preventDefault();
 
-    var article_id, table, parent_tr, first_td, article_body;
+    var article_id, table, parent_tr, first_td, article_body, button;
 
     // Article ID for fetching specific article
     article_id = $(this).data('id');
 
     // Main table
     table = $('.wp-list-table');
+
+    // Import form button
+    button = $('#' + kafkaiwp_admin_l10n.prefix + 'article_import');
 
     // Find parent tr and td
     parent_tr = $(this).parent().parent();
@@ -48,6 +51,10 @@
         _nonce: kafkaiwp_admin_l10n.nonce
       },
       beforeSend: function() {
+        // Ensure button is not disabled
+        button.prop('disabled', false);
+        button.val(kafkaiwp_admin_l10n.window_title);
+
         table.append('<div class="' + kafkaiwp_admin_l10n.prefix + 'ajax_overlay"></div>');
         first_td.append('<div class="' + kafkaiwp_admin_l10n.prefix + 'loading"><span class="spinner is-active"></span></div>');
       },
@@ -91,7 +98,7 @@
   $(document).on('submit', '#' + kafkaiwp_admin_l10n.prefix + 'import_form', function(e) {
     e.preventDefault();
 
-    var formData, button, article_id, keyword, image, video, author;
+    var formData, button, article_id, keyword, image, video;
 
     // For fetching the article ID
     formData = new FormData(document.getElementById(kafkaiwp_admin_l10n.prefix + 'import_form'));
@@ -104,7 +111,6 @@
     keyword = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-keyword');
     image = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-image');
     video = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-video');
-    author = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-author');
 
     if(!article_id) {
       notification(kafkaiwp_admin_l10n.missing_id, 'error');
@@ -137,8 +143,9 @@
         article_id: article_id,
         article_image: image,
         article_video: video,
-        article_author: author,
         article_keyword: keyword,
+        article_author: formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-author'),
+        article_status: formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-status'),
         _nonce: kafkaiwp_admin_l10n.nonce
       },
       beforeSend: function() {
@@ -155,6 +162,7 @@
       }
     }).done(function(data) {
       if(data.code === 'success') {
+        notification(data.response, 'success');
         button.val(kafkaiwp_admin_l10n.import_done);
       } else {
         notification(data.error, 'error');
