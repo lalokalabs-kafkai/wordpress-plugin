@@ -12,8 +12,8 @@ use Niteo\Kafkai\Plugin\Config;
 		<?php esc_html_e( 'Import Articles', 'kafkai-wp' ); ?>
 	</h1>
 
-	<a href="<?php echo self_admin_url( 'admin.php?page=kafkaiwp_generate' ); ?>" class="page-title-action">
-		<?php esc_html_e( 'Generate New', 'kafkai-wp' ); ?>
+	<a href="<?php echo add_query_arg( array( 'task' => 'refresh_list' ) ); ?>" class="page-title-action">
+		<?php esc_html_e( 'Refresh List', 'kafkai-wp' ); ?>
 	</a>
 
 	<hr class="wp-header-end">
@@ -208,62 +208,6 @@ use Niteo\Kafkai\Plugin\Config;
 		<form method="post" id="<?php echo Config::PLUGIN_PREFIX; ?>import_form">
 			<div class="single-article-scrollable">
 				<div class="article-actions top">
-					<p>
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keyword">
-							<strong><?php esc_html_e( 'Keyword', 'kafkai-wp' ); ?></strong>
-						</label>&nbsp;
-
-						<input name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keyword" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-keyword" type="text">
-					</p>
-
-					<p>
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-author">
-							<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
-						</label>&nbsp;
-			
-						<?php
-
-							// Fetch users information for publishing the post as another user
-							// Only from Editor, Contributor, Author, and Administrator
-							$users = get_users(
-								array(
-									'role__in' => array( 'editor', 'author', 'contributor', 'administrator' ),
-								)
-							);
-
-							// Make sure the array is not empty
-							if ( ! empty( $users ) ) {
-								echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-author" id="' . Config::PLUGIN_PREFIX . 'article-import-author">';
-
-								// Loop over array
-								foreach ( $users as $user ) {
-									echo sprintf(
-										'<option value="%s">%s</option>',
-										$user->data->ID,
-										$user->data->user_login
-									);
-								}
-
-								echo '</select>';
-							} else {
-								echo esc_html__( 'No users found', 'kafkai-wp' );
-							}
-
-							?>
-					</p>
-
-					<p class="align-right margin-right">
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-media">
-							<strong><?php esc_html_e( 'Media', 'kafkai-wp' ); ?></strong>
-						</label>&nbsp;
-
-						<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image" class="switch" checked="checked">
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-image"><?php esc_html_e( 'Image', 'kafkai-wp' ); ?></label>&nbsp;
-
-						<input type="checkbox" name="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" id="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video" class="switch" checked="checked">
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-video"><?php esc_html_e( 'Video', 'kafkai-wp' ); ?></label>
-					</p>
-
 					<button type="button" class="modal-close">
 						<span class="modal-icon">
 							<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai-wp' ); ?></span>
@@ -312,6 +256,42 @@ use Niteo\Kafkai\Plugin\Config;
 					}
 
 					?>
+				</p>
+
+				<p>
+					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-author">
+						<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
+					</label>&nbsp;
+		
+					<?php
+
+						// Fetch users information for publishing the post as another user
+						// Only from Editor, Contributor, Author, and Administrator
+						$users = get_users(
+							array(
+								'role__in' => array( 'editor', 'author', 'contributor', 'administrator' ),
+							)
+						);
+
+						// Make sure the array is not empty
+						if ( ! empty( $users ) ) {
+							echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-author" id="' . Config::PLUGIN_PREFIX . 'article-import-author">';
+
+							// Loop over array
+							foreach ( $users as $user ) {
+								echo sprintf(
+									'<option value="%s">%s</option>',
+									$user->data->ID,
+									$user->data->user_login
+								);
+							}
+
+							echo '</select>';
+						} else {
+							echo esc_html__( 'No users found', 'kafkai-wp' );
+						}
+
+						?>
 				</p>
 
 				<p class="align-right">
