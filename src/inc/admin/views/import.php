@@ -298,11 +298,11 @@ use Niteo\Kafkai\Plugin\Config;
 						echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-status" id="' . Config::PLUGIN_PREFIX . 'article-import-status">';
 
 						// Loop over array
-						foreach ( $statuses as $status ) {
+						foreach ( $statuses as $status_key => $status_name ) {
 							echo sprintf(
 								'<option value="%s">%s</option>',
-								str_replace( ' ', '_', strtolower( $status ) ),
-								$status
+								$status_key,
+								$status_name
 							);
 						}
 

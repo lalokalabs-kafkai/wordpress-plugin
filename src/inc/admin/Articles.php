@@ -348,6 +348,40 @@ class Articles {
 
 		// On success, insert post into the database
 		// Post that, we add Image & video via the API calls
+		if ( 'success' === $response['code'] ) {
+			// Check for author (if not, default to current_user_id)
+			$post_author = $this->_update_post_author();
+
+			// Post status
+			$post_status = 'published';
+
+			if ( isset( $_GET['article_status'] ) ) {
+				if ( in_array( $_GET['article_status'], array_keys( get_post_statuses() ) ) ) {
+					$post_status = sanitize_text_field( $_GET['article_status'] );
+				}
+			}
+
+			// Insert post and look for post_id for a successfull insert
+			$post_id = wp_insert_post(
+				array(
+					'post_author'  => $post_author,
+					'post_content' => $response['response']['body'],
+					'post_title'   => $response['response']['title'],
+					'post_status'  => $post_status,
+				)
+			);
+
+			// Check for errors
+			if ( ! is_wp_error( $post_id ) ) {
+				$response['response'] = sprintf(
+					esc_html__( 'Article with ID %d has been imported successfully.', 'kafkai-wp' ),
+					$post_id
+				);
+			} else {
+				$response['code']  = 'error';
+				$response['error'] = esc_html__( 'There was a problem inserting article in the database. Please refresh the page and try again.', 'kafkai-wp' );
+			}
+		}
 
 		// Send response back to the page
 		echo json_encode( $response );
@@ -383,12 +417,20 @@ class Articles {
 	 *
 	 * @return boolean
 	 */
-	private function _verify_import_call() {
+	private function _verify_import_call() : bool {
 		if ( ! isset( $_GET['article_keyword'] ) || ! isset( $_GET['article_image'] ) || ! isset( $_GET['article_video'] ) ) {
 			return false;
 		}
 
-		if ( empty( $_GET['article_keyword'] ) || empty( $_GET['article_image'] ) || empty( $_GET['article_video'] ) ) {
+		if ( empty( $_GET['article_image'] ) || empty( $_GET['article_video'] ) ) {
+			return false;
+		}
+
+		if ( 'off' === $_GET['article_image'] && 'off' === $_GET['article_video'] ) {
+			return true;
+		}
+
+		if ( empty( $_GET['article_keyword'] ) ) {
 			return false;
 		}
 
@@ -455,6 +497,25 @@ class Articles {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Check for post author and send back the appropriate user_id.
+	 *
+	 * @return boolean
+	 */
+	private function _update_post_author() {
+		if ( ! isset( $_GET['article_author'] ) ) {
+			return get_current_user_id();
+		}
+
+		$article_author = absint( $_GET['article_author'] );
+
+		if ( empty( $article_author ) ) {
+			return get_current_user_id();
+		}
+
+		return $article_author;
 	}
 
 }
