@@ -103,10 +103,16 @@ class Admin {
 		wp_enqueue_script( Config::PLUGIN_SLUG . '-admin', Config::$plugin_url . 'assets/admin/js/admin.js', array( 'jquery', Config::PLUGIN_SLUG . '-vendors' ), Config::PLUGIN_VERSION, true );
 
 		$localize = array(
-			'prefix'       => Config::PLUGIN_PREFIX,
-			'nonce'        => wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ),
-			'error_text'   => esc_html__( 'An error was encountered while trying to fetch article from the API. Please close this window and try again.', 'kafkai-wp' ),
-			'window_title' => esc_html__( 'Import Article', 'kafkai-wp' ),
+			'prefix'          => Config::PLUGIN_PREFIX,
+			'nonce'           => wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ),
+			'window_title'    => esc_html__( 'Import Article', 'kafkai-wp' ),
+			'error_text'      => esc_html__( 'An error was encountered while trying to communicate with the API. Please refresh the page and try again.', 'kafkai-wp' ),
+			'missing_id'      => esc_html__( 'Unable to fetch article ID. Please refresh the page and try again.', 'kafkai-wp' ),
+			'missing_keyword' => esc_html__( 'Keyword is missing. Please provide a keyword to search for Image and Video for the article.', 'kafkai-wp' ),
+			'chars'           => esc_html__( 'Chars', 'kafkai-wp' ),
+			'words'           => esc_html__( 'Words', 'kafkai-wp' ),
+			'importing'       => esc_html__( 'Importing..', 'kafkai-wp' ),
+			'import_done'     => esc_html__( 'Imported Successfully!', 'kafkai-wp' ),
 		);
 
 		wp_localize_script( Config::PLUGIN_SLUG . '-admin', Config::PLUGIN_PREFIX . 'admin_l10n', $localize );

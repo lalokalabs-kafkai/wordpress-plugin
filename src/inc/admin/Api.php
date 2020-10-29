@@ -133,7 +133,12 @@ class Api {
 		return get_option( Config::PLUGIN_PREFIX . 'settings' );
 	}
 
-	private function verify_token() {
+	/**
+	 * Verification of Kafkai API token.
+	 *
+	 * @return bool
+	 */
+	private function verify_token() : bool {
 		$token = $this->get_token();
 
 		if ( ! $token ) {

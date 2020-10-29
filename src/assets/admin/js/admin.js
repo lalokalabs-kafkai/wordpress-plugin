@@ -22,10 +22,11 @@
     var switchery = new Switchery(html);
   });
 
-  $('.import-article').on('click', function(e) {
+  // Fetching article for viewing and initialize importing
+  $('.fetch-article').on('click', function(e) {
     e.preventDefault();
 
-    var article_id, table, parent_tr, first_td;
+    var article_id, table, parent_tr, first_td, article_body;
 
     // Article ID for fetching specific article
     article_id = $(this).data('id');
@@ -64,18 +65,102 @@
       first_td.find('.' + kafkaiwp_admin_l10n.prefix + 'loading').remove();
 
       if(data.code === 'success') {
-        console.log(data.response);
-        var article_body = data.response.body;
+        article_body = data.response.body;
+
+        // Add ID to hidden field to be used later for import
+        $('#' + kafkaiwp_admin_l10n.prefix + 'article_id').val(data.response.id);
 
         // Turn line breaks into <br> and add HTML to article body
         article_body = article_body.replace(/(?:\r\n|\r|\n)/g, '<br>');
-        $('#inline-article-container .article-body').html(article_body);
-        $('#inline-article-container .article-title').html(data.response.title);
+        $('#' + kafkaiwp_admin_l10n.prefix + 'inline-article-container .article-body').html(article_body);
+        $('#' + kafkaiwp_admin_l10n.prefix + 'inline-article-container .article-title').html(data.response.title);
+
+        // Article meta info
+        $('.article-meta-chars').html(data.response.charCount);
+        $('.article-meta-words').html(data.response.wordCount);
 
         // Open lightbox
-        tb_show(kafkaiwp_admin_l10n.window_title, '#TB_inline?height=604&width=772&inlineId=inline-article-container&modal=true');
+        tb_show(kafkaiwp_admin_l10n.window_title, '#TB_inline?height=604&width=772&inlineId=' + kafkaiwp_admin_l10n.prefix + 'inline-article-container&modal=true');
       } else {
         notification(data.error, 'error');
+      }
+    });
+  });
+
+  // Initialize article import
+  $(document).on('submit', '#' + kafkaiwp_admin_l10n.prefix + 'import_form', function(e) {
+    e.preventDefault();
+
+    var formData, button, article_id, keyword, image, video, author;
+
+    // For fetching the article ID
+    formData = new FormData(document.getElementById(kafkaiwp_admin_l10n.prefix + 'import_form'));
+
+    // Import form button
+    button = $('#' + kafkaiwp_admin_l10n.prefix + 'article_import');
+
+    // Move if article_id and keyword are not empty
+    article_id = formData.get(kafkaiwp_admin_l10n.prefix + 'article_id');
+    keyword = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-keyword');
+    image = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-image');
+    video = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-video');
+    author = formData.get(kafkaiwp_admin_l10n.prefix + 'article-import-author');
+
+    if(!article_id) {
+      notification(kafkaiwp_admin_l10n.missing_id, 'error');
+      return;
+    }
+
+    // We only need keyword for image or video
+    if(image === 'on' || video === 'on') {
+      if(!keyword) {
+        notification(kafkaiwp_admin_l10n.missing_keyword, 'error');
+        return;
+      }
+    }
+
+    // Replace null with "off"
+    if(image === null) {
+      image = 'off';
+    }
+
+    if(video === null) {
+      video = 'off';
+    }
+
+    // We do everything via AJAX (very similar to fetching article for viewing)
+    $.ajax({
+      type: 'get',
+      url: ajaxurl,
+      data: {
+        action: kafkaiwp_admin_l10n.prefix + 'import_article',
+        article_id: article_id,
+        article_image: image,
+        article_video: video,
+        article_author: author,
+        article_keyword: keyword,
+        _nonce: kafkaiwp_admin_l10n.nonce
+      },
+      beforeSend: function() {
+        button.prop('disabled', true);
+        button.val(kafkaiwp_admin_l10n.importing);
+      },
+      error: function(xhr, status, error) {
+        if(status === 'error') {
+          notification(kafkaiwp_admin_l10n.error_text, 'error');
+
+          button.prop('disabled', false);
+          button.val(kafkaiwp_admin_l10n.window_title);
+        }
+      }
+    }).done(function(data) {
+      if(data.code === 'success') {
+        button.val(kafkaiwp_admin_l10n.import_done);
+      } else {
+        notification(data.error, 'error');
+
+        button.prop('disabled', false);
+        button.val(kafkaiwp_admin_l10n.window_title);
       }
     });
   });
