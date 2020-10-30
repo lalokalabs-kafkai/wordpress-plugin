@@ -160,6 +160,30 @@ class Articles {
 	}
 
 	/**
+	 * Refresh articles list by clearing the cache.
+	 *
+	 * @return void
+	 */
+	public function refresh_list() : void {
+		if ( ! isset( $_GET['action'] ) ) {
+			return;
+		}
+
+		if ( 'refresh_list' !== $_GET['action'] ) {
+			return;
+		}
+
+		// Clear transients over here (doing it for first 5 pages only)
+		for ( $i = 1; $i < 6; $i++ ) {
+			delete_transient( Config::PLUGIN_PREFIX . 'article_All_page' . $i );
+		}
+
+		// Redirect to page without `refresh_list` action
+		wp_safe_redirect( self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) );
+		exit;
+	}
+
+	/**
 	 * Check for current page.
 	 *
 	 * @return void
@@ -278,7 +302,7 @@ class Articles {
 			if ( isset( $data['id'] ) ) {
 				$this->code  = 'success';
 				$this->error = sprintf(
-					esc_html__( 'Article generation has been scheduled. Please wait a few minutes. Go to %1$sImport Articles%2$s to review generated articles.', 'kafkai-wp' ),
+					esc_html__( 'Article generation has been scheduled. Please wait a few minutes. Go to %1$sImport Article%2$s to review generated articles.', 'kafkai-wp' ),
 					'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) . '">',
 					'</a>'
 				);
@@ -371,8 +395,9 @@ class Articles {
 			// Check for errors
 			if ( ! is_wp_error( $post_id ) ) {
 				$response['response'] = sprintf(
-					esc_html__( 'Article with ID %d has been imported successfully.', 'kafkai-wp' ),
-					$post_id
+					esc_html__( '%1$sArticle has been imported successfully.%2$s', 'kafkai-wp' ),
+					'<a href="' . self_admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '" target="_blank">',
+					'</a>'
 				);
 			} else {
 				$response['code']  = 'error';

@@ -47,14 +47,23 @@ use Niteo\Kafkai\Plugin\Config;
 						</select>
 					</td>
 				</tr>
+			</tbody>
+		</table><br>
+
+		<h2 class="title">
+			<?php esc_html_e( 'Advanced', 'kafkai-wp' ); ?>
+		</h2>
+
+		<p>
+			<?php esc_html_e( 'Give me a paragraph to start with. It could be taken from any page on the Internet and it won’t be used as-is in the new article.', 'kafkai-wp' ); ?>
+		</p>
+
+		<table class="form-table">
+			<tbody>
 				<tr>
-					<th scope="row">
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>title">
-							<?php esc_html_e( 'Give us a short sentence to start', 'kafkai-wp' ); ?>
-						</label>
-					</th>
-					<td>
+					<td class="no-margin-left">
 						<textarea name="<?php echo Config::PLUGIN_PREFIX; ?>title" id="<?php echo Config::PLUGIN_PREFIX; ?>title" class="large-text" rows="4"></textarea>
+						<p class="help-text"><?php esc_html_e( 'Please note that advanced articles take longer to finish.', 'kafkai-wp' ); ?></p>
 					</td>
 				</tr>
 			</tbody>
