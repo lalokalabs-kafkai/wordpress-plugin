@@ -302,7 +302,7 @@ class Articles {
 			if ( isset( $data['id'] ) ) {
 				$this->code  = 'success';
 				$this->error = sprintf(
-					esc_html__( 'Article generation has been scheduled. Please wait a few minutes. Go to %1$sImport Article%2$s to review generated articles.', 'kafkai-wp' ),
+					esc_html__( 'Article generation has been scheduled. Please wait a few minutes, then go to %1$sImport Article%2$s and click Refresh List.', 'kafkai-wp' ),
 					'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) . '">',
 					'</a>'
 				);

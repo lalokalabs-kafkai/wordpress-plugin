@@ -157,7 +157,7 @@
   });
 
   // Close modal
-  $(document).on('click', '.modal-close, .TB_overlayBG', function(e) {
+  $(document).on('click', '.modal-close, #TB_overlay', function(e) {
     e.preventDefault();
 
     tb_remove();
