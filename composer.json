@@ -13,16 +13,14 @@
     "wp-coding-standards/wpcs": "*",
     "rregeer/phpunit-coverage-check": "^0.1.6",
     "phpunit/phpcov": "*",
-    "phpro/grumphp": "^0.14.2"
+    "phpro/grumphp": "^1.0.0"
   },
   "config": {
     "bin-dir": "bin/"
   },
   "autoload": {
     "psr-4": {
-      "Niteo\\Kafkai\\Plugin\\": "inc",
-      "Niteo\\Kafkai\\Plugin\\Extend\\": "inc/traits",
-      "Niteo\\Kafkai\\Plugin\\Admin\\": "inc/admin"
+      "Niteo\\Kafkai\\Plugin\\": "src/inc"
     }
   }
 }

@@ -69,11 +69,11 @@ lint: install
 	bin/phpcs --standard=WordPress src --ignore=src/vendor,src/assets
 
 psr: src/vendor
-	composer dump-autoload -a
-	cd src && composer dump-autoload -a
+	composer dump-autoload -o
+	cd src && composer dump-autoload -o
 
 i18n: src/vendor
-	wp i18n make-pot src src/i18n/$(PLUGINSLUG).pot
+	wp i18n make-pot src/inc src/i18n/$(PLUGINSLUG).pot
 
 cover: vendor
 	bin/coverage-check clover.xml 100
