@@ -143,7 +143,7 @@ class Admin {
 	 */
 	public function meta_links( array $links, string $file ) {
 		if ( false === strpos( $file, 'kafkai-wp.php' ) ) {
-			return;
+			return $links;
 		}
 
 		// Add website link
