@@ -3,4 +3,4 @@
 Kafkai for WordPress
 ====================
 
-Plugin to generate and/or import articles from Kafkai. It also fetches the corresponding featured image along with YouTube video for the article and adds it to the database.
+Plugin to generate and import articles from [Kafkai](https://kafkai.com/). Learn more in [the Help Article](https://help.kafkai.com/article/268-kafkai-plugin).
