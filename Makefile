@@ -1,4 +1,4 @@
-VERSION := 1.0.3
+VERSION := 1.0.4
 PLUGINSLUG := kafkai-wp
 SRCPATH := $(shell pwd)/src
 

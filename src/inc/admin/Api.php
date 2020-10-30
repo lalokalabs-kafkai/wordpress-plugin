@@ -144,7 +144,7 @@ class Api {
 		if ( ! $token ) {
 			$this->error = sprintf(
 				esc_html__( 'Authorization token is not available. Please go to %1$splugin settings%2$s and provide credentials or re-generate token.', 'kafkai-wp' ),
-				'<a href="' . admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'admin' ) . '">',
+				'<a href="' . admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'settings' ) . '">',
 				'</a>'
 			);
 
