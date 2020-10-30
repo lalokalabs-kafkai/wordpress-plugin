@@ -32,6 +32,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: build/mini-plugin.zip
-          asset_name: mini-plugin.zip
+          asset_path: build/kafkai-wp.zip
+          asset_name: kafkai-wp.zip
           asset_content_type: application/zip
