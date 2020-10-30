@@ -175,7 +175,7 @@ class Admin {
 		// Import articles
 		$this->articles->fetch_articles();
 
-		require_once Config::$plugin_path . 'inc/admin/views/import.php';
+		require_once Config::$plugin_path . 'inc/Admin/views/import.php';
 	}
 
 	/**
@@ -187,7 +187,7 @@ class Admin {
 		// Send request for generating article
 		$this->articles->generate_article();
 
-		require_once Config::$plugin_path . 'inc/admin/views/generate.php';
+		require_once Config::$plugin_path . 'inc/Admin/views/generate.php';
 	}
 
 	/**
@@ -205,7 +205,7 @@ class Admin {
 		$settings = $this->get_settings();
 		$token    = $this->get_token();
 
-		require_once Config::$plugin_path . 'inc/admin/views/settings.php';
+		require_once Config::$plugin_path . 'inc/Admin/views/settings.php';
 	}
 
 }
