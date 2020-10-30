@@ -279,6 +279,15 @@
   line-height: 1.5;
   text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
 }
+.noty_body a {
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
+  color: #ffffff;
+}
+.noty_body a:hover {
+  border-color: #ffffff;
+}
 .noty_theme__sunset.noty_bar .noty_buttons {
   padding: 10px;
 }
@@ -338,6 +347,9 @@
 }
 .widefat td {
   font-size: 0.875rem;
+}
+.form-table .no-margin-left {
+  padding-left: 0;
 }
 
 /* -- Article container (for AJAX call) -- */

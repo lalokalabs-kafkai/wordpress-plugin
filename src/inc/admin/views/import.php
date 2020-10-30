@@ -12,7 +12,7 @@ use Niteo\Kafkai\Plugin\Config;
 		<?php esc_html_e( 'Import Articles', 'kafkai-wp' ); ?>
 	</h1>
 
-	<a href="<?php echo add_query_arg( array( 'task' => 'refresh_list' ) ); ?>" class="page-title-action">
+	<a href="<?php echo add_query_arg( array( 'action' => 'refresh_list' ) ); ?>" class="page-title-action">
 		<?php esc_html_e( 'Refresh List', 'kafkai-wp' ); ?>
 	</a>
 

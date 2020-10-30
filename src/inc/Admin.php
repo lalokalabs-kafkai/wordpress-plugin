@@ -159,6 +159,12 @@ class Admin {
 	 */
 	public function import() : void {
 		/**
+		 * Before anything else, check if the action is `refresh_list`.
+		 * If it is, we will clear the cache for imported articles.
+		 */
+		$this->articles->refresh_list();
+
+		/**
 		 * Fetch generated articles for the user.
 		 * All the processing such as checking for page number and state along
 		 * with article fetching is done on class initialization.

@@ -6,13 +6,20 @@
 
   // For notifications
   function notification(text, type) {
-    new Noty({
+    var args = {
       text: text,
       type: type,
       theme: 'sunset',
       timeout: 4000,
       progressBar: false
-    }).show();
+    };
+
+    // Increase timeout for success messages
+    if(type === 'success') {
+      args.timeout = 8000;
+    }
+
+    new Noty(args).show();
   }
 
   // Initialize switches
