@@ -10,13 +10,12 @@
       text: text,
       type: type,
       theme: 'sunset',
-      timeout: 4000,
       progressBar: false
     };
 
     // Increase timeout for success messages
-    if(type === 'success') {
-      args.timeout = 8000;
+    if(type === 'error') {
+      args.timeout = 4000;
     }
 
     new Noty(args).show();
