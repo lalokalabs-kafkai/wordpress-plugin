@@ -3,13 +3,13 @@
  * Extending the admin workflow.
  */
 
-namespace Niteo\Kafkai\Plugin\Extend;
+namespace Niteo\Kafkai\Plugin\Admin;
 
 use Niteo\Kafkai\Plugin\Config;
-use Niteo\Kafkai\Plugin\Helper;
+use Niteo\Kafkai\Plugin\Helper as MainHelper;
 use Niteo\Kafkai\Plugin\Admin\Api;
 
-trait Admin {
+trait Helper {
 
 	/**
 	 * @var string
@@ -61,7 +61,7 @@ trait Admin {
 		}
 
 		// Verify nonce
-		if ( ! Helper::verify_nonce() ) {
+		if ( ! MainHelper::verify_nonce() ) {
 			$this->response = esc_html__( 'Request could not be validated.', 'kafkai-wp' );
 			return;
 		}

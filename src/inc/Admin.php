@@ -14,7 +14,7 @@ use Niteo\Kafkai\Plugin\Admin\Articles;
  */
 class Admin {
 
-	use Extend\Admin;
+	use Admin\Helper;
 
 	/**
 	 * @var stdClass
