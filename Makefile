@@ -1,4 +1,4 @@
-VERSION := 1.0.1
+VERSION := 1.0.2
 PLUGINSLUG := kafkai-wp
 SRCPATH := $(shell pwd)/src
 
@@ -11,7 +11,7 @@ bin/linux/amd64/github-release:
 install: vendor
 vendor: src/vendor
 	composer install --dev
-	composer dump-autoload -a
+	composer dump-autoload -o
 
 clover.xml: vendor test
 
@@ -22,7 +22,7 @@ test: vendor
 
 src/vendor:
 	cd src && composer install
-	cd src && composer dump-autoload -a
+	cd src && composer dump-autoload -o
 
 build: install
 	sed -i "s/@##VERSION##@/${VERSION}/" src/$(PLUGINSLUG).php
@@ -30,7 +30,7 @@ build: install
 	mkdir -p build
 	rm -rf src/vendor
 	cd src && composer install --no-dev
-	cd src && composer dump-autoload -a
+	cd src && composer dump-autoload -o
 	cp -ar $(SRCPATH) $(PLUGINSLUG)
 	zip -r $(PLUGINSLUG).zip $(PLUGINSLUG)
 	rm -rf $(PLUGINSLUG)
@@ -42,7 +42,7 @@ dist: install
 	mkdir -p dist
 	rm -rf src/vendor
 	cd src && composer install --no-dev
-	cd src && composer dump-autoload -a
+	cd src && composer dump-autoload -o
 	cp -r $(SRCPATH)/. dist/
 
 publish: build bin/linux/amd64/github-release
