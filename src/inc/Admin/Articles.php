@@ -80,7 +80,7 @@ class Articles {
 			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai-wp' ),
 			'Travel'          => esc_html__( 'Travel', 'kafkai-wp' ),
 			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai-wp' ),
-			'Experimental'    => esc_html__( 'General', 'kafkai-wp' ),
+			'General'         => esc_html__( 'General', 'kafkai-wp' ),
 		);
 
 		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'fetch_article', array( $this, 'fetch_single_article' ) );
