@@ -1,4 +1,4 @@
-VERSION := 1.0.8
+VERSION := 1.0.9
 PLUGINSLUG := kafkai
 SRCPATH := $(shell pwd)/src
 
@@ -33,6 +33,8 @@ build: install
 	sed -i "s/${VERSION}/@##VERSION##@/" src/inc/Config.php
 
 dist: install
+	sed -i "s/@##VERSION##@/${VERSION}/" src/$(PLUGINSLUG).php
+	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Config.php
 	mkdir -p dist
 	rm -rf src/vendor
 	cd src && composer install --no-dev
