@@ -9,7 +9,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 <div class="wrap">
 	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Generate Article', 'kafkai-wp' ); ?>
+		<?php esc_html_e( 'Generate Article', 'kafkai' ); ?>
 	</h1>
 
 	<hr class="wp-header-end">
@@ -31,7 +31,7 @@ use Niteo\Kafkai\Plugin\Config;
 				<tr>
 					<th scope="row">
 						<label for="<?php echo Config::PLUGIN_PREFIX; ?>niche">
-							<?php esc_html_e( 'Niche', 'kafkai-wp' ); ?>
+							<?php esc_html_e( 'Niche', 'kafkai' ); ?>
 						</label>
 					</th>
 					<td>
@@ -51,28 +51,28 @@ use Niteo\Kafkai\Plugin\Config;
 		</table><br>
 
 		<h2 class="title">
-			<?php esc_html_e( 'Advanced', 'kafkai-wp' ); ?>
+			<?php esc_html_e( 'Advanced', 'kafkai' ); ?>
 		</h2>
 
 		<hr>
 
 		<p>
-			<?php esc_html_e( 'Give me a paragraph to start with. It could be taken from any page on the Internet and it won’t be used as-is in the new article.', 'kafkai-wp' ); ?>
+			<?php esc_html_e( 'Give me a paragraph to start with. It could be taken from any page on the Internet and it won’t be used as-is in the new article.', 'kafkai' ); ?>
 		</p>
 
 		<table class="form-table">
 			<tbody>
 				<tr>
 					<td class="no-margin-left">
-						<textarea name="<?php echo Config::PLUGIN_PREFIX; ?>title" id="<?php echo Config::PLUGIN_PREFIX; ?>title" class="large-text" rows="4" placeholder="<?php esc_attr_e( 'Optional', 'kafkai-wp' ); ?>"></textarea>
-						<p class="help-text"><?php esc_html_e( 'Please note that advanced articles take longer to finish.', 'kafkai-wp' ); ?></p>
+						<textarea name="<?php echo Config::PLUGIN_PREFIX; ?>title" id="<?php echo Config::PLUGIN_PREFIX; ?>title" class="large-text" rows="4" placeholder="<?php esc_attr_e( 'Optional', 'kafkai' ); ?>"></textarea>
+						<p class="help-text"><?php esc_html_e( 'Please note that advanced articles take longer to finish.', 'kafkai' ); ?></p>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 
 		<p class="submit">
-			<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>generate" value="<?php esc_attr_e( 'Generate Article', 'kafkai-wp' ); ?>" class="button button-primary">
+			<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>generate" value="<?php esc_attr_e( 'Generate Article', 'kafkai' ); ?>" class="button button-primary">
 		</p>
 	</form>
 </div>

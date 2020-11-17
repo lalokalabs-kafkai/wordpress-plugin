@@ -30,12 +30,12 @@ class Config {
 	/**
 	 * @var string
 	 */
-	const PLUGIN_BASE = 'kafkai-wp/kafkai-wp.php';
+	const PLUGIN_BASE = 'kafkai/kafkai.php';
 
 	/**
 	 * @var string
 	 */
-	const PLUGIN_SLUG = 'kafkai-wp';
+	const PLUGIN_SLUG = 'kafkai';
 
 	/**
 	 * @var string
@@ -80,7 +80,7 @@ class Config {
 	public function init() : void {
 		self::$plugin_url  = plugin_dir_url( dirname( __FILE__ ) );
 		self::$plugin_path = plugin_dir_path( dirname( __FILE__ ) );
-		self::$plugin_name = esc_html__( 'Kafkai for WordPress', 'kafkai-wp' );
+		self::$plugin_name = esc_html__( 'Kafkai for WordPress', 'kafkai' );
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Config {
 				'update_wordpress',
 				'error',
 				sprintf(
-					esc_html__( '%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s', 'kafkai-wp' ),
+					esc_html__( '%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s', 'kafkai' ),
 					$this->get_plugin_name(),
 					$this->get_wp_version(),
 					'<a href="' . esc_url( admin_url( 'update-core.php' ) ) . '">',
@@ -164,7 +164,7 @@ class Config {
 	 */
 	public function get_environment_message() : string {
 		return sprintf(
-			esc_html__( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'kafkai-wp' ),
+			esc_html__( 'The minimum PHP version required for this plugin is %1$s. You are running %2$s.', 'kafkai' ),
 			$this->get_php_version(),
 			PHP_VERSION
 		);

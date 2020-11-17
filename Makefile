@@ -1,12 +1,6 @@
-VERSION := 1.0.7
-PLUGINSLUG := kafkai-wp
+VERSION := 1.0.8
+PLUGINSLUG := kafkai
 SRCPATH := $(shell pwd)/src
-
-bin/linux/amd64/github-release:
-	wget https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
-	tar -xvf linux-amd64-github-release.tar.bz2
-	chmod +x bin/linux/amd64/github-release
-	rm linux-amd64-github-release.tar.bz2
 
 install: vendor
 vendor: src/vendor

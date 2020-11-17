@@ -9,11 +9,11 @@ use Niteo\Kafkai\Plugin\Config;
 
 <div class="wrap">
 	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Import Articles', 'kafkai-wp' ); ?>
+		<?php esc_html_e( 'Import Articles', 'kafkai' ); ?>
 	</h1>
 
 	<a href="<?php echo add_query_arg( array( 'action' => 'refresh_list' ) ); ?>" class="page-title-action">
-		<?php esc_html_e( 'Refresh List', 'kafkai-wp' ); ?>
+		<?php esc_html_e( 'Refresh List', 'kafkai' ); ?>
 	</a>
 
 	<hr class="wp-header-end">
@@ -27,12 +27,12 @@ use Niteo\Kafkai\Plugin\Config;
 
 	?>
 
-	<h2 class="screen-reader-text"><?php esc_html_e( 'Filter pages list', 'kafkai-wp' ); ?></h2>
+	<h2 class="screen-reader-text"><?php esc_html_e( 'Filter pages list', 'kafkai' ); ?></h2>
 
 	<form id="articles-filter" method="get">
 		<div class="tablenav top">
 			<h2 class="screen-reader-text">
-				<?php esc_html_e( 'Pages list navigation', 'kafkai-wp' ); ?>
+				<?php esc_html_e( 'Pages list navigation', 'kafkai' ); ?>
 			</h2>
 
 			<?php
@@ -67,7 +67,7 @@ use Niteo\Kafkai\Plugin\Config;
 		</div>
 
 		<h2 class="screen-reader-text">
-			<?php esc_html_e( 'Pages list', 'kafkai-wp' ); ?>
+			<?php esc_html_e( 'Pages list', 'kafkai' ); ?>
 		</h2>
 
 		<table class="wp-list-table widefat fixed striped table-view-list articles">
@@ -76,15 +76,15 @@ use Niteo\Kafkai\Plugin\Config;
 					<th class="image column-image"></th>
 
 					<th id="title" class="manage-column column-title column-primary">
-						<span><?php esc_html_e( 'Title', 'kafkai-wp' ); ?></span>
+						<span><?php esc_html_e( 'Title', 'kafkai' ); ?></span>
 					</th>
 
 					<th id="niche" class="manage-column column-niche">
-						<span><?php esc_html_e( 'Niche', 'kafkai-wp' ); ?></span>
+						<span><?php esc_html_e( 'Niche', 'kafkai' ); ?></span>
 					</th>
 
 					<th scope="col" id="date" class="manage-column column-date">
-						<span><?php esc_html_e( 'Date', 'kafkai-wp' ); ?></span>
+						<span><?php esc_html_e( 'Date', 'kafkai' ); ?></span>
 					</th>
 				</tr>
 			</thead>
@@ -111,7 +111,7 @@ use Niteo\Kafkai\Plugin\Config;
 										<img src="<?php echo Config::$plugin_url . 'assets/admin/images/' . $niche_image . '.svg'; ?>" alt="<?php echo $niche; ?>">
 									</td>
 
-									<td class="title column-title column-primary has-row-actions" data-colname="<?php esc_html_e( 'Title', 'kafkai-wp' ); ?>">
+									<td class="title column-title column-primary has-row-actions" data-colname="<?php esc_html_e( 'Title', 'kafkai' ); ?>">
 								<?php
 
 								if ( strlen( $title ) > 120 ) {
@@ -123,11 +123,11 @@ use Niteo\Kafkai\Plugin\Config;
 								?>
 									</td>
 
-									<td class="niche column-niche" data-colname="<?php esc_html_e( 'Niche', 'kafkai-wp' ); ?>">
+									<td class="niche column-niche" data-colname="<?php esc_html_e( 'Niche', 'kafkai' ); ?>">
 									<?php echo $this->articles->niche_name( $niche ); ?>
 									</td>
 
-									<td class="date column-date" data-colname="<?php esc_html_e( 'Date', 'kafkai-wp' ); ?>">
+									<td class="date column-date" data-colname="<?php esc_html_e( 'Date', 'kafkai' ); ?>">
 									<?php echo $formatted_date; ?>
 									</td>
 								</tr>
@@ -142,7 +142,7 @@ use Niteo\Kafkai\Plugin\Config;
 				<?php if ( 'error' === $this->articles->code ) : ?>
 					<tr class="no-items">
 						<td class="colspanchange" colspan="3">
-							<?php esc_html_e( 'No articles found.', 'kafkai-wp' ); ?>
+							<?php esc_html_e( 'No articles found.', 'kafkai' ); ?>
 						</td>
 					</tr>
 				<?php endif; ?>
@@ -153,15 +153,15 @@ use Niteo\Kafkai\Plugin\Config;
 					<th class="image column-image"></th>
 
 					<th id="title" class="manage-column column-title column-primary">
-						<span><?php esc_html_e( 'Title', 'kafkai-wp' ); ?></span>
+						<span><?php esc_html_e( 'Title', 'kafkai' ); ?></span>
 					</th>
 
 					<th id="niche" class="manage-column column-niche">
-						<span><?php esc_html_e( 'Niche', 'kafkai-wp' ); ?></span>
+						<span><?php esc_html_e( 'Niche', 'kafkai' ); ?></span>
 					</th>
 
 					<th scope="col" id="date" class="manage-column column-date">
-						<span><?php esc_html_e( 'Date', 'kafkai-wp' ); ?></span>
+						<span><?php esc_html_e( 'Date', 'kafkai' ); ?></span>
 					</th>
 				</tr>
 			</tfoot>
@@ -169,7 +169,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 		<div class="tablenav bottom">
 			<h2 class="screen-reader-text">
-				<?php esc_html_e( 'Pages list navigation', 'kafkai-wp' ); ?>
+				<?php esc_html_e( 'Pages list navigation', 'kafkai' ); ?>
 			</h2>
 
 			<?php
@@ -210,15 +210,15 @@ use Niteo\Kafkai\Plugin\Config;
 				<div class="article-actions top">
 					<button type="button" class="modal-close">
 						<span class="modal-icon">
-							<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai-wp' ); ?></span>
+							<span class="screen-reader-text"><?php esc_html_e( 'Close dialogue', 'kafkai' ); ?></span>
 						</span>
 					</button>
 				</div>
 
 				<div class="article-content">
 					<div class="article-meta">
-						<div><span class="article-meta-chars">N/A</span> <?php esc_html_e( 'Chars', 'kafkai-wp' ); ?></div>
-						<div><span class="article-meta-words">N/A</span> <?php esc_html_e( 'Words', 'kafkai-wp' ); ?></div>
+						<div><span class="article-meta-chars">N/A</span> <?php esc_html_e( 'Chars', 'kafkai' ); ?></div>
+						<div><span class="article-meta-words">N/A</span> <?php esc_html_e( 'Words', 'kafkai' ); ?></div>
 					</div>
 
 					<h1 class="article-title"></h1>
@@ -229,7 +229,7 @@ use Niteo\Kafkai\Plugin\Config;
 			<div class="article-actions bottom">
 				<p>
 					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-status">
-						<strong><?php esc_html_e( 'Status', 'kafkai-wp' ); ?></strong>
+						<strong><?php esc_html_e( 'Status', 'kafkai' ); ?></strong>
 					</label>&nbsp;
 
 					<?php
@@ -252,7 +252,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 						echo '</select>';
 					} else {
-						echo esc_html__( 'Unable to fetch status', 'kafkai-wp' );
+						echo esc_html__( 'Unable to fetch status', 'kafkai' );
 					}
 
 					?>
@@ -260,7 +260,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 				<p>
 					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-author">
-						<strong><?php esc_html_e( 'Author', 'kafkai-wp' ); ?></strong>
+						<strong><?php esc_html_e( 'Author', 'kafkai' ); ?></strong>
 					</label>&nbsp;
 		
 					<?php
@@ -288,7 +288,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 							echo '</select>';
 						} else {
-							echo esc_html__( 'No users found', 'kafkai-wp' );
+							echo esc_html__( 'No users found', 'kafkai' );
 						}
 
 						?>
@@ -296,7 +296,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 				<p class="align-right">
 					<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_id" id="<?php echo Config::PLUGIN_PREFIX; ?>article_id">
-					<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" id="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai-wp' ); ?>" class="button button-primary">
+					<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" id="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai' ); ?>" class="button button-primary">
 				</p>
 			</div>
 	</form><!-- form -->

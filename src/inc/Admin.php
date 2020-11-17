@@ -47,8 +47,8 @@ class Admin {
 
 		// Parent menu
 		add_menu_page(
-			esc_html__( 'Kafkai Settings', 'kafkai-wp' ),
-			esc_html__( 'Kafkai', 'kafkai-wp' ),
+			esc_html__( 'Kafkai Settings', 'kafkai' ),
+			esc_html__( 'Kafkai', 'kafkai' ),
 			'manage_options',
 			Config::PLUGIN_PREFIX . 'generate',
 			array( $this, 'generate' ),
@@ -59,8 +59,8 @@ class Admin {
 		// Generate page
 		$generate_page = add_submenu_page(
 			Config::PLUGIN_PREFIX . 'generate',
-			esc_html__( 'Generate Article', 'kafkai-wp' ),
-			esc_html__( 'Generate Article', 'kafkai-wp' ),
+			esc_html__( 'Generate Article', 'kafkai' ),
+			esc_html__( 'Generate Article', 'kafkai' ),
 			'manage_options',
 			Config::PLUGIN_PREFIX . 'generate',
 			array( $this, 'generate' ),
@@ -69,8 +69,8 @@ class Admin {
 		// Import page
 		$import_page = add_submenu_page(
 			Config::PLUGIN_PREFIX . 'generate',
-			esc_html__( 'Import Article', 'kafkai-wp' ),
-			esc_html__( 'Import Article', 'kafkai-wp' ),
+			esc_html__( 'Import Article', 'kafkai' ),
+			esc_html__( 'Import Article', 'kafkai' ),
 			'manage_options',
 			Config::PLUGIN_PREFIX . 'import',
 			array( $this, 'import' ),
@@ -79,8 +79,8 @@ class Admin {
 		// Settings page
 		$settings_page = add_submenu_page(
 			Config::PLUGIN_PREFIX . 'generate',
-			esc_html__( 'Settings', 'kafkai-wp' ),
-			esc_html__( 'Settings', 'kafkai-wp' ),
+			esc_html__( 'Settings', 'kafkai' ),
+			esc_html__( 'Settings', 'kafkai' ),
 			'manage_options',
 			Config::PLUGIN_PREFIX . 'settings',
 			array( $this, 'settings' ),
@@ -116,14 +116,14 @@ class Admin {
 		$localize = array(
 			'prefix'          => Config::PLUGIN_PREFIX,
 			'nonce'           => wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ),
-			'window_title'    => esc_html__( 'Import Article', 'kafkai-wp' ),
-			'error_text'      => esc_html__( 'An error was encountered while trying to communicate with the API. Please refresh the page and try again.', 'kafkai-wp' ),
-			'missing_id'      => esc_html__( 'Unable to fetch article ID. Please refresh the page and try again.', 'kafkai-wp' ),
-			'missing_keyword' => esc_html__( 'Keyword is missing. Please provide a keyword to search for Image and Video for the article.', 'kafkai-wp' ),
-			'chars'           => esc_html__( 'Chars', 'kafkai-wp' ),
-			'words'           => esc_html__( 'Words', 'kafkai-wp' ),
-			'importing'       => esc_html__( 'Importing..', 'kafkai-wp' ),
-			'import_done'     => esc_html__( 'Imported Successfully!', 'kafkai-wp' ),
+			'window_title'    => esc_html__( 'Import Article', 'kafkai' ),
+			'error_text'      => esc_html__( 'An error was encountered while trying to communicate with the API. Please refresh the page and try again.', 'kafkai' ),
+			'missing_id'      => esc_html__( 'Unable to fetch article ID. Please refresh the page and try again.', 'kafkai' ),
+			'missing_keyword' => esc_html__( 'Keyword is missing. Please provide a keyword to search for Image and Video for the article.', 'kafkai' ),
+			'chars'           => esc_html__( 'Chars', 'kafkai' ),
+			'words'           => esc_html__( 'Words', 'kafkai' ),
+			'importing'       => esc_html__( 'Importing..', 'kafkai' ),
+			'import_done'     => esc_html__( 'Imported Successfully!', 'kafkai' ),
 		);
 
 		wp_localize_script( Config::PLUGIN_SLUG . '-admin', Config::PLUGIN_PREFIX . 'admin_l10n', $localize );
@@ -142,12 +142,12 @@ class Admin {
 	 * @return array
 	 */
 	public function meta_links( array $links, string $file ) {
-		if ( false === strpos( $file, 'kafkai-wp.php' ) ) {
+		if ( false === strpos( $file, 'kafkai.php' ) ) {
 			return $links;
 		}
 
 		// Add website link
-		$links[] = '<a href="https://kafkai.com" target="_blank">' . esc_html__( 'Website', 'kafkai-wp' ) . '</a>';
+		$links[] = '<a href="https://kafkai.com" target="_blank">' . esc_html__( 'Website', 'kafkai' ) . '</a>';
 
 		return $links;
 	}

@@ -61,26 +61,26 @@ class Articles {
 	public function __construct() {
 		// Add niches
 		$this->niches = array(
-			'Affiliate'       => esc_html__( 'Affiliate', 'kafkai-wp' ),
-			'Automotive'      => esc_html__( 'Automotive', 'kafkai-wp' ),
-			'Business'        => esc_html__( 'Business', 'kafkai-wp' ),
-			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai-wp' ),
-			'Dating'          => esc_html__( 'Dating', 'kafkai-wp' ),
-			'Dogs'            => esc_html__( 'Dogs', 'kafkai-wp' ),
-			'Fashion'         => esc_html__( 'Fashion', 'kafkai-wp' ),
-			'Finance'         => esc_html__( 'Finance', 'kafkai-wp' ),
-			'Health'          => esc_html__( 'Health', 'kafkai-wp' ),
-			'HomeAndFamily'   => esc_html__( 'Home and Family', 'kafkai-wp' ),
-			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai-wp' ),
-			'Nutrition'       => esc_html__( 'Nutrition', 'kafkai-wp' ),
-			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai-wp' ),
-			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai-wp' ),
-			'Seo'             => esc_html__( 'SEO', 'kafkai-wp' ),
-			'Software'        => esc_html__( 'Software', 'kafkai-wp' ),
-			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai-wp' ),
-			'Travel'          => esc_html__( 'Travel', 'kafkai-wp' ),
-			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai-wp' ),
-			'General'         => esc_html__( 'General', 'kafkai-wp' ),
+			'Affiliate'       => esc_html__( 'Affiliate', 'kafkai' ),
+			'Automotive'      => esc_html__( 'Automotive', 'kafkai' ),
+			'Business'        => esc_html__( 'Business', 'kafkai' ),
+			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai' ),
+			'Dating'          => esc_html__( 'Dating', 'kafkai' ),
+			'Dogs'            => esc_html__( 'Dogs', 'kafkai' ),
+			'Fashion'         => esc_html__( 'Fashion', 'kafkai' ),
+			'Finance'         => esc_html__( 'Finance', 'kafkai' ),
+			'Health'          => esc_html__( 'Health', 'kafkai' ),
+			'HomeAndFamily'   => esc_html__( 'Home and Family', 'kafkai' ),
+			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai' ),
+			'Nutrition'       => esc_html__( 'Nutrition', 'kafkai' ),
+			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai' ),
+			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai' ),
+			'Seo'             => esc_html__( 'SEO', 'kafkai' ),
+			'Software'        => esc_html__( 'Software', 'kafkai' ),
+			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai' ),
+			'Travel'          => esc_html__( 'Travel', 'kafkai' ),
+			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai' ),
+			'General'         => esc_html__( 'General', 'kafkai' ),
 		);
 
 		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'fetch_article', array( $this, 'fetch_single_article' ) );
@@ -264,7 +264,7 @@ class Articles {
 
 		// Verify nonce
 		if ( ! Helper::verify_nonce() ) {
-			$this->error = esc_html__( 'Request could not be validated.', 'kafkai-wp' );
+			$this->error = esc_html__( 'Request could not be validated.', 'kafkai' );
 			return;
 		}
 
@@ -273,7 +273,7 @@ class Articles {
 
 		// Empty fields
 		if ( empty( $niche ) ) {
-			$this->error = esc_html__( 'Niche is required for article generation.', 'kafkai-wp' );
+			$this->error = esc_html__( 'Niche is required for article generation.', 'kafkai' );
 			return;
 		}
 
@@ -302,7 +302,7 @@ class Articles {
 			if ( isset( $data['id'] ) ) {
 				$this->code  = 'success';
 				$this->error = sprintf(
-					esc_html__( 'Article generation has been scheduled. Please wait a few minutes, then go to %1$sImport Article%2$s and click Refresh List.', 'kafkai-wp' ),
+					esc_html__( 'Article generation has been scheduled. Please wait a few minutes, then go to %1$sImport Article%2$s and click Refresh List.', 'kafkai' ),
 					'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) . '">',
 					'</a>'
 				);
@@ -310,7 +310,7 @@ class Articles {
 			}
 
 			// Something went wrong, so showing a generic message
-			$this->error = esc_html__( 'Something went wrong while receiving response from the API. Please try again.', 'kafkai-wp' );
+			$this->error = esc_html__( 'Something went wrong while receiving response from the API. Please try again.', 'kafkai' );
 			return;
 		}
 
@@ -328,7 +328,7 @@ class Articles {
 		header( 'Content-Type: application/json' );
 		$response = array(
 			'code'  => 'error',
-			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai-wp' ),
+			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai' ),
 		);
 
 		// Verify AJAX call for nonce and article ID
@@ -354,7 +354,7 @@ class Articles {
 		header( 'Content-Type: application/json' );
 		$response = array(
 			'code'  => 'error',
-			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai-wp' ),
+			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai' ),
 		);
 
 		// Verify AJAX call for nonce and article ID
@@ -395,13 +395,13 @@ class Articles {
 			// Check for errors
 			if ( ! is_wp_error( $post_id ) ) {
 				$response['response'] = sprintf(
-					esc_html__( 'Article has been imported successfully. %1$sOpen the Post%2$s', 'kafkai-wp' ),
+					esc_html__( 'Article has been imported successfully. %1$sOpen the Post%2$s', 'kafkai' ),
 					'<a href="' . self_admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">',
 					'</a>'
 				);
 			} else {
 				$response['code']  = 'error';
-				$response['error'] = esc_html__( 'There was a problem inserting article in the database. Please refresh the page and try again.', 'kafkai-wp' );
+				$response['error'] = esc_html__( 'There was a problem inserting article in the database. Please refresh the page and try again.', 'kafkai' );
 			}
 		}
 

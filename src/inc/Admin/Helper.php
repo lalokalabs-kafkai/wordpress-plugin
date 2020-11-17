@@ -62,7 +62,7 @@ trait Helper {
 
 		// Verify nonce
 		if ( ! MainHelper::verify_nonce() ) {
-			$this->response = esc_html__( 'Request could not be validated.', 'kafkai-wp' );
+			$this->response = esc_html__( 'Request could not be validated.', 'kafkai' );
 			return;
 		}
 
@@ -72,7 +72,7 @@ trait Helper {
 
 		// Empty fields
 		if ( empty( $user_email ) || empty( $user_password ) ) {
-			$this->response = esc_html__( 'Please provide both email and password for authentication.', 'kafkai-wp' );
+			$this->response = esc_html__( 'Please provide both email and password for authentication.', 'kafkai' );
 			return;
 		}
 
@@ -105,7 +105,7 @@ trait Helper {
 		// Continue with processing the token
 		if ( ! isset( $data['token'] ) ) {
 			$this->response = sprintf(
-				esc_html__( 'Unable to fetch token from the API. Please try again or %1$scontact support%2$s.', 'kafkai-wp' ),
+				esc_html__( 'Unable to fetch token from the API. Please try again or %1$scontact support%2$s.', 'kafkai' ),
 				'<a href="https://help.kafkai.com/" target="_blank">',
 				'</a>'
 			);
@@ -122,7 +122,7 @@ trait Helper {
 
 		// Add to response and change code
 		$this->code     = 'success';
-		$this->response = esc_html__( 'Authentication token has been generated successfully via API.', 'kafkai-wp' );
+		$this->response = esc_html__( 'Authentication token has been generated successfully via API.', 'kafkai' );
 	}
 
 	/**
