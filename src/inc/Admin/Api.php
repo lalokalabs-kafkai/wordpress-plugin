@@ -36,6 +36,7 @@ class Api {
 		'timeout'     => 60,
 		'redirection' => 5,
 		'blocking'    => true,
+		'user-agent'  => 'Kafkai WP Plugin',
 		'headers'     => array(
 			'Content-type' => 'application/json',
 		),
