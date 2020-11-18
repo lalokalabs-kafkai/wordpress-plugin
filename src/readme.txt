@@ -3,7 +3,7 @@ Contributors: kafkai
 Tags: articles, content, seo, kafkai
 Requires at least: 4.2
 Tested up to: 5.5.3
-Stable tag: 1.0.9
+Stable tag: 1.1.1
 Requires PHP: 7.2
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
