@@ -1,4 +1,4 @@
-VERSION := 1.1.1
+VERSION := 1.1.2
 PLUGINSLUG := kafkai
 SRCPATH := $(shell pwd)/src
 
@@ -21,6 +21,7 @@ src/vendor:
 build: install
 	sed -i "s/@##VERSION##@/${VERSION}/" src/$(PLUGINSLUG).php
 	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Config.php
+	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Admin/Api.php
 	mkdir -p build
 	rm -rf src/vendor
 	cd src && composer install --no-dev
@@ -31,10 +32,12 @@ build: install
 	mv $(PLUGINSLUG).zip build/
 	sed -i "s/${VERSION}/@##VERSION##@/" src/$(PLUGINSLUG).php
 	sed -i "s/${VERSION}/@##VERSION##@/" src/inc/Config.php
+	sed -i "s/${VERSION}/@##VERSION##@/" src/inc/Admin/Api.php
 
 dist: install
 	sed -i "s/@##VERSION##@/${VERSION}/" src/$(PLUGINSLUG).php
 	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Config.php
+	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Admin/Api.php
 	mkdir -p dist
 	rm -rf src/vendor
 	cd src && composer install --no-dev
