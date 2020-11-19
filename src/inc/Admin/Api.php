@@ -38,7 +38,8 @@ class Api {
 		'blocking'    => true,
 		'user-agent'  => 'Kafkai WP Plugin v' . Config::PLUGIN_VERSION,
 		'headers'     => array(
-			'Content-type' => 'application/json',
+			'Content-type'      => 'application/json',
+			'X-Mixpanel-Client' => 'Kafkai WP Plugin v' . Config::PLUGIN_VERSION,
 		),
 	);
 
