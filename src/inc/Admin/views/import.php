@@ -35,6 +35,10 @@ use Niteo\Kafkai\Plugin\Config;
 				<?php esc_html_e( 'Pages list navigation', 'kafkai' ); ?>
 			</h2>
 
+			<div class="alignleft color-identifier">
+				<p><span class="import-color"></span> Imported Article</p>
+			</div>
+
 			<?php
 
 			if ( 'success' === $this->articles->code ) :
@@ -177,6 +181,10 @@ use Niteo\Kafkai\Plugin\Config;
 			<h2 class="screen-reader-text">
 				<?php esc_html_e( 'Pages list navigation', 'kafkai' ); ?>
 			</h2>
+
+			<div class="alignleft color-identifier">
+				<p><span class="import-color"></span> Imported Article</p>
+			</div>
 
 			<?php
 
