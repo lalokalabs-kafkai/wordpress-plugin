@@ -172,8 +172,9 @@ class Admin {
 		$this->articles->check_page();
 		$this->articles->check_state();
 
-		// Import articles
+		// Fetch articles and list of imported articles
 		$this->articles->fetch_articles();
+		$this->articles->get_imported_article_ids();
 
 		require_once Config::$plugin_path . 'inc/Admin/views/import.php';
 	}

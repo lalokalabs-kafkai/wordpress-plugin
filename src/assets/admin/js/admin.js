@@ -147,6 +147,9 @@
       if(data.code === 'success') {
         notification(data.response, 'success');
         button.val(kafkaiwp_admin_l10n.import_done);
+
+        // Find table by tr#article_id and add import label
+        $('#article-' + article_id).removeClass('status-raw').addClass('status-imported');
       } else {
         notification(data.error, 'error');
 

@@ -35,6 +35,10 @@ use Niteo\Kafkai\Plugin\Config;
 				<?php esc_html_e( 'Pages list navigation', 'kafkai' ); ?>
 			</h2>
 
+			<div class="alignleft color-identifier">
+				<p><span class="import-color"></span> Imported Article</p>
+			</div>
+
 			<?php
 
 			if ( 'success' === $this->articles->code ) :
@@ -99,14 +103,20 @@ use Niteo\Kafkai\Plugin\Config;
 							$title       = trim( esc_html( $data['title'] ) );
 							$niche       = esc_html( $data['niche'] );
 							$state       = esc_attr( $data['state'] );
+							$status      = esc_attr__( 'raw', 'kafkai' );
 							$niche_image = strtolower( str_replace( ' ', '_', $this->articles->niche_name( $niche ) ) );
 
 							// Date
 							$date           = new DateTime( esc_html( $data['date'] ) );
 							$formatted_date = $date->format( 'Y/m/d' ) . ' at ' . $date->format( 'h:m a' );
 
+							// Check for import status
+							if ( in_array( $key, $this->articles->imported_article_ids ) ) {
+								$status = esc_attr__( 'imported', 'kafkai' );
+							}
+
 							?>
-								<tr id="article-<?php echo $key; ?>" class="niche-<?php echo $niche; ?> state-<?php echo $state; ?>">
+								<tr id="article-<?php echo $key; ?>" class="niche-<?php echo $niche; ?> state-<?php echo $state; ?> status-<?php echo $status; ?>">
 									<td class="image column-image">
 										<img src="<?php echo Config::$plugin_url . 'assets/admin/images/' . $niche_image . '.svg'; ?>" alt="<?php echo $niche; ?>">
 									</td>
@@ -171,6 +181,10 @@ use Niteo\Kafkai\Plugin\Config;
 			<h2 class="screen-reader-text">
 				<?php esc_html_e( 'Pages list navigation', 'kafkai' ); ?>
 			</h2>
+
+			<div class="alignleft color-identifier">
+				<p><span class="import-color"></span> Imported Article</p>
+			</div>
 
 			<?php
 

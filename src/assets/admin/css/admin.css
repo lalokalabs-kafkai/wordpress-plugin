@@ -348,8 +348,26 @@
 .widefat td {
   font-size: 0.875rem;
 }
+.widefat tr.status-imported {
+  background: rgba(162, 222, 208, 0.35);
+}
 .form-table .no-margin-left {
   padding-left: 0;
+}
+
+/* -- Filters -- */
+.color-identifier p {
+  display: flex;
+  align-items: center;
+  line-height: 30px;
+  margin: 0;
+}
+.color-identifier span {
+  display: inline-block;
+  height: 1rem;
+  width: 1rem;
+  margin-right: 0.5rem;
+  background: rgba(162, 222, 208, 0.35);
 }
 
 /* -- Article container (for AJAX call) -- */
