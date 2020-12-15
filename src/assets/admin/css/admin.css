@@ -348,6 +348,9 @@
 .widefat td {
   font-size: 0.875rem;
 }
+.widefat tr.status-imported {
+  background: rgba(162, 222, 208, 0.35);
+}
 .form-table .no-margin-left {
   padding-left: 0;
 }

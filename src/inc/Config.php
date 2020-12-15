@@ -58,11 +58,6 @@ class Config {
 	const MINIMUM_WP_VERSION = '4.2.0';
 
 	/**
-	 * @var string
-	 */
-	const KAFKAI_APP_URL = 'https://app.kafkai.com';
-
-	/**
 	 * @var array
 	 */
 	public $notices = array();

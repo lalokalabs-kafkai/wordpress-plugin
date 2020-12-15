@@ -31,6 +31,11 @@ class Articles {
 	public $response = array();
 
 	/**
+	 * @var array
+	 */
+	public $imported_article_ids = array();
+
+	/**
 	 * @var string
 	 */
 	private $_state = 'All';
@@ -172,7 +177,7 @@ class Articles {
 	 * @return void
 	 */
 	public function delete_single_article( int $post_id, \WP_Post $post ) : void {
-		$article_id = get_post_meta( $post_id, 'kafkai_article_url', true );
+		$article_id = get_post_meta( $post_id, 'kafkai_article_id', true );
 
 		if ( ! $article_id ) {
 			return;
@@ -418,7 +423,7 @@ class Articles {
 			// Check for errors
 			if ( ! is_wp_error( $post_id ) ) {
 				// Add article link to postmeta
-				update_post_meta( 'kafkai_article_url', Config::KAFKAI_APP_URL . '/article/' . $response['response']['id'] );
+				update_post_meta( $post_id, 'kafkai_article_id', $response['response']['id'] );
 
 				// Update list of imported articles
 				$this->_add_to_imported_list( $response['response']['id'] );
@@ -437,6 +442,25 @@ class Articles {
 		// Send response back to the page
 		echo json_encode( $response );
 		exit;
+	}
+
+	/**
+	 * Get list of imported articles.
+	 *
+	 * @return void
+	 */
+	public function get_imported_article_ids() : void {
+		$article_ids = get_option( Config::PLUGIN_PREFIX . 'imported_articles' );
+
+		if ( ! $article_ids ) {
+			return;
+		}
+
+		if ( ! is_array( $article_ids ) ) {
+			return;
+		}
+
+		$this->imported_article_ids = $article_ids;
 	}
 
 	/**
