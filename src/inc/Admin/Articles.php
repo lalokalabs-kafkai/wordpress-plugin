@@ -88,6 +88,7 @@ class Articles {
 
 		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'fetch_article', array( $this, 'fetch_single_article' ) );
 		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'import_article', array( $this, 'import_single_article' ) );
+		add_action( 'before_delete_post', array( $this, 'delete_single_article' ), 10, 2 );
 	}
 
 	/**
@@ -160,6 +161,25 @@ class Articles {
 
 		// Capture the error thrown by the API call
 		$this->error = $api->error;
+	}
+
+	/**
+	 * Check postmeta for the attached article ID and updates the list.
+	 *
+	 * @param int     $post_id Post ID to check for the attached metadata
+	 * @param WP_Post $post Post object
+	 *
+	 * @return void
+	 */
+	public function delete_single_article( int $post_id, \WP_Post $post ) : void {
+		$article_id = get_post_meta( $post_id, 'kafkai_article_url', true );
+
+		if ( ! $article_id ) {
+			return;
+		}
+
+		// Remove it from the imported article list
+		$this->_remove_from_imported_list( $article_id );
 	}
 
 	/**
@@ -397,6 +417,12 @@ class Articles {
 
 			// Check for errors
 			if ( ! is_wp_error( $post_id ) ) {
+				// Add article link to postmeta
+				update_post_meta( 'kafkai_article_url', Config::KAFKAI_APP_URL . '/article/' . $response['response']['id'] );
+
+				// Update list of imported articles
+				$this->_add_to_imported_list( $response['response']['id'] );
+
 				$response['response'] = sprintf(
 					esc_html__( 'Article has been imported successfully. %1$sOpen the Post%2$s', 'kafkai' ),
 					'<a href="' . self_admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">',
@@ -518,16 +544,62 @@ class Articles {
 	}
 
 	/**
-	 * Adds featured image to the imported post.
+	 * Update the list of imported articles for tracking them in view.
 	 *
-	 * @param int    $id ID of the imported post
-	 * @param array  $response Response to be sent back to the page
-	 * @param string $keyword Keyword to search the API
-	 *
-	 * @return boolen
+	 * @param string $article_id ID of the imported article
+	 * @return void
 	 */
-	private function _add_article_image( $id, $response, $keyword ) {
+	private function _add_to_imported_list( string $article_id ) : void {
+		if ( empty( $article_id ) ) {
+			return;
+		}
 
+		$imported_articles = get_option( Config::PLUGIN_PREFIX . 'imported_articles' );
+
+		if ( ! $imported_articles ) {
+			$imported_articles = array();
+		}
+
+		if ( in_array( $article_id, $imported_articles ) ) {
+			return;
+		}
+
+		// Add article to the list
+		array_push( $imported_articles, $article_id );
+
+		// Update in the database
+		update_option( Config::PLUGIN_PREFIX . 'imported_articles', $imported_articles );
+	}
+
+	/**
+	 * Removes an article from the list of imported articles.
+	 *
+	 * @param string $article_id ID of the article to be removed from the list
+	 * @return void
+	 */
+	private function _remove_from_imported_list( string $article_id ) : void {
+		if ( empty( $article_id ) ) {
+			return;
+		}
+
+		$imported_articles = get_option( Config::PLUGIN_PREFIX . 'imported_articles' );
+
+		if ( ! $imported_articles ) {
+			return;
+		}
+
+		// Find key for the given article ID
+		$article_key = array_search( $article_id, $imported_articles );
+
+		if ( false === $article_key ) {
+			return;
+		}
+
+		// Remove article from the list
+		unset( $imported_articles[ $article_key ] );
+
+		// Update in the database
+		update_option( Config::PLUGIN_PREFIX . 'imported_articles', $imported_articles );
 	}
 
 }
