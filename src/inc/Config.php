@@ -50,7 +50,7 @@ class Config {
 	/**
 	 * @var string
 	 */
-	const MINIMUM_PHP_VERSION = '7.2';
+	const MINIMUM_PHP_VERSION = '7.3';
 
 	/**
 	 * @var string
