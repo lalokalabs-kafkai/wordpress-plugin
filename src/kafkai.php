@@ -1,9 +1,10 @@
 <?php
 /**
  * Plugin Name: Kafkai - AI Writer Plugin
- * Description: Plugin to generate and/or import articles from Kafkai. It also fetches the corresponding featured image along with YouTube video for the article and adds it to the database.
+ * Description: Kafkai is a machine-learning algorithm that can write articles from scratch. Cutting-edge technology for marketers and SEOs.
  * Version: @##VERSION##@
- * Runtime: 7.2+
+ * Requires at least: 4.2
+ * Requires PHP: 7.3
  * Author: Kafkai
  * Text Domain: kafkai
  * Domain Path: i18n

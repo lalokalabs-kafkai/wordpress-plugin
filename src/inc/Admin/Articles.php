@@ -82,6 +82,7 @@ class Articles {
 			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai' ),
 			'Nutrition'       => esc_html__( 'Nutrition', 'kafkai' ),
 			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai' ),
+			'Outdoors'        => esc_html__( 'Outdoors', 'kafkai' ),
 			'RealEstate'      => esc_html__( 'Real Estate', 'kafkai' ),
 			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai' ),
 			'Seo'             => esc_html__( 'SEO', 'kafkai' ),
