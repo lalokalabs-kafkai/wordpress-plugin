@@ -50,7 +50,7 @@ use Niteo\Kafkai\Plugin\Config;
 			</tbody>
 		</table><br>
 
-		<h2 class="seed">
+		<h2 class="title">
 			<?php esc_html_e( 'Advanced', 'kafkai' ); ?>
 		</h2>
 
@@ -64,7 +64,7 @@ use Niteo\Kafkai\Plugin\Config;
 			<tbody>
 				<tr>
 					<td class="no-margin-left">
-                        <textarea name="<?php echo Config::PLUGIN_PREFIX; ?>seed" id="<?php echo Config::PLUGIN_PREFIX; ?>seed" class="large-text" rows="4" placeholder="<?php esc_attr_e( 'Optional', 'kafkai' ); ?>"></textarea>
+						<textarea name="<?php echo Config::PLUGIN_PREFIX; ?>seed" id="<?php echo Config::PLUGIN_PREFIX; ?>seed" class="large-text" rows="4" placeholder="<?php esc_attr_e( 'Optional', 'kafkai' ); ?>"></textarea>
 						<p class="help-text"><?php esc_html_e( 'Please note that advanced articles take longer to finish.', 'kafkai' ); ?></p>
 					</td>
 				</tr>

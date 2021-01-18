@@ -2,7 +2,7 @@
 Contributors: niteoweb
 Tags: articles, content, seo, kafkai
 Requires at least: 4.2
-Tested up to: 5.5.3
+Tested up to: 5.6
 Stable tag: 1.2.6
 Requires PHP: 7.3
 License: GPLv3 or later

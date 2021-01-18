@@ -298,7 +298,7 @@ class Articles {
 		}
 
 		$niche = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'niche' ] );
-		$seed = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'seed' ] );
+		$seed  = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'seed' ] );
 
 		// Empty fields
 		if ( empty( $niche ) ) {
@@ -313,7 +313,7 @@ class Articles {
 			'POST',
 			array(
 				'niche' => $niche,
-				'seed' => $seed,
+				'seed'  => $seed,
 			)
 		);
 
