@@ -1,5 +1,5 @@
 on: push
-name: Tests
+name: PR Checks
 
 jobs:
   onMasterOrPR:
@@ -16,3 +16,5 @@ jobs:
       run: make vendor
     - name: Lint
       run: make fmt
+    - name: Tests
+      run: make test

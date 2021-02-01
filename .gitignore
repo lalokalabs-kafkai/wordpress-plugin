@@ -13,3 +13,4 @@ clover.xml
 src/vendor
 dist
 node_modules
+.phpunit.result.cache

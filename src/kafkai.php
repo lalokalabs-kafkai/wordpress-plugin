@@ -53,7 +53,8 @@ class KafKai {
 	 */
 	public function activate() {
 		/**
-		 * @todo Nothing to be done here for now.
+		 * @todo
+		 * Sends a request to fetch latest niche from the API.
 		 */
 	}
 
