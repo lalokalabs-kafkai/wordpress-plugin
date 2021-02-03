@@ -13,10 +13,25 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-// Composer autoloder file
-require_once __DIR__ . '/vendor/autoload.php';
+global $wpdb;
 
 /**
- * @todo Write steps for removing plugin traces from the backend.
+ * Remove settings from the database.
  */
+delete_option( 'kafkaiwp_settings' );
+delete_option( 'kafkaiwp_api_user' );
+delete_option( 'kafkaiwp_token' );
 
+/**
+ * Clear transients matching:
+ *
+ * _transient_kafkaiwp_%
+ * _transient_timeout_kafkaiwp_%
+ */
+$wpdb->query(
+	$wpdb->prepare(
+		"DELETE FROM $wpdb->options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
+		'%_transient_kafkaiwp_%',
+		'%_transient_timeout_kafkaiwp_%'
+	)
+);
