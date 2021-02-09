@@ -53,9 +53,32 @@ class KafKai {
 	 */
 	public function activate() {
 		/**
-		 * @todo
-		 * Sends a request to fetch latest niche from the API.
+		 * Compatibility for EBN.
+		 *
+		 * Lookout for JSON settings in the database and save it in the format
+		 * implemented in the plugin.
 		 */
+		$json_settings = get_option( Config::PLUGIN_PREFIX . 'settings_json' );
+
+		if ( ! $json_settings ) {
+			return;
+		}
+
+		$json_settings = json_decode( $json_settings, true );
+
+		if ( ! is_array( $json_settings ) ) {
+			return;
+		}
+
+		if ( ! isset( $json_settings['email'] ) || ! isset( $json_settings['password'] ) ) {
+			return;
+		}
+
+		// Update correct format in the database.
+		update_option( Config::PLUGIN_PREFIX . 'settings', $json_settings );
+
+		// Delete JSON settings as we don't need it anymore.
+		delete_option( Config::PLUGIN_PREFIX . 'settings_json' );
 	}
 
 }
