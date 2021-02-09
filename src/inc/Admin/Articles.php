@@ -306,6 +306,16 @@ class Articles {
 		$niche = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'niche' ] );
 		$seed  = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'seed' ] );
 
+		// Ensure seed is 250 characters or less.
+		if ( strlen( $seed ) > 250 ) {
+			$seed = substr( $seed, 0, 250 );
+		}
+
+		// If seed is empty, set it to null.
+		if ( empty( $seed ) ) {
+			$seed = null;
+		}
+
 		// Empty fields
 		if ( empty( $niche ) ) {
 			$this->error = esc_html__( 'Niche is required for article generation.', 'kafkai' );
