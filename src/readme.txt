@@ -2,8 +2,8 @@
 Contributors: niteoweb
 Tags: articles, content, seo, kafkai
 Requires at least: 4.2
-Tested up to: 5.6
-Stable tag: 1.2.6
+Tested up to: 5.6.1
+Stable tag: 1.3.0
 Requires PHP: 7.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -30,6 +30,10 @@ https://github.com/niteoweb/kafkai-plugin
 
 
 == Changelog ==
+
+= 1.3.0 =
+* Auto-updation of niches via the API
+* Better flushing of cached data
 
 = 1.2.6 =
 * Separate "title" from "seed"

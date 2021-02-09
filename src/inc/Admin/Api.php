@@ -75,7 +75,7 @@ class Api {
 	/**
 	 * Make API requests.
 	 *
-	 * @return array
+	 * @return boolean
 	 */
 	public function call( string $endpoint, string $method, array $body = array(), bool $skip_token = false ) {
 		// Authorization token for making API request

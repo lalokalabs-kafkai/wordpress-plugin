@@ -10,17 +10,17 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests Config class functions in isolation.
- *
  * @package Niteo\Kafkai\Plugin
+ * @coversDefaultClass \Niteo\Kafkai\Plugin\Config
  */
 class ConfigTest extends TestCase {
 
-	function setUp() {
+	function setUp() : void {
 		\WP_Mock::setUsePatchwork( true );
 		\WP_Mock::setUp();
 	}
 
-	function tearDown() {
+	function tearDown() : void {
 		$this->addToAssertionCount(
 			\Mockery::getContainer()->mockery_getExpectationCount()
 		);
@@ -29,7 +29,7 @@ class ConfigTest extends TestCase {
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
+	 * @covers ::__construct
 	 */
 	public function testConstructor() {
 		$config = new Config();
@@ -44,8 +44,8 @@ class ConfigTest extends TestCase {
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::init
+	 * @covers ::__construct
+	 * @covers ::init
 	 */
 	public function testInit() {
 		$config = new Config();
@@ -67,18 +67,18 @@ class ConfigTest extends TestCase {
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::check_environment
-	 * @covers \Niteo\Kafkai\Plugin\Config::is_environment_compatible
-	 * @covers \Niteo\Kafkai\Plugin\Config::deactivate_plugin
-	 * @covers \Niteo\Kafkai\Plugin\Config::add_admin_notice
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_environment_message
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_php_version
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_plugin_name
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_plugin_base
+	 * @covers ::__construct
+	 * @covers ::check_environment
+	 * @covers ::is_environment_compatible
+	 * @covers ::deactivate_plugin
+	 * @covers ::add_admin_notice
+	 * @covers ::get_environment_message
+	 * @covers ::get_php_version
+	 * @covers ::get_plugin_name
+	 * @covers ::get_plugin_base
 	 */
 	public function testCheckEnvironment() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Config' )->makePartial();
+		$mock = \Mockery::mock( 'Niteo\Kafkai\Plugin\Config' )->makePartial();
 		$mock->shouldReceive( 'is_environment_compatible' )->andReturn( false );
 
 		$_GET['activate'] = 'yes';
@@ -100,24 +100,24 @@ class ConfigTest extends TestCase {
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::check_environment
-	 * @covers \Niteo\Kafkai\Plugin\Config::is_environment_compatible
+	 * @covers ::__construct
+	 * @covers ::check_environment
+	 * @covers ::is_environment_compatible
 	 */
 	public function testCheckEnvironmentRetunNothing() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Config' )->makePartial();
+		$mock = \Mockery::mock( 'Niteo\Kafkai\Plugin\Config' )->makePartial();
 		$mock->shouldReceive( 'is_environment_compatible' )->andReturn( true );
 
 		$this->assertNull( $mock->check_environment() );
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::add_plugin_notices
-	 * @covers \Niteo\Kafkai\Plugin\Config::is_wp_compatible
-	 * @covers \Niteo\Kafkai\Plugin\Config::add_admin_notice
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_plugin_name
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_wp_version
+	 * @covers ::__construct
+	 * @covers ::add_plugin_notices
+	 * @covers ::is_wp_compatible
+	 * @covers ::add_admin_notice
+	 * @covers ::get_plugin_name
+	 * @covers ::get_wp_version
 	 */
 	public function testAddPluginNotices() {
 		$config = new Config();
@@ -145,8 +145,8 @@ class ConfigTest extends TestCase {
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::admin_notices
+	 * @covers ::__construct
+	 * @covers ::admin_notices
 	 */
 	public function testAdminNotices() {
 		$config          = new Config();
@@ -169,34 +169,34 @@ class ConfigTest extends TestCase {
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::is_wp_compatible
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_wp_version
+	 * @covers ::__construct
+	 * @covers ::is_wp_compatible
+	 * @covers ::get_wp_version
 	 */
 	public function testIsWpCompatible() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Config' )->makePartial();
+		$mock = \Mockery::mock( 'Niteo\Kafkai\Plugin\Config' )->makePartial();
 		$mock->shouldReceive( 'get_wp_version' )->andReturn( false );
 		$this->assertTrue( $mock->is_wp_compatible() );
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::is_environment_compatible
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_php_version
+	 * @covers ::__construct
+	 * @covers ::is_environment_compatible
+	 * @covers ::get_php_version
 	 */
 	public function testEnvironmentCompatibleTrue() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Config' )->makePartial();
+		$mock = \Mockery::mock( 'Niteo\Kafkai\Plugin\Config' )->makePartial();
 		$mock->shouldReceive( 'get_php_version' )->andReturn( '1.0' );
 		$this->assertTrue( $mock->is_environment_compatible() );
 	}
 
 	/**
-	 * @covers \Niteo\Kafkai\Plugin\Config::__construct
-	 * @covers \Niteo\Kafkai\Plugin\Config::is_environment_compatible
-	 * @covers \Niteo\Kafkai\Plugin\Config::get_php_version
+	 * @covers ::__construct
+	 * @covers ::is_environment_compatible
+	 * @covers ::get_php_version
 	 */
 	public function testEnvironmentCompatibleFalse() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Config' )->makePartial();
+		$mock = \Mockery::mock( 'Niteo\Kafkai\Plugin\Config' )->makePartial();
 		$mock->shouldReceive( 'get_php_version' )->andReturn( '100.0' );
 		$this->assertFalse( $mock->is_environment_compatible() );
 	}

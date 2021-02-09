@@ -57,7 +57,7 @@ use Niteo\Kafkai\Plugin\Config;
 		<hr>
 
 		<p>
-			<?php esc_html_e( 'Give me a paragraph to start with. It could be taken from any page on the Internet and it won’t be used as-is in the new article.', 'kafkai' ); ?>
+			<?php esc_html_e( 'Give me a paragraph to start with (upto 250 characters). It could be taken from any page on the Internet and it won’t be used as-is in the new article.', 'kafkai' ); ?>
 		</p>
 
 		<table class="form-table">

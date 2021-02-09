@@ -194,6 +194,8 @@ class Articles {
 	 * @return void
 	 */
 	public function refresh_list() : void {
+		global $wpdb;
+
 		if ( ! isset( $_GET['action'] ) ) {
 			return;
 		}
@@ -202,10 +204,14 @@ class Articles {
 			return;
 		}
 
-		// Clear transients over here (doing it for first 5 pages only)
-		for ( $i = 1; $i < 6; $i++ ) {
-			delete_transient( Config::PLUGIN_PREFIX . 'article_All_page' . $i );
-		}
+		// Clear transients for articles list.
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM $wpdb->options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
+				'%_transient_kafkaiwp_article_%',
+				'%_transient_timeout_kafkaiwp_article_%'
+			)
+		);
 
 		// Redirect to page without `refresh_list` action
 		wp_safe_redirect( self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) );
@@ -299,6 +305,16 @@ class Articles {
 
 		$niche = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'niche' ] );
 		$seed  = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'seed' ] );
+
+		// Ensure seed is 250 characters or less.
+		if ( strlen( $seed ) > 250 ) {
+			$seed = substr( $seed, 0, 250 );
+		}
+
+		// If seed is empty, set it to null.
+		if ( empty( $seed ) ) {
+			$seed = null;
+		}
 
 		// Empty fields
 		if ( empty( $niche ) ) {
