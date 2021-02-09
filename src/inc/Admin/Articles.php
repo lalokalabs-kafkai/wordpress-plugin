@@ -207,11 +207,22 @@ class Articles {
 		// Clear transients for articles list.
 		$wpdb->query(
 			$wpdb->prepare(
-				"DELETE FROM $wpdb->options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
+				"DELETE FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
 				'%_transient_kafkaiwp_article_%',
 				'%_transient_timeout_kafkaiwp_article_%'
 			)
 		);
+
+		/**
+		 * Clear transients using the function if cache is enabled.
+		 *
+		 * @todo Add option to clear bulk transients when cache is enabled.
+		 */
+		if ( WP_CACHE ) {
+			for ( $i = 1; $i < 6; $i++ ) {
+				delete_transient( Config::PLUGIN_PREFIX . 'article_All_page' . $i );
+			}
+		}
 
 		// Redirect to page without `refresh_list` action
 		wp_safe_redirect( self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) );

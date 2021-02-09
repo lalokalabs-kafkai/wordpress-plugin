@@ -30,8 +30,12 @@ delete_option( 'kafkaiwp_token' );
  */
 $wpdb->query(
 	$wpdb->prepare(
-		"DELETE FROM $wpdb->options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
+		"DELETE FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
 		'%_transient_kafkaiwp_%',
 		'%_transient_timeout_kafkaiwp_%'
 	)
 );
+
+/**
+ * @todo Add option to clear bulk transients when cache is enabled.
+ */
