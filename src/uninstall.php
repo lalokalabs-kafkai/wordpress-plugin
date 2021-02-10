@@ -13,6 +13,9 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
+// Composer autoloder file
+require_once __DIR__ . '/vendor/autoload.php';
+
 global $wpdb;
 
 /**
