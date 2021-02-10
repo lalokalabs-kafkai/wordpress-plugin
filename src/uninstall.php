@@ -39,3 +39,8 @@ $wpdb->query(
 /**
  * @todo Add option to clear bulk transients when cache is enabled.
  */
+if ( (bool) wp_using_ext_object_cache() ) {
+	for ( $i = 1; $i < 11; $i++ ) {
+		wp_cache_delete( Config::PLUGIN_PREFIX . 'article_All_page' . $i, 'transient' );
+	}
+}

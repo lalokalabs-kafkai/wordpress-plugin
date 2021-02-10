@@ -216,11 +216,11 @@ class Articles {
 		/**
 		 * Clear transients using the function if cache is enabled.
 		 *
-		 * @todo Add option to clear bulk transients when cache is enabled.
+		 * @todo Add option to clear bulk transients when peristent cache is enabled.
 		 */
-		if ( WP_CACHE ) {
-			for ( $i = 1; $i < 6; $i++ ) {
-				delete_transient( Config::PLUGIN_PREFIX . 'article_All_page' . $i );
+		if ( (bool) wp_using_ext_object_cache() ) {
+			for ( $i = 1; $i < 11; $i++ ) {
+				wp_cache_delete( Config::PLUGIN_PREFIX . 'article_All_page' . $i, 'transient' );
 			}
 		}
 
