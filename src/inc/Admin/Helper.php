@@ -131,11 +131,7 @@ trait Helper {
 	 * @return void
 	 */
 	public function add_notice( $code, $response ) : void {
-		?>
-	<div class="notice notice-<?php echo $code; ?> is-dismissible">
-	  <p><?php echo $response; ?></p>
-	</div>
-		<?php
+		echo '<div class="notice notice-' . $code . ' is-dismissible"><p>' . $response . '</p></div>';
 	}
 
 }

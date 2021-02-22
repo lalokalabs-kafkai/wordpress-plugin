@@ -156,6 +156,7 @@ class Admin {
 	 * Displays import page for the plugin.
 	 *
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	public function import() : void {
 		/**
@@ -183,6 +184,7 @@ class Admin {
 	 * Displays generate page for the plugin.
 	 *
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	public function generate() : void {
 		// Send request for generating article
@@ -195,6 +197,7 @@ class Admin {
 	 * Displays settings page for the plugin.
 	 *
 	 * @return void
+	 * @codeCoverageIgnore
 	 */
 	public function settings() : void {
 		/**
