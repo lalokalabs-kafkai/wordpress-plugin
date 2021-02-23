@@ -86,20 +86,16 @@ class Api {
 		}
 
 		// Move ahead with the request
-		if ( 'GET' === $method ) {
-			$request = wp_remote_get(
-				$this->_apiurl . $endpoint,
-				$this->args
-			);
-		}
+		if ( in_array( $method, array( 'GET', 'POST', 'PATCH' ) ) ) {
+			$this->args['method'] = $method;
 
-		// For a post request, include body if it's provided
-		if ( 'POST' === $method ) {
-			if ( ! empty( $body ) ) {
-				$this->args['body'] = json_encode( $body );
+			if ( 'GET' !== $method ) {
+				if ( ! empty( $body ) ) {
+					$this->args['body'] = json_encode( $body );
+				}
 			}
 
-			$request = wp_remote_post(
+			$request = wp_remote_request(
 				$this->_apiurl . $endpoint,
 				$this->args
 			);

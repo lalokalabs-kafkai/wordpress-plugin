@@ -77,6 +77,9 @@
       table.find('.' + kafkaiwp_admin_l10n.prefix + 'ajax_overlay').remove();
       first_td.find('.' + kafkaiwp_admin_l10n.prefix + 'loading').remove();
 
+      // Find table by tr#article_id and remove generated label
+      $('#article-' + article_id).removeClass('state-Generated');
+
       if(data.code === 'success') {
         article_body = data.response.body;
 
