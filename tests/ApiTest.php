@@ -159,7 +159,7 @@ class ApiTest extends TestCase {
 		};
 
 		\WP_Mock::userFunction(
-			'wp_remote_get',
+			'wp_remote_request',
 			array(
         'times' => 1,
 				'return' => $mocked_request,
@@ -195,7 +195,7 @@ class ApiTest extends TestCase {
 		);
 
 		\WP_Mock::userFunction(
-			'wp_remote_post',
+			'wp_remote_request',
 			array(
         'times' => 1,
 				'return' => [

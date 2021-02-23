@@ -75,6 +75,7 @@ class Articles {
 			'Education'       => esc_html__( 'Education', 'kafkai' ),
 			'Fashion'         => esc_html__( 'Fashion', 'kafkai' ),
 			'Finance'         => esc_html__( 'Finance', 'kafkai' ),
+			'Food'            => esc_html__( 'Food', 'kafkai' ),
 			'Gambling'        => esc_html__( 'Gambling', 'kafkai' ),
 			'General'         => esc_html__( 'General', 'kafkai' ),
 			'Health'          => esc_html__( 'Health', 'kafkai' ),
@@ -88,6 +89,7 @@ class Articles {
 			'Seo'             => esc_html__( 'SEO', 'kafkai' ),
 			'Software'        => esc_html__( 'Software', 'kafkai' ),
 			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai' ),
+			'Sports'          => esc_html__( 'Sports', 'kafkai' ),
 			'Travel'          => esc_html__( 'Travel', 'kafkai' ),
 			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai' ),
 		);
@@ -538,7 +540,8 @@ class Articles {
 			$api  = new Api();
 			$call = $api->call(
 				'/articles/' . $article_id,
-				'GET'
+				'PATCH',
+				array( 'state' => 'Read' )
 			);
 
 			// If there was a valid response
