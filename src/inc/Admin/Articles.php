@@ -404,56 +404,53 @@ class Articles {
 		);
 
 		// Verify AJAX call for nonce and article ID
-		if ( ! $this->_verify_ajax_call() ) {
-			echo json_encode( $response );
-			$this->_terminate();
-		}
+		if ( $this->_verify_ajax_call() ) {
+			// Make fetch call to the API
+			$article_id = sanitize_text_field( $_GET['article_id'] );
+			$response   = $this->_fetch_article_call( $article_id, $response );
 
-		// Make fetch call to the API
-		$article_id = sanitize_text_field( $_GET['article_id'] );
-		$response   = $this->_fetch_article_call( $article_id, $response );
+			// On success, insert post into the database
+			// Post that, we add Image & video via the API calls
+			if ( 'success' === $response['code'] ) {
+				// Check for author (if not, default to current_user_id)
+				$post_author = $this->_update_post_author();
 
-		// On success, insert post into the database
-		// Post that, we add Image & video via the API calls
-		if ( 'success' === $response['code'] ) {
-			// Check for author (if not, default to current_user_id)
-			$post_author = $this->_update_post_author();
+				// Post status
+				$post_status = 'published';
 
-			// Post status
-			$post_status = 'published';
-
-			if ( isset( $_GET['article_status'] ) ) {
-				if ( in_array( $_GET['article_status'], array_keys( get_post_statuses() ) ) ) {
-					$post_status = sanitize_text_field( $_GET['article_status'] );
+				if ( isset( $_GET['article_status'] ) ) {
+					if ( in_array( $_GET['article_status'], array_keys( get_post_statuses() ) ) ) {
+						$post_status = sanitize_text_field( $_GET['article_status'] );
+					}
 				}
-			}
 
-			// Insert post and look for post_id for a successfull insert
-			$post_id = wp_insert_post(
-				array(
-					'post_author'  => $post_author,
-					'post_content' => $response['response']['body'],
-					'post_title'   => $response['response']['title'],
-					'post_status'  => $post_status,
-				)
-			);
-
-			// Check for errors
-			if ( ! is_wp_error( $post_id ) ) {
-				// Add article link to postmeta
-				update_post_meta( $post_id, 'kafkai_article_id', $response['response']['id'] );
-
-				// Update list of imported articles
-				$this->_add_to_imported_list( $response['response']['id'] );
-
-				$response['response'] = sprintf(
-					esc_html__( 'Article has been imported successfully. %1$sOpen the Post%2$s', 'kafkai' ),
-					'<a href="' . self_admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">',
-					'</a>'
+				// Insert post and look for post_id for a successfull insert
+				$post_id = wp_insert_post(
+					array(
+						'post_author'  => $post_author,
+						'post_content' => $response['response']['body'],
+						'post_title'   => $response['response']['title'],
+						'post_status'  => $post_status,
+					)
 				);
-			} else {
-				$response['code']  = 'error';
-				$response['error'] = esc_html__( 'There was a problem inserting article in the database. Please refresh the page and try again.', 'kafkai' );
+
+				// Check for errors
+				if ( ! is_wp_error( $post_id ) ) {
+					// Add article link to postmeta
+					update_post_meta( $post_id, 'kafkai_article_id', $response['response']['id'] );
+
+					// Update list of imported articles
+					$this->_add_to_imported_list( $response['response']['id'] );
+
+					$response['response'] = sprintf(
+						esc_html__( 'Article has been imported successfully. %1$sOpen the Post%2$s', 'kafkai' ),
+						'<a href="' . self_admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">',
+						'</a>'
+					);
+				} else {
+					$response['code']  = 'error';
+					$response['error'] = esc_html__( 'There was a problem inserting article in the database. Please refresh the page and try again.', 'kafkai' );
+				}
 			}
 		}
 
