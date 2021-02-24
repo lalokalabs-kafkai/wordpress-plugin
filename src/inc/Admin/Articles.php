@@ -210,8 +210,7 @@ class Articles {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
-				'%_transient_kafkaiwp_article_%',
-				'%_transient_timeout_kafkaiwp_article_%'
+				array( '%_transient_kafkaiwp_article_%', '%_transient_timeout_kafkaiwp_article_%' )
 			)
 		);
 
@@ -228,7 +227,7 @@ class Articles {
 
 		// Redirect to page without `refresh_list` action
 		wp_safe_redirect( self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) );
-		exit;
+		$this->_terminate();
 	}
 
 	/**
@@ -271,20 +270,6 @@ class Articles {
 		if ( 'pending' === $state ) {
 			$this->_state = 'Pending';
 		}
-	}
-
-	/**
-	 * Set transient on successful fetch
-	 *
-	 * @return void
-	 */
-	private function _set_articles_transient() : void {
-		if ( ! array( $this->_articles ) ) {
-			return;
-		}
-
-		// Set transient with expiry set to 24 hours
-		set_transient( Config::PLUGIN_PREFIX . 'article_' . $this->_state . '_page' . $this->_page, $this->_articles, 86400 );
 	}
 
 	/**
@@ -383,7 +368,8 @@ class Articles {
 	 */
 	public function fetch_single_article() : void {
 		// Response and header
-		header( 'Content-Type: application/json' );
+		$this->_set_header();
+
 		$response = array(
 			'code'  => 'error',
 			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai' ),
@@ -399,17 +385,19 @@ class Articles {
 
 		// Send response back to the page
 		echo json_encode( $response );
-		exit;
+		$this->_terminate();
 	}
 
 	/**
 	 * AJAX call handler for single article import.
 	 *
+	 * @todo Re-factor code into smaller functions for easier testing.
 	 * @return void
 	 */
 	public function import_single_article() : void {
 		// Response and header
-		header( 'Content-Type: application/json' );
+		$this->_set_header();
+
 		$response = array(
 			'code'  => 'error',
 			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai' ),
@@ -418,7 +406,7 @@ class Articles {
 		// Verify AJAX call for nonce and article ID
 		if ( ! $this->_verify_ajax_call() ) {
 			echo json_encode( $response );
-			exit;
+			$this->_terminate();
 		}
 
 		// Make fetch call to the API
@@ -471,7 +459,7 @@ class Articles {
 
 		// Send response back to the page
 		echo json_encode( $response );
-		exit;
+		$this->_terminate();
 	}
 
 	/**
@@ -491,6 +479,16 @@ class Articles {
 		}
 
 		$this->imported_article_ids = $article_ids;
+	}
+
+	/**
+	 * Set transient on successful fetch
+	 *
+	 * @return void
+	 */
+	private function _set_articles_transient() : void {
+		// Set transient with expiry set to 24 hours
+		set_transient( Config::PLUGIN_PREFIX . 'article_' . $this->_state . '_page' . $this->_page, $this->_articles, 86400 );
 	}
 
 	/**
@@ -556,10 +554,15 @@ class Articles {
 
 				// Check for exceptions
 				if ( isset( $data[0] ) ) {
-					if ( isset( $data[0]['exception'] ) || isset( $data[0]['message'] ) ) {
-						$response['error'] = $data[0]['message'];
-						return $response;
+					if ( isset( $data[0]['exception'] ) ) {
+						$response['error'] = $data[0]['exception'];
 					}
+
+					if ( isset( $data[0]['message'] ) ) {
+						$response['error'] = $data[0]['message'];
+					}
+
+					return $response;
 				}
 
 				// Looks good, add response to the array
@@ -605,10 +608,6 @@ class Articles {
 	 * @return void
 	 */
 	private function _add_to_imported_list( string $article_id ) : void {
-		if ( empty( $article_id ) ) {
-			return;
-		}
-
 		$imported_articles = get_option( Config::PLUGIN_PREFIX . 'imported_articles' );
 
 		if ( ! $imported_articles ) {
@@ -633,10 +632,6 @@ class Articles {
 	 * @return void
 	 */
 	private function _remove_from_imported_list( string $article_id ) : void {
-		if ( empty( $article_id ) ) {
-			return;
-		}
-
 		$imported_articles = get_option( Config::PLUGIN_PREFIX . 'imported_articles' );
 
 		if ( ! $imported_articles ) {
@@ -655,6 +650,26 @@ class Articles {
 
 		// Update in the database
 		update_option( Config::PLUGIN_PREFIX . 'imported_articles', $imported_articles );
+	}
+
+	/**
+	 * Wrapper around the header() function.
+	 *
+	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	protected function _set_header() : void {
+		header( 'Content-Type: application/json' );
+	}
+
+	/**
+	 * Wrapper around the exit() function.
+	 *
+	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	protected function _terminate() : void {
+		exit;
 	}
 
 }

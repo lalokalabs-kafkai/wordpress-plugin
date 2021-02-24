@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests Helper class functions in isolation.
+ *
  * @package Niteo\Kafkai\Plugin
  * @coversDefaultClass \Niteo\Kafkai\Plugin\Helper
  */
@@ -28,54 +29,54 @@ class HelperTest extends TestCase {
 		\WP_Mock::tearDown();
 	}
 
-  /**
-   * @covers ::verify_nonce
+	/**
+	 * @covers ::verify_nonce
 	 */
 	public function testVerifyNonceFalse() {
-    $_POST['_kafkaiwp_nonce'] = 'nonce_unfiltered';
+		$_POST['_kafkaiwp_nonce'] = 'nonce_unfiltered';
 
-    \WP_Mock::userFunction(
+		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => 'nonce_filtered',
 			)
 		);
 
-    \WP_Mock::userFunction(
+		\WP_Mock::userFunction(
 			'wp_verify_nonce',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => false,
 			)
 		);
 
-    $this->assertFalse( Helper::verify_nonce() );
-  }
+		$this->assertFalse( Helper::verify_nonce() );
+	}
 
-  /**
-   * @covers ::verify_nonce
+	/**
+	 * @covers ::verify_nonce
 	 */
 	public function testVerifyNonceTrue() {
-    $_POST['_kafkaiwp_nonce'] = 'nonce_unfiltered';
+		$_POST['_kafkaiwp_nonce'] = 'nonce_unfiltered';
 
-    \WP_Mock::userFunction(
+		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => 'nonce_filtered',
 			)
 		);
 
-    \WP_Mock::userFunction(
+		\WP_Mock::userFunction(
 			'wp_verify_nonce',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => true,
 			)
 		);
 
-    $this->assertTrue( Helper::verify_nonce() );
-  }
+		$this->assertTrue( Helper::verify_nonce() );
+	}
 
 }

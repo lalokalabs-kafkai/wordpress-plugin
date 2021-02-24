@@ -4,7 +4,7 @@ SRCPATH := $(shell pwd)/src
 
 install: vendor
 vendor: src/vendor
-	composer install --dev
+	composer install
 	composer dump-autoload -o
 
 clover.xml: vendor test
@@ -60,9 +60,11 @@ release:
 
 fmt: install
 	bin/phpcbf --standard=WordPress src --ignore=src/vendor,src/assets
+	bin/phpcbf --standard=WordPress tests
 
 lint: install
 	bin/phpcs --standard=WordPress src --ignore=src/vendor,src/assets
+	bin/phpcs --standard=WordPress tests
 
 psr: src/vendor
 	composer dump-autoload -o
@@ -72,7 +74,7 @@ i18n: src/vendor
 	wp i18n make-pot src/inc src/i18n/$(PLUGINSLUG).pot
 
 cover: vendor
-	bin/coverage-check clover.xml 100
+	bin/coverage-check clover.xml 75
 
 clean:
 	rm -rf vendor/ src/vendor/
