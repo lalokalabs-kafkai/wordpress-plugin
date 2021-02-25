@@ -210,8 +210,7 @@ class Articles {
 		$wpdb->query(
 			$wpdb->prepare(
 				"DELETE FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
-				'%_transient_kafkaiwp_article_%',
-				'%_transient_timeout_kafkaiwp_article_%'
+				array( '%_transient_kafkaiwp_article_%', '%_transient_timeout_kafkaiwp_article_%' )
 			)
 		);
 
@@ -228,7 +227,7 @@ class Articles {
 
 		// Redirect to page without `refresh_list` action
 		wp_safe_redirect( self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'import' ) );
-		exit;
+		$this->_terminate();
 	}
 
 	/**
@@ -271,20 +270,6 @@ class Articles {
 		if ( 'pending' === $state ) {
 			$this->_state = 'Pending';
 		}
-	}
-
-	/**
-	 * Set transient on successful fetch
-	 *
-	 * @return void
-	 */
-	private function _set_articles_transient() : void {
-		if ( ! array( $this->_articles ) ) {
-			return;
-		}
-
-		// Set transient with expiry set to 24 hours
-		set_transient( Config::PLUGIN_PREFIX . 'article_' . $this->_state . '_page' . $this->_page, $this->_articles, 86400 );
 	}
 
 	/**
@@ -383,7 +368,8 @@ class Articles {
 	 */
 	public function fetch_single_article() : void {
 		// Response and header
-		header( 'Content-Type: application/json' );
+		$this->_set_header();
+
 		$response = array(
 			'code'  => 'error',
 			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai' ),
@@ -399,79 +385,78 @@ class Articles {
 
 		// Send response back to the page
 		echo json_encode( $response );
-		exit;
+		$this->_terminate();
 	}
 
 	/**
 	 * AJAX call handler for single article import.
 	 *
+	 * @todo Re-factor code into smaller functions for easier testing.
 	 * @return void
 	 */
 	public function import_single_article() : void {
 		// Response and header
-		header( 'Content-Type: application/json' );
+		$this->_set_header();
+
 		$response = array(
 			'code'  => 'error',
 			'error' => esc_html__( 'Request does not seem to be a valid one. Please try again.', 'kafkai' ),
 		);
 
 		// Verify AJAX call for nonce and article ID
-		if ( ! $this->_verify_ajax_call() ) {
-			echo json_encode( $response );
-			exit;
-		}
+		if ( $this->_verify_ajax_call() ) {
+			// Make fetch call to the API
+			$article_id = sanitize_text_field( $_GET['article_id'] );
+			$response   = $this->_fetch_article_call( $article_id, $response );
 
-		// Make fetch call to the API
-		$article_id = sanitize_text_field( $_GET['article_id'] );
-		$response   = $this->_fetch_article_call( $article_id, $response );
+			// On success, insert post into the database
+			// Post that, we add Image & video via the API calls
+			if ( 'success' === $response['code'] ) {
+				// Check for author (if not, default to current_user_id)
+				$post_author = $this->_update_post_author();
 
-		// On success, insert post into the database
-		// Post that, we add Image & video via the API calls
-		if ( 'success' === $response['code'] ) {
-			// Check for author (if not, default to current_user_id)
-			$post_author = $this->_update_post_author();
+				// Post status
+				$post_status = 'published';
 
-			// Post status
-			$post_status = 'published';
-
-			if ( isset( $_GET['article_status'] ) ) {
-				if ( in_array( $_GET['article_status'], array_keys( get_post_statuses() ) ) ) {
-					$post_status = sanitize_text_field( $_GET['article_status'] );
+				if ( isset( $_GET['article_status'] ) ) {
+					if ( in_array( $_GET['article_status'], array_keys( get_post_statuses() ) ) ) {
+						$post_status = sanitize_text_field( $_GET['article_status'] );
+					}
 				}
-			}
 
-			// Insert post and look for post_id for a successfull insert
-			$post_id = wp_insert_post(
-				array(
-					'post_author'  => $post_author,
-					'post_content' => $response['response']['body'],
-					'post_title'   => $response['response']['title'],
-					'post_status'  => $post_status,
-				)
-			);
-
-			// Check for errors
-			if ( ! is_wp_error( $post_id ) ) {
-				// Add article link to postmeta
-				update_post_meta( $post_id, 'kafkai_article_id', $response['response']['id'] );
-
-				// Update list of imported articles
-				$this->_add_to_imported_list( $response['response']['id'] );
-
-				$response['response'] = sprintf(
-					esc_html__( 'Article has been imported successfully. %1$sOpen the Post%2$s', 'kafkai' ),
-					'<a href="' . self_admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">',
-					'</a>'
+				// Insert post and look for post_id for a successfull insert
+				$post_id = wp_insert_post(
+					array(
+						'post_author'  => $post_author,
+						'post_content' => $response['response']['body'],
+						'post_title'   => $response['response']['title'],
+						'post_status'  => $post_status,
+					)
 				);
-			} else {
-				$response['code']  = 'error';
-				$response['error'] = esc_html__( 'There was a problem inserting article in the database. Please refresh the page and try again.', 'kafkai' );
+
+				// Check for errors
+				if ( ! is_wp_error( $post_id ) ) {
+					// Add article link to postmeta
+					update_post_meta( $post_id, 'kafkai_article_id', $response['response']['id'] );
+
+					// Update list of imported articles
+					$this->_add_to_imported_list( $response['response']['id'] );
+
+					$response['response'] = sprintf(
+						esc_html__( 'Article has been imported successfully. %1$sOpen the Post%2$s', 'kafkai' ),
+						'<a href="' . self_admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">',
+						'</a>'
+					);
+				} else {
+					$response['code']  = 'error';
+					$response['error'] = esc_html__( 'There was a problem inserting article in the database. Please refresh the page and try again.', 'kafkai' );
+				}
 			}
 		}
 
 		// Send response back to the page
 		echo json_encode( $response );
-		exit;
+		$this->_terminate();
 	}
 
 	/**
@@ -491,6 +476,16 @@ class Articles {
 		}
 
 		$this->imported_article_ids = $article_ids;
+	}
+
+	/**
+	 * Set transient on successful fetch
+	 *
+	 * @return void
+	 */
+	private function _set_articles_transient() : void {
+		// Set transient with expiry set to 24 hours
+		set_transient( Config::PLUGIN_PREFIX . 'article_' . $this->_state . '_page' . $this->_page, $this->_articles, 86400 );
 	}
 
 	/**
@@ -556,10 +551,15 @@ class Articles {
 
 				// Check for exceptions
 				if ( isset( $data[0] ) ) {
-					if ( isset( $data[0]['exception'] ) || isset( $data[0]['message'] ) ) {
-						$response['error'] = $data[0]['message'];
-						return $response;
+					if ( isset( $data[0]['exception'] ) ) {
+						$response['error'] = $data[0]['exception'];
 					}
+
+					if ( isset( $data[0]['message'] ) ) {
+						$response['error'] = $data[0]['message'];
+					}
+
+					return $response;
 				}
 
 				// Looks good, add response to the array
@@ -605,10 +605,6 @@ class Articles {
 	 * @return void
 	 */
 	private function _add_to_imported_list( string $article_id ) : void {
-		if ( empty( $article_id ) ) {
-			return;
-		}
-
 		$imported_articles = get_option( Config::PLUGIN_PREFIX . 'imported_articles' );
 
 		if ( ! $imported_articles ) {
@@ -633,10 +629,6 @@ class Articles {
 	 * @return void
 	 */
 	private function _remove_from_imported_list( string $article_id ) : void {
-		if ( empty( $article_id ) ) {
-			return;
-		}
-
 		$imported_articles = get_option( Config::PLUGIN_PREFIX . 'imported_articles' );
 
 		if ( ! $imported_articles ) {
@@ -655,6 +647,26 @@ class Articles {
 
 		// Update in the database
 		update_option( Config::PLUGIN_PREFIX . 'imported_articles', $imported_articles );
+	}
+
+	/**
+	 * Wrapper around the header() function.
+	 *
+	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	protected function _set_header() : void {
+		header( 'Content-Type: application/json' );
+	}
+
+	/**
+	 * Wrapper around the exit() function.
+	 *
+	 * @return void
+	 * @codeCoverageIgnore
+	 */
+	protected function _terminate() : void {
+		exit;
 	}
 
 }

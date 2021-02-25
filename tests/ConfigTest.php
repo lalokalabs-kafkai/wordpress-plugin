@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests Config class functions in isolation.
+ *
  * @package Niteo\Kafkai\Plugin
  * @coversDefaultClass \Niteo\Kafkai\Plugin\Config
  */

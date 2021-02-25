@@ -10,7 +10,7 @@ namespace Niteo\Kafkai\Plugin;
 
 // Prevent unauthorized access
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
-	exit;
+	exit();
 }
 
 // Composer autoloder file
@@ -34,8 +34,7 @@ delete_option( 'kafkaiwp_token' );
 $wpdb->query(
 	$wpdb->prepare(
 		"DELETE FROM {$wpdb->prefix}options WHERE `option_name` LIKE %s OR `option_name` LIKE %s",
-		'%_transient_kafkaiwp_%',
-		'%_transient_timeout_kafkaiwp_%'
+		array( '%_transient_kafkaiwp_%', '%_transient_timeout_kafkaiwp_%' )
 	)
 );
 

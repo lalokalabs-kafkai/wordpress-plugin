@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Tests Api class functions in isolation.
+ *
  * @package Niteo\Kafkai\Plugin
  * @coversDefaultClass \Niteo\Kafkai\Plugin\Admin\Api
  */
@@ -28,98 +29,98 @@ class ApiTest extends TestCase {
 		\WP_Mock::tearDown();
 	}
 
-  /**
-   * @covers ::authenticate
+	/**
+	 * @covers ::authenticate
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateNoCredentials() {
-    $api = new Api();
+		$api = new Api();
 
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => false,
 			)
 		);
 
 		$this->assertFalse( $api->authenticate() );
-  }
+	}
 
 	/**
-   * @covers ::authenticate
+	 * @covers ::authenticate
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateNotArray() {
-    $api = new Api();
+		$api = new Api();
 
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => 'string_value',
 			)
 		);
 
 		$this->assertFalse( $api->authenticate() );
-  }
+	}
 
 	/**
-   * @covers ::authenticate
+	 * @covers ::authenticate
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateWrongKeys() {
-    $api = new Api();
+		$api = new Api();
 
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => array(
-					'not_email' => '',
-					'not_password' => ''
+					'not_email'    => '',
+					'not_password' => '',
 				),
 			)
 		);
 
 		$this->assertFalse( $api->authenticate() );
-  }
+	}
 
 	/**
-   * @covers ::authenticate
+	 * @covers ::authenticate
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateReturnTrue() {
-    $mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Api' )->makePartial();
+		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Api' )->makePartial();
 		$mock->shouldReceive( 'call' )->andReturn( true );
 
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => array(
-					'email' => '',
-					'password' => ''
+					'email'    => '',
+					'password' => '',
 				),
 			)
 		);
 
 		$this->assertTrue( $mock->authenticate() );
-  }
+	}
 
 	/**
-   * @covers ::authenticate
+	 * @covers ::authenticate
 	 * @covers ::call
 	 * @covers ::get_token
 	 * @covers ::verify_token
 	 */
 	public function testCallUnverifiedToken() {
-    $api = new Api();
+		$api = new Api();
 
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => false,
 			)
 		);
@@ -127,32 +128,32 @@ class ApiTest extends TestCase {
 		\WP_Mock::userFunction(
 			'admin_url',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => true,
 			)
 		);
 
 		$this->assertFalse( $api->call( '/endpoint', 'POST' ) );
-  }
+	}
 
 	/**
-   * @covers ::authenticate
+	 * @covers ::authenticate
 	 * @covers ::call
 	 * @covers ::get_token
 	 * @covers ::verify_token
 	 */
 	public function testCallVerifiedToken() {
-    $api = new Api();
+		$api = new Api();
 
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => true,
 			)
 		);
 
-		$mocked_request = new class {
+		$mocked_request = new class() {
 			function get_error_message() {
 				return 'error message is returned';
 			}
@@ -161,7 +162,7 @@ class ApiTest extends TestCase {
 		\WP_Mock::userFunction(
 			'wp_remote_request',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => $mocked_request,
 			)
 		);
@@ -169,27 +170,27 @@ class ApiTest extends TestCase {
 		\WP_Mock::userFunction(
 			'is_wp_error',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => true,
 			)
 		);
 
 		$this->assertFalse( $api->call( '/endpoint', 'GET' ) );
-  }
+	}
 
 	/**
-   * @covers ::authenticate
+	 * @covers ::authenticate
 	 * @covers ::call
 	 * @covers ::get_token
 	 * @covers ::verify_token
 	 */
 	public function testCallPostSuccess() {
-    $api = new Api();
+		$api = new Api();
 
 		\WP_Mock::userFunction(
 			'get_option',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => true,
 			)
 		);
@@ -197,22 +198,22 @@ class ApiTest extends TestCase {
 		\WP_Mock::userFunction(
 			'wp_remote_request',
 			array(
-        'times' => 1,
-				'return' => [
-					'body' => 'Response from the API'
-				],
+				'times'  => 1,
+				'return' => array(
+					'body' => 'Response from the API',
+				),
 			)
 		);
 
 		\WP_Mock::userFunction(
 			'is_wp_error',
 			array(
-        'times' => 1,
+				'times'  => 1,
 				'return' => false,
 			)
 		);
 
-		$this->assertTrue( $api->call( '/endpoint', 'POST', [ 'message' => 'body_content' ] ) );
-  }
+		$this->assertTrue( $api->call( '/endpoint', 'POST', array( 'message' => 'body_content' ) ) );
+	}
 
 }
