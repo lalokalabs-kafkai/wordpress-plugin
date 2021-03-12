@@ -69,6 +69,7 @@ class Articles {
 			'Affiliate'       => esc_html__( 'Affiliate', 'kafkai' ),
 			'Automotive'      => esc_html__( 'Automotive', 'kafkai' ),
 			'Business'        => esc_html__( 'Business', 'kafkai' ),
+			'Careers'         => esc_html__( 'Careers', 'kafkai' ),
 			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai' ),
 			'Dating'          => esc_html__( 'Dating', 'kafkai' ),
 			'Dogs'            => esc_html__( 'Dogs', 'kafkai' ),
