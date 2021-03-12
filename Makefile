@@ -7,8 +7,6 @@ vendor: src/vendor
 	composer install
 	composer dump-autoload -o
 
-clover.xml: vendor test
-
 unit: test
 
 test: vendor
@@ -73,7 +71,7 @@ psr: src/vendor
 i18n: src/vendor
 	wp i18n make-pot src/inc src/i18n/$(PLUGINSLUG).pot
 
-cover: vendor
+cover: vendor test
 	bin/coverage-check clover.xml 90
 
 clean:
