@@ -88,9 +88,11 @@ class Articles {
 			'RealEstate'      => esc_html__( 'Real Estate', 'kafkai' ),
 			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai' ),
 			'Seo'             => esc_html__( 'SEO', 'kafkai' ),
+			'Sexuality'       => esc_html__( 'Sexuality', 'kafkai' ),
 			'Software'        => esc_html__( 'Software', 'kafkai' ),
 			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai' ),
 			'Sports'          => esc_html__( 'Sports', 'kafkai' ),
+			'Technology'      => esc_html__( 'Technology', 'kafkai' ),
 			'Travel'          => esc_html__( 'Travel', 'kafkai' ),
 			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai' ),
 		);
