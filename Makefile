@@ -9,6 +9,16 @@ vendor: src/vendor
 
 clover.xml: vendor test
 
+update_version:
+	sed -i "s/@##VERSION##@/${VERSION}/" src/$(PLUGINSLUG).php
+	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Config.php
+	sed -i "s/@##VERSION##@/${VERSION}/" src/i18n/$(PLUGINSLUG).pot
+
+remove_version:
+	sed -i "s/${VERSION}/@##VERSION##@/" src/$(PLUGINSLUG).php
+	sed -i "s/${VERSION}/@##VERSION##@/" src/inc/Config.php
+	sed -i "s/${VERSION}/@##VERSION##@/" src/i18n/$(PLUGINSLUG).pot
+
 unit: test
 
 test: vendor
@@ -18,9 +28,7 @@ src/vendor:
 	cd src && composer install
 	cd src && composer dump-autoload -o
 
-build: install
-	sed -i "s/@##VERSION##@/${VERSION}/" src/$(PLUGINSLUG).php
-	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Config.php
+build: install update_version
 	mkdir -p build
 	rm -rf src/vendor
 	cd src && composer install --no-dev
@@ -29,17 +37,15 @@ build: install
 	zip -r $(PLUGINSLUG).zip $(PLUGINSLUG)
 	rm -rf $(PLUGINSLUG)
 	mv $(PLUGINSLUG).zip build/
-	sed -i "s/${VERSION}/@##VERSION##@/" src/$(PLUGINSLUG).php
-	sed -i "s/${VERSION}/@##VERSION##@/" src/inc/Config.php
+	make remove_version
 
-dist: install
-	sed -i "s/@##VERSION##@/${VERSION}/" src/$(PLUGINSLUG).php
-	sed -i "s/@##VERSION##@/${VERSION}/" src/inc/Config.php
+dist: install update_version
 	mkdir -p dist
 	rm -rf src/vendor
 	cd src && composer install --no-dev
 	cd src && composer dump-autoload -o
 	cp -r $(SRCPATH)/. dist/
+	make remove_version
 
 publish: build bin/linux/amd64/github-release
 	bin/linux/amd64/github-release upload \
