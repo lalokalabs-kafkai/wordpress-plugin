@@ -112,7 +112,7 @@ class Articles {
 		$state = $this->_state;
 
 		if ( 'All' === $this->_state ) {
-			$state = 'Generated,Read,Accepted';
+			$state = 'Generated,Read,Used';
 		}
 
 		// Check for transient
