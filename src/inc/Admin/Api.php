@@ -113,6 +113,36 @@ class Api {
 	}
 
 	/**
+	 * Wrapper to modify API url.
+	 *
+	 * @param string $url API url to be set
+	 * @return void
+	 */
+	public function set_apiurl( string $url ) : void {
+		$this->_apiurl = $url;
+	}
+
+	/**
+	 * Wrapper to modify API call args.
+	 *
+	 * @param array $args Arguments for the API call
+	 * @return void
+	 */
+	public function set_args( array $args ) : void {
+		$this->args = $args;
+	}
+
+	/**
+	 * Wrapper to modify API call headers.
+	 *
+	 * @param array $headers Headers for the API call
+	 * @return void
+	 */
+	public function set_headers( array $headers ) : void {
+		$this->args['headers'] = $headers;
+	}
+
+	/**
 	 * Check for authentication token in the database.
 	 *
 	 * @return string|bool

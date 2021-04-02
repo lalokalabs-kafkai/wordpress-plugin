@@ -6,6 +6,7 @@
 namespace Niteo\Kafkai\Plugin\Tests;
 
 use Niteo\Kafkai\Plugin\Admin\Articles;
+use Niteo\Kafkai\Plugin\Config;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -451,8 +452,10 @@ class ArticlesTest extends TestCase {
 	 * @covers ::niche_name
 	 */
 	public function testNicheNameFound() {
-		$articles = new Articles();
+		// Run config for niche names.
+		new Config();
 
+		$articles = new Articles();
 		$this->assertEquals( 'Self Improvement', $articles->niche_name( 'SelfImprovement' ) );
 	}
 
@@ -461,8 +464,10 @@ class ArticlesTest extends TestCase {
 	 * @covers ::niche_name
 	 */
 	public function testNicheNameNotFound() {
-		$articles = new Articles();
+		// Run config for niche names.
+		new Config();
 
+		$articles = new Articles();
 		$this->assertEquals( 'NotFoundNiche', $articles->niche_name( 'NotFoundNiche' ) );
 	}
 

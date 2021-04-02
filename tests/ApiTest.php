@@ -216,4 +216,31 @@ class ApiTest extends TestCase {
 		$this->assertTrue( $api->call( '/endpoint', 'POST', array( 'message' => 'body_content' ) ) );
 	}
 
+	/**
+	 * @covers ::set_apiurl
+	 */
+	public function testSetApiUrl() {
+		$api = new Api();
+
+		$this->assertEmpty( $api->set_apiurl( 'URL' ) );
+	}
+
+	/**
+	 * @covers ::set_args
+	 */
+	public function testSetArgs() {
+		$api = new Api();
+
+		$this->assertEmpty( $api->set_args( array() ) );
+	}
+
+	/**
+	 * @covers ::set_headers
+	 */
+	public function testSetHeader() {
+		$api = new Api();
+
+		$this->assertEmpty( $api->set_headers( array() ) );
+	}
+
 }

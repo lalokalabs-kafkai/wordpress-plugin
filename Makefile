@@ -1,4 +1,4 @@
-VERSION := 1.4.0
+VERSION := 1.4.1
 PLUGINSLUG := kafkai
 SRCPATH := $(shell pwd)/src
 
@@ -80,7 +80,7 @@ i18n: src/vendor
 	wp i18n make-pot src src/i18n/$(PLUGINSLUG).pot --slug=kafkai --skip-js --exclude=vendor
 
 cover: vendor
-	bin/coverage-check clover.xml 90
+	bin/coverage-check clover.xml 80
 
 clean:
 	rm -rf vendor/ src/vendor/
