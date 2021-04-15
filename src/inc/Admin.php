@@ -6,6 +6,7 @@
 namespace Niteo\Kafkai\Plugin;
 
 use Niteo\Kafkai\Plugin\Admin\Articles;
+use Niteo\Kafkai\Plugin\Admin\Updater;
 
 /**
  * Admin options for the plugin.
@@ -25,6 +26,8 @@ class Admin {
 	 * Class constructor.
 	 */
 	public function __construct() {
+		new Updater();
+
 		add_action( 'admin_menu', array( $this, 'add_menu' ), PHP_INT_MAX );
 		add_filter( 'plugin_row_meta', array( $this, 'meta_links' ), 10, 2 );
 
@@ -201,10 +204,11 @@ class Admin {
 	 */
 	public function settings() : void {
 		/**
-		 * Process form on submission and grab options from the database
-		 * to fill the form values if available.
+		 * - process_settings   save credentials and generate API token
+		 * - update_niches          for updating new niches if available
 		 */
 		$this->process_settings();
+		$this->update_niches();
 
 		$settings = $this->get_settings();
 		$token    = $this->get_token();

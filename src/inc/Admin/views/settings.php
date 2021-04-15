@@ -61,6 +61,12 @@ use Niteo\Kafkai\Plugin\Config;
 
 		<p class="submit">
 			<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>settings" value="<?php esc_attr_e( 'Save Settings', 'kafkai' ); ?>" class="button button-primary">
+			<?php
+
+				// Additional action executed by the plugin.
+				do_action( Config::PLUGIN_PREFIX . 'settings' );
+
+			?>
 		</p>
 	</form>
 </div>

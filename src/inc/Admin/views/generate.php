@@ -39,7 +39,7 @@ use Niteo\Kafkai\Plugin\Config;
 							<?php
 
 								// Article niches
-							foreach ( $this->articles->niches as $key => $niche ) {
+							foreach ( Config::$niches as $key => $niche ) {
 								echo '<option value="' . esc_attr( $key ) . '">' . esc_html( $niche ) . '</option>\n';
 							}
 

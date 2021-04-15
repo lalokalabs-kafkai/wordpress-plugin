@@ -75,9 +75,16 @@ class KafKai {
 		}
 
 		// Update correct format in the database.
-		update_option( Config::PLUGIN_PREFIX . 'settings', $json_settings );
+		$update = update_option( Config::PLUGIN_PREFIX . 'settings', $json_settings );
 
-		// Delete JSON settings as we don't need it anymore.
+		/**
+		 * Verify the update was successful and delete the JSON settings
+		 * as we don't need it anymore.
+		 */
+		if ( ! $update ) {
+			return;
+		}
+
 		delete_option( Config::PLUGIN_PREFIX . 'settings_json' );
 	}
 

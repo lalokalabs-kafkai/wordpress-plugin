@@ -22,6 +22,11 @@ trait Helper {
 	private $code = 'error';
 
 	/**
+	 * @var string
+	 */
+	private $_imageurl = 'https://app.kafkai.com/images/niches/';
+
+	/**
 	 * Get settings from the DB.
 	 * This includes credentials, token, and user details, if available.
 	 *
@@ -123,6 +128,114 @@ trait Helper {
 		// Add to response and change code
 		$this->code     = 'success';
 		$this->response = esc_html__( 'Authentication token has been generated successfully via API.', 'kafkai' );
+	}
+
+	/**
+	 * Fetch new niches along with icons from the API.
+	 *
+	 * @return void
+	 */
+	public function update_niches() : void {
+		if ( ! isset( $_POST[ Config::PLUGIN_PREFIX . 'update_niches' ] ) ) {
+			return;
+		}
+
+		// Verify nonce.
+		if ( ! MainHelper::verify_nonce() ) {
+			$this->response = esc_html__( 'Request could not be validated.', 'kafkai' );
+			return;
+		}
+
+		// Check for and merge new niches.
+		$niches = get_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+
+		if ( ! $niches ) {
+			$this->response = esc_html__( 'No new niches are available for the update.', 'kafkai' );
+			return;
+		}
+
+		// Counter for new niches.
+		$new_niches = 0;
+
+		foreach ( $niches as $key => $value ) {
+			if ( isset( Config::$niches[ $key ] ) ) {
+				continue;
+			}
+
+			Config::$niches[ $key ] = $value;
+
+			// Download icon.
+			if ( $this->download_icon( $key ) ) {
+				++$new_niches;
+			}
+		}
+
+		// Confirm if new niches were added.
+		if ( ! $new_niches ) {
+			// Delete the new_niches transient as no update was required.
+			delete_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+
+			$this->code     = 'info';
+			$this->response = esc_html__( 'No new niches were added. Either the list is updated or download of niche icons failed.', 'kafkai' );
+
+			return;
+		}
+
+		// Sort niches array.
+		ksort( Config::$niches, SORT_STRING );
+
+		// Add option for new niches.
+		$update = update_option( Config::PLUGIN_PREFIX . 'niches', Config::$niches );
+
+		// Add to response and change code.
+		if ( $update ) {
+			// Delete the new_niches transient as the update was done.
+			delete_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+
+			$this->code     = 'success';
+			$this->response = esc_html__( $new_niches . ' new niche(s) have been added successfully.', 'kafkai' );
+
+			return;
+		}
+
+		$this->response = esc_html__( 'There was an error updating niches. Please try agin later.', 'kafkai' );
+	}
+
+	/**
+	 * Download niche icon over HTTP.
+	 *
+	 * @param string $slug Niche slug to check for the icon.
+	 * @return bool
+	 */
+	public function download_icon( string $slug ) : bool {
+		$folder = Config::$plugin_path . 'assets/admin/images/';
+
+		if ( ! is_writable( $folder ) ) {
+			return false;
+		}
+
+		$slug = preg_replace( '/(?<!\ )[A-Z]/', ' $0', $slug );
+		$slug = sanitize_text_field( strtolower( $slug ) );
+		$slug = str_replace( ' ', '_', $slug );
+
+		// Fetch niche icon using the simplest method if the server allows it.
+		if ( ! ini_get( 'allow_url_fopen' ) ) {
+			return false;
+		}
+
+		$icon = file_get_contents( $this->_imageurl . $slug . '.svg' );
+
+		if ( ! $icon ) {
+			return false;
+		}
+
+		$save = file_put_contents( $folder . $slug . '.svg', $icon );
+
+		if ( ! $save ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

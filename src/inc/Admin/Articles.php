@@ -64,39 +64,6 @@ class Articles {
 	 * On initialization, add default response and check for current page.
 	 */
 	public function __construct() {
-		// Add niches
-		$this->niches = array(
-			'Affiliate'       => esc_html__( 'Affiliate', 'kafkai' ),
-			'Automotive'      => esc_html__( 'Automotive', 'kafkai' ),
-			'Business'        => esc_html__( 'Business', 'kafkai' ),
-			'Careers'         => esc_html__( 'Careers', 'kafkai' ),
-			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai' ),
-			'Dating'          => esc_html__( 'Dating', 'kafkai' ),
-			'Dogs'            => esc_html__( 'Dogs', 'kafkai' ),
-			'Education'       => esc_html__( 'Education', 'kafkai' ),
-			'Fashion'         => esc_html__( 'Fashion', 'kafkai' ),
-			'Finance'         => esc_html__( 'Finance', 'kafkai' ),
-			'Food'            => esc_html__( 'Food', 'kafkai' ),
-			'Gambling'        => esc_html__( 'Gambling', 'kafkai' ),
-			'General'         => esc_html__( 'General', 'kafkai' ),
-			'Health'          => esc_html__( 'Health', 'kafkai' ),
-			'HomeAndFamily'   => esc_html__( 'Home and Family', 'kafkai' ),
-			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai' ),
-			'Nutrition'       => esc_html__( 'Nutrition', 'kafkai' ),
-			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai' ),
-			'Outdoors'        => esc_html__( 'Outdoors', 'kafkai' ),
-			'RealEstate'      => esc_html__( 'Real Estate', 'kafkai' ),
-			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai' ),
-			'Seo'             => esc_html__( 'SEO', 'kafkai' ),
-			'Sexuality'       => esc_html__( 'Sexuality', 'kafkai' ),
-			'Software'        => esc_html__( 'Software', 'kafkai' ),
-			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai' ),
-			'Sports'          => esc_html__( 'Sports', 'kafkai' ),
-			'Technology'      => esc_html__( 'Technology', 'kafkai' ),
-			'Travel'          => esc_html__( 'Travel', 'kafkai' ),
-			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai' ),
-		);
-
 		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'fetch_article', array( $this, 'fetch_single_article' ) );
 		add_action( 'wp_ajax_' . Config::PLUGIN_PREFIX . 'import_article', array( $this, 'import_single_article' ) );
 		add_action( 'before_delete_post', array( $this, 'delete_single_article' ), 10, 2 );
@@ -281,8 +248,10 @@ class Articles {
 	 * @return string
 	 */
 	public function niche_name( string $niche ) : string {
-		if ( isset( $this->niches[ $niche ] ) ) {
-			return $this->niches[ $niche ];
+		$niches = Config::$niches;
+
+		if ( isset( $niches[ $niche ] ) ) {
+			return $niches[ $niche ];
 		}
 
 		return $niche;

@@ -97,7 +97,7 @@ use Niteo\Kafkai\Plugin\Config;
 				<?php
 
 				if ( 'success' === $this->articles->code ) :
-					if ( isset( $this->articles->response['articles'] ) ) :
+					if ( isset( $this->articles->response['articles'] ) && ! empty( $this->articles->response['articles'] ) ) :
 						foreach ( $this->articles->response['articles'] as $key => $data ) :
 							$key         = esc_attr( $key );
 							$title       = trim( esc_html( $data['title'] ) );
@@ -118,7 +118,7 @@ use Niteo\Kafkai\Plugin\Config;
 							?>
 								<tr id="article-<?php echo $key; ?>" class="niche-<?php echo $niche; ?> state-<?php echo $state; ?> status-<?php echo $status; ?>">
 									<td class="image column-image">
-										<img src="<?php echo Config::$plugin_url . 'assets/admin/images/' . $niche_image . '.svg'; ?>" alt="<?php echo $niche; ?>">
+										<img src="<?php echo Config::$plugin_url . 'assets/admin/images/' . $niche_image . '.svg'; ?>" alt="<?php echo $niche; ?>" onerror="javascript:this.style.display='none'">
 									</td>
 
 									<td class="title column-title column-primary has-row-actions" data-colname="<?php esc_html_e( 'Title', 'kafkai' ); ?>">
@@ -144,6 +144,22 @@ use Niteo\Kafkai\Plugin\Config;
 							<?php
 
 							endforeach;
+						else :
+							?>
+								<tr>
+									<td colspan="4">
+										<?php
+
+											echo sprintf(
+												esc_html__( 'There are no articles under your account. You can %1$sclick here%2$s to generate one.', 'kafkai' ),
+												'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'generate' ) . '">',
+												'</a>'
+											);
+
+										?>
+										</td>
+								</tr>
+							<?php
 						endif;
 					endif;
 
