@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-03-23T11:38:37+05:30\n"
+"POT-Creation-Date: 2021-04-21T13:26:56+05:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: kafkai\n"
@@ -23,7 +23,8 @@ msgid "Kafkai is a machine-learning algorithm that can write articles from scrat
 msgstr ""
 
 #. Author of the plugin
-#: inc/Admin.php:51
+#: inc/Admin.php:54
+#: inc/Config.php:124
 msgid "Kafkai"
 msgstr ""
 
@@ -31,230 +32,135 @@ msgstr ""
 msgid "https://kafkai.com"
 msgstr ""
 
-#: inc/Admin.php:50
+#: inc/Admin.php:53
 msgid "Kafkai Settings"
 msgstr ""
 
-#: inc/Admin.php:62
-#: inc/Admin.php:63
+#: inc/Admin.php:65
+#: inc/Admin.php:66
 #: inc/Admin/views/generate.php:12
 #: inc/Admin/views/generate.php:75
 msgid "Generate Article"
 msgstr ""
 
-#: inc/Admin.php:72
-#: inc/Admin.php:73
-#: inc/Admin.php:119
-#: inc/Admin/views/import.php:313
+#: inc/Admin.php:75
+#: inc/Admin.php:76
+#: inc/Admin.php:122
+#: inc/Admin/views/import.php:329
 msgid "Import Article"
 msgstr ""
 
-#: inc/Admin.php:82
-#: inc/Admin.php:83
+#: inc/Admin.php:85
+#: inc/Admin.php:86
 #: inc/Admin/views/settings.php:12
 msgid "Settings"
 msgstr ""
 
-#: inc/Admin.php:120
+#: inc/Admin.php:123
 msgid "An error was encountered while trying to communicate with the API. Please refresh the page and try again."
 msgstr ""
 
-#: inc/Admin.php:121
+#: inc/Admin.php:124
 msgid "Unable to fetch article ID. Please refresh the page and try again."
 msgstr ""
 
-#: inc/Admin.php:122
+#: inc/Admin.php:125
 msgid "Keyword is missing. Please provide a keyword to search for Image and Video for the article."
 msgstr ""
 
-#: inc/Admin.php:123
-#: inc/Admin/views/import.php:234
+#: inc/Admin.php:126
+#: inc/Admin/views/import.php:250
 msgid "Chars"
 msgstr ""
 
-#: inc/Admin.php:124
-#: inc/Admin/views/import.php:235
+#: inc/Admin.php:127
+#: inc/Admin/views/import.php:251
 msgid "Words"
 msgstr ""
 
-#: inc/Admin.php:125
+#: inc/Admin.php:128
 msgid "Importing.."
 msgstr ""
 
-#: inc/Admin.php:126
+#: inc/Admin.php:129
 msgid "Imported Successfully!"
 msgstr ""
 
-#: inc/Admin.php:150
+#: inc/Admin.php:153
 msgid "Website"
 msgstr ""
 
-#: inc/Admin/Api.php:143
+#: inc/Admin/Api.php:173
 msgid "Authorization token is not available. Please go to %1$splugin settings%2$s and provide credentials or re-generate token."
 msgstr ""
 
-#: inc/Admin/Articles.php:69
-msgid "Affiliate"
-msgstr ""
-
-#: inc/Admin/Articles.php:70
-msgid "Automotive"
-msgstr ""
-
-#: inc/Admin/Articles.php:71
-msgid "Business"
-msgstr ""
-
-#: inc/Admin/Articles.php:72
-msgid "Careers"
-msgstr ""
-
-#: inc/Admin/Articles.php:73
-msgid "Cyber Security"
-msgstr ""
-
-#: inc/Admin/Articles.php:74
-msgid "Dating"
-msgstr ""
-
-#: inc/Admin/Articles.php:75
-msgid "Dogs"
-msgstr ""
-
-#: inc/Admin/Articles.php:76
-msgid "Education"
-msgstr ""
-
-#: inc/Admin/Articles.php:77
-msgid "Fashion"
-msgstr ""
-
-#: inc/Admin/Articles.php:78
-msgid "Finance"
-msgstr ""
-
-#: inc/Admin/Articles.php:79
-msgid "Food"
-msgstr ""
-
-#: inc/Admin/Articles.php:80
-msgid "Gambling"
-msgstr ""
-
-#: inc/Admin/Articles.php:81
-msgid "General"
-msgstr ""
-
-#: inc/Admin/Articles.php:82
-msgid "Health"
-msgstr ""
-
-#: inc/Admin/Articles.php:83
-msgid "Home and Family"
-msgstr ""
-
-#: inc/Admin/Articles.php:84
-msgid "Home Improvement"
-msgstr ""
-
-#: inc/Admin/Articles.php:85
-msgid "Nutrition"
-msgstr ""
-
-#: inc/Admin/Articles.php:86
-msgid "Online Marketing"
-msgstr ""
-
-#: inc/Admin/Articles.php:87
-msgid "Outdoors"
-msgstr ""
-
-#: inc/Admin/Articles.php:88
-msgid "Real Estate"
-msgstr ""
-
-#: inc/Admin/Articles.php:89
-msgid "Self Improvement"
-msgstr ""
-
-#: inc/Admin/Articles.php:90
-msgid "SEO"
-msgstr ""
-
-#: inc/Admin/Articles.php:91
-msgid "Sexuality"
-msgstr ""
-
-#: inc/Admin/Articles.php:92
-msgid "Software"
-msgstr ""
-
-#: inc/Admin/Articles.php:93
-msgid "Spirituality"
-msgstr ""
-
-#: inc/Admin/Articles.php:94
-msgid "Sports"
-msgstr ""
-
-#: inc/Admin/Articles.php:95
-msgid "Technology"
-msgstr ""
-
-#: inc/Admin/Articles.php:96
-msgid "Travel"
-msgstr ""
-
-#: inc/Admin/Articles.php:97
-msgid "Weight Loss"
-msgstr ""
-
-#: inc/Admin/Articles.php:303
-#: inc/Admin/Helper.php:65
+#: inc/Admin/Articles.php:272
+#: inc/Admin/Helper.php:70
+#: inc/Admin/Helper.php:145
 msgid "Request could not be validated."
 msgstr ""
 
-#: inc/Admin/Articles.php:322
+#: inc/Admin/Articles.php:291
 msgid "Niche is required for article generation."
 msgstr ""
 
-#: inc/Admin/Articles.php:351
+#: inc/Admin/Articles.php:320
 msgid "Article generation has been scheduled. Please wait a few minutes, then go to %1$sImport Article%2$s and click Refresh List."
 msgstr ""
 
-#: inc/Admin/Articles.php:359
+#: inc/Admin/Articles.php:328
 msgid "Something went wrong while receiving response from the API. Please try again."
 msgstr ""
 
-#: inc/Admin/Articles.php:378
-#: inc/Admin/Articles.php:406
+#: inc/Admin/Articles.php:347
+#: inc/Admin/Articles.php:375
 msgid "Request does not seem to be a valid one. Please try again."
 msgstr ""
 
-#: inc/Admin/Articles.php:449
+#: inc/Admin/Articles.php:418
 msgid "Article has been imported successfully. %1$sOpen the Post%2$s"
 msgstr ""
 
-#: inc/Admin/Articles.php:455
+#: inc/Admin/Articles.php:424
 msgid "There was a problem inserting article in the database. Please refresh the page and try again."
 msgstr ""
 
-#: inc/Admin/Helper.php:75
+#: inc/Admin/Helper.php:80
 msgid "Please provide both email and password for authentication."
 msgstr ""
 
-#: inc/Admin/Helper.php:108
+#: inc/Admin/Helper.php:113
 msgid "Unable to fetch token from the API. Please try again or %1$scontact support%2$s."
 msgstr ""
 
-#: inc/Admin/Helper.php:125
+#: inc/Admin/Helper.php:130
 msgid "Authentication token has been generated successfully via API."
+msgstr ""
+
+#: inc/Admin/Helper.php:153
+msgid "No new niches are available for the update."
+msgstr ""
+
+#: inc/Admin/Helper.php:179
+msgid "No new niches were added. Either the list is updated or download of niche icons failed."
+msgstr ""
+
+#: inc/Admin/Helper.php:201
+msgid "There was an error updating niches. Please try agin later."
+msgstr ""
+
+#: inc/Admin/Updater.php:169
+msgid "New niches are available for the plugin. Please go to %1$sSettings page%2$s to update."
+msgstr ""
+
+#: inc/Admin/Updater.php:182
+msgid "Update Niches"
 msgstr ""
 
 #: inc/Admin/views/generate.php:34
 #: inc/Admin/views/import.php:87
 #: inc/Admin/views/import.php:136
-#: inc/Admin/views/import.php:170
+#: inc/Admin/views/import.php:186
 msgid "Niche"
 msgstr ""
 
@@ -287,7 +193,7 @@ msgid "Filter pages list"
 msgstr ""
 
 #: inc/Admin/views/import.php:35
-#: inc/Admin/views/import.php:182
+#: inc/Admin/views/import.php:198
 msgid "Pages list navigation"
 msgstr ""
 
@@ -297,13 +203,13 @@ msgstr ""
 
 #: inc/Admin/views/import.php:83
 #: inc/Admin/views/import.php:124
-#: inc/Admin/views/import.php:166
+#: inc/Admin/views/import.php:182
 msgid "Title"
 msgstr ""
 
 #: inc/Admin/views/import.php:91
 #: inc/Admin/views/import.php:140
-#: inc/Admin/views/import.php:174
+#: inc/Admin/views/import.php:190
 msgid "Date"
 msgstr ""
 
@@ -315,27 +221,31 @@ msgstr ""
 msgid "imported"
 msgstr ""
 
-#: inc/Admin/views/import.php:155
+#: inc/Admin/views/import.php:154
+msgid "There are no articles under your account. You can %1$sclick here%2$s to generate one."
+msgstr ""
+
+#: inc/Admin/views/import.php:171
 msgid "No articles found."
 msgstr ""
 
-#: inc/Admin/views/import.php:227
+#: inc/Admin/views/import.php:243
 msgid "Close dialogue"
 msgstr ""
 
-#: inc/Admin/views/import.php:246
+#: inc/Admin/views/import.php:262
 msgid "Status"
 msgstr ""
 
-#: inc/Admin/views/import.php:269
+#: inc/Admin/views/import.php:285
 msgid "Unable to fetch status"
 msgstr ""
 
-#: inc/Admin/views/import.php:277
+#: inc/Admin/views/import.php:293
 msgid "Author"
 msgstr ""
 
-#: inc/Admin/views/import.php:305
+#: inc/Admin/views/import.php:321
 msgid "No users found"
 msgstr ""
 
@@ -371,14 +281,138 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: inc/Config.php:83
-msgid "Kafkai for WordPress"
+#: inc/Config.php:76
+msgid "Affiliate"
 msgstr ""
 
-#: inc/Config.php:121
+#: inc/Config.php:77
+msgid "Automotive"
+msgstr ""
+
+#: inc/Config.php:78
+msgid "Beauty"
+msgstr ""
+
+#: inc/Config.php:79
+msgid "Business"
+msgstr ""
+
+#: inc/Config.php:80
+msgid "Careers"
+msgstr ""
+
+#: inc/Config.php:81
+msgid "Cyber Security"
+msgstr ""
+
+#: inc/Config.php:82
+msgid "Dental"
+msgstr ""
+
+#: inc/Config.php:83
+msgid "Dating"
+msgstr ""
+
+#: inc/Config.php:84
+msgid "Dogs"
+msgstr ""
+
+#: inc/Config.php:85
+msgid "Education"
+msgstr ""
+
+#: inc/Config.php:86
+msgid "Fashion"
+msgstr ""
+
+#: inc/Config.php:87
+msgid "Finance"
+msgstr ""
+
+#: inc/Config.php:88
+msgid "Food"
+msgstr ""
+
+#: inc/Config.php:89
+msgid "Gambling"
+msgstr ""
+
+#: inc/Config.php:90
+msgid "Gardening"
+msgstr ""
+
+#: inc/Config.php:91
+msgid "General"
+msgstr ""
+
+#: inc/Config.php:92
+msgid "Health"
+msgstr ""
+
+#: inc/Config.php:93
+msgid "Home and Family"
+msgstr ""
+
+#: inc/Config.php:94
+msgid "Home Improvement"
+msgstr ""
+
+#: inc/Config.php:95
+msgid "Nutrition"
+msgstr ""
+
+#: inc/Config.php:96
+msgid "Online Marketing"
+msgstr ""
+
+#: inc/Config.php:97
+msgid "Outdoors"
+msgstr ""
+
+#: inc/Config.php:98
+msgid "Real Estate"
+msgstr ""
+
+#: inc/Config.php:99
+msgid "Self Improvement"
+msgstr ""
+
+#: inc/Config.php:100
+msgid "SEO"
+msgstr ""
+
+#: inc/Config.php:101
+msgid "Sexuality"
+msgstr ""
+
+#: inc/Config.php:102
+msgid "Software"
+msgstr ""
+
+#: inc/Config.php:103
+msgid "Spirituality"
+msgstr ""
+
+#: inc/Config.php:104
+msgid "Sports"
+msgstr ""
+
+#: inc/Config.php:105
+msgid "Technology"
+msgstr ""
+
+#: inc/Config.php:106
+msgid "Travel"
+msgstr ""
+
+#: inc/Config.php:107
+msgid "Weight Loss"
+msgstr ""
+
+#: inc/Config.php:177
 msgid "%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s"
 msgstr ""
 
-#: inc/Config.php:167
+#: inc/Config.php:223
 msgid "The minimum PHP version required for this plugin is %1$s. You are running %2$s."
 msgstr ""
