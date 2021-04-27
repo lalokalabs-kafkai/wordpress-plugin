@@ -205,10 +205,12 @@ class Admin {
 	public function settings() : void {
 		/**
 		 * - process_settings   save credentials and generate API token
-		 * - update_niches          for updating new niches if available
+		 * - update_niches      updating new niches
+		 * - update_languages   updating new languages
 		 */
 		$this->process_settings();
-		$this->update_niches();
+		$this->update_data( 'niches' );
+		$this->update_data( 'languages' );
 
 		$settings = $this->get_settings();
 		$token    = $this->get_token();

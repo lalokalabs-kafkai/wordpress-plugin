@@ -521,11 +521,15 @@ class ArticlesTest extends TestCase {
 		$_POST['_kafkaiwp_nonce']   = 'nonce_value';
 		$_POST['kafkaiwp_niche']    = 'niche';
 		$_POST['kafkaiwp_seed']     = 'seed';
+		$_POST['kafkaiwp_language'] = 'English';
 
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
 				'times'  => 1,
+				'args'   => array(
+					\WP_Mock\Functions::type( 'string' ),
+				),
 				'return' => 'nonce',
 			)
 		);
@@ -541,7 +545,7 @@ class ArticlesTest extends TestCase {
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
-				'times'  => 2,
+				'times'  => 3,
 				'return' => '',
 			)
 		);
@@ -565,11 +569,15 @@ class ArticlesTest extends TestCase {
 		$_POST['_kafkaiwp_nonce']   = 'nonce_value';
 		$_POST['kafkaiwp_niche']    = 'niche';
 		$_POST['kafkaiwp_seed']     = 'seed';
+		$_POST['kafkaiwp_language'] = 'English';
 
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
 				'times'  => 1,
+				'args'   => array(
+					\WP_Mock\Functions::type( 'string' ),
+				),
 				'return' => 'nonce',
 			)
 		);
@@ -585,7 +593,7 @@ class ArticlesTest extends TestCase {
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
-				'times'  => 2,
+				'times'  => 3,
 				'return' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ornare convallis diam, ac malesuada libero aliquam id. Morbi auctor eget dui sed hendrerit. Maecenas nec sapien ac enim tincidunt sagittis et eget metus. Cras ut ullamcorper eros proin et euismod.',
 			)
 		);
@@ -609,11 +617,15 @@ class ArticlesTest extends TestCase {
 		$_POST['_kafkaiwp_nonce']   = 'nonce_value';
 		$_POST['kafkaiwp_niche']    = 'niche';
 		$_POST['kafkaiwp_seed']     = 'seed';
+		$_POST['kafkaiwp_language'] = 'English';
 
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
 				'times'  => 1,
+				'args'   => array(
+					\WP_Mock\Functions::type( 'string' ),
+				),
 				'return' => 'nonce',
 			)
 		);
@@ -629,7 +641,7 @@ class ArticlesTest extends TestCase {
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
-				'times'  => 2,
+				'times'  => 3,
 				'return' => 'SOME_VALUE',
 			)
 		);
@@ -661,11 +673,15 @@ class ArticlesTest extends TestCase {
 		$_POST['_kafkaiwp_nonce']   = 'nonce_value';
 		$_POST['kafkaiwp_niche']    = 'niche';
 		$_POST['kafkaiwp_seed']     = 'seed';
+		$_POST['kafkaiwp_language'] = 'English';
 
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
 				'times'  => 1,
+				'args'   => array(
+					\WP_Mock\Functions::type( 'string' ),
+				),
 				'return' => 'nonce',
 			)
 		);
@@ -681,7 +697,7 @@ class ArticlesTest extends TestCase {
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
-				'times'  => 2,
+				'times'  => 3,
 				'return' => 'SOME_VALUE',
 			)
 		);
@@ -705,11 +721,15 @@ class ArticlesTest extends TestCase {
 		$_POST['_kafkaiwp_nonce']   = 'nonce_value';
 		$_POST['kafkaiwp_niche']    = 'niche';
 		$_POST['kafkaiwp_seed']     = 'seed';
+		$_POST['kafkaiwp_language'] = 'English';
 
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
 				'times'  => 1,
+				'args'   => array(
+					\WP_Mock\Functions::type( 'string' ),
+				),
 				'return' => 'nonce',
 			)
 		);
@@ -725,7 +745,7 @@ class ArticlesTest extends TestCase {
 		\WP_Mock::userFunction(
 			'sanitize_text_field',
 			array(
-				'times'  => 2,
+				'times'  => 3,
 				'return' => 'SOME_VALUE',
 			)
 		);
@@ -1140,6 +1160,76 @@ class ArticlesTest extends TestCase {
 		$mock->shouldReceive( '_terminate' )->andReturn( true );
 
 		$this->expectOutputString( '{"code":"error","error":"Request does not seem to be a valid one. Please try again."}' );
+		$mock->import_single_article();
+	}
+
+	/**
+	 * @covers ::__construct
+	 * @covers ::import_single_article
+	 */
+	public function testImportSingleArticleVerifiedCall() {
+		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Articles' )->makePartial()->shouldAllowMockingProtectedMethods();
+		$mock->shouldReceive( '_set_header' )->andReturn( true );
+		$mock->shouldReceive( '_terminate' )->andReturn( true );
+		$mock->shouldReceive( '_fetch_article_call' )->andReturn(
+			array(
+				'code'     => 'success',
+				'response' => array(
+					'body'  => 'IMPORTED ARTICLE BODY',
+					'title' => 'IMPORTED ARTICLE TITLE',
+				),
+			)
+		);
+
+		$_GET['_nonce']         = 'nonce';
+		$_GET['article_id']     = 'ARTICLE_ID';
+		$_GET['article_status'] = 'published';
+
+		\WP_Mock::userFunction(
+			'wp_verify_nonce',
+			array(
+				'times'  => 1,
+				'return' => true,
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'get_current_user_id',
+			array(
+				'times'  => 1,
+				'return' => 1,
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'get_post_statuses',
+			array(
+				'times'  => 1,
+				'return' => array(
+					'published',
+					'draft',
+					'autosave',
+				),
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'wp_insert_post',
+			array(
+				'times'  => 1,
+				'return' => true,
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'is_wp_error',
+			array(
+				'times'  => 1,
+				'return' => true,
+			)
+		);
+
+		$this->expectOutputString( '{"code":"error","response":{"body":"IMPORTED ARTICLE BODY","title":"IMPORTED ARTICLE TITLE"},"error":"There was a problem inserting article in the database. Please refresh the page and try again."}' );
 		$mock->import_single_article();
 	}
 

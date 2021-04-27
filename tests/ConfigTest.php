@@ -35,10 +35,10 @@ class ConfigTest extends TestCase {
 	public function testConstructor() {
 		$config = new Config();
 
+		\WP_Mock::expectActionAdded( 'plugins_loaded', array( $config, 'init' ) );
 		\WP_Mock::expectActionAdded( 'admin_init', array( $config, 'check_environment' ) );
 		\WP_Mock::expectActionAdded( 'admin_init', array( $config, 'add_plugin_notices' ) );
 		\WP_Mock::expectActionAdded( 'admin_notices', array( $config, 'admin_notices' ), 15 );
-		\WP_Mock::expectActionAdded( 'init', array( $config, 'init' ) );
 
 		$config->__construct();
 		\WP_Mock::assertHooksAdded();
@@ -47,9 +47,54 @@ class ConfigTest extends TestCase {
 	/**
 	 * @covers ::__construct
 	 * @covers ::init
+	 * @covers ::updated_data
 	 */
 	public function testInit() {
 		$config = new Config();
+
+		\WP_Mock::userFunction(
+			'get_option',
+			array(
+				'times'  => 2,
+				'return' => array(
+					'ONE',
+					'TWO',
+					'THREE',
+				),
+			)
+		);
+
+		\WP_Mock::userFunction(
+			'plugin_dir_url',
+			array(
+				'return' => true,
+			)
+		);
+		\WP_Mock::userFunction(
+			'plugin_dir_path',
+			array(
+				'return' => true,
+			)
+		);
+
+		$config->init();
+	}
+
+	/**
+	 * @covers ::__construct
+	 * @covers ::init
+	 * @covers ::updated_data
+	 */
+	public function testInitDbData() {
+		$config = new Config();
+
+		\WP_Mock::userFunction(
+			'get_option',
+			array(
+				'times'  => 2,
+				'return' => array_fill( 0, 50, 'VALUE' ),
+			)
+		);
 
 		\WP_Mock::userFunction(
 			'plugin_dir_url',

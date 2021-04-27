@@ -15,9 +15,9 @@ use Niteo\Kafkai\Plugin\Config;
 class Api {
 
 	/**
-	 * @var array
+	 * @var string
 	 */
-	public $response = array();
+	public $response;
 
 	/**
 	 * @var string
