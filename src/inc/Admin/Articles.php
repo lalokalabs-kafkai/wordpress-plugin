@@ -273,8 +273,9 @@ class Articles {
 			return;
 		}
 
-		$niche = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'niche' ] );
-		$seed  = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'seed' ] );
+		$niche    = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'niche' ] );
+		$language = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'language' ] );
+		$seed     = sanitize_text_field( $_POST[ Config::PLUGIN_PREFIX . 'seed' ] );
 
 		// Ensure seed is 250 characters or less.
 		if ( strlen( $seed ) > 250 ) {
@@ -298,8 +299,9 @@ class Articles {
 			'/articles/generate',
 			'POST',
 			array(
-				'niche' => $niche,
-				'seed'  => $seed,
+				'niche'    => $niche,
+				'seed'     => $seed,
+				'language' => $language,
 			)
 		);
 
@@ -484,74 +486,6 @@ class Articles {
 	}
 
 	/**
-	 * Making call to the API for fetching the article.
-	 *
-	 * @param string $article_id Article ID used to make a call to the API endpoint
-	 * @param array  $response Array containing default response
-	 *
-	 * @return array
-	 */
-	private function _fetch_article_call( $article_id, $response ) : array {
-		$transient = get_transient( Config::PLUGIN_PREFIX . 'single_' . $article_id );
-
-		// Check for transient
-		if ( $transient ) {
-			$response['code']     = 'success';
-			$response['response'] = $transient;
-
-			return $response;
-		}
-
-		try {
-			// Make connection to API
-			$api  = new Api();
-			$call = $api->call(
-				'/articles/' . $article_id,
-				'PATCH',
-				array( 'state' => 'Read' )
-			);
-
-			// If there was a valid response
-			if ( $call ) {
-				$data = json_decode( $api->response, true );
-
-				// Check if an error is thrown by the API
-				if ( isset( $data['errors'] ) ) {
-					$response['error'] = $data['errors'][0];
-					return $response;
-				}
-
-				// Check for exceptions
-				if ( isset( $data[0] ) ) {
-					if ( isset( $data[0]['exception'] ) ) {
-						$response['error'] = $data[0]['exception'];
-					}
-
-					if ( isset( $data[0]['message'] ) ) {
-						$response['error'] = $data[0]['message'];
-					}
-
-					return $response;
-				}
-
-				// Looks good, add response to the array
-				$response['code']     = 'success';
-				$response['response'] = $data;
-
-				// Set transient with expiry set to 24 hours
-				set_transient( Config::PLUGIN_PREFIX . 'single_' . $data['id'], $data, 86400 );
-
-				return $response;
-			}
-		} catch ( \Exception $e ) {
-			$response['error'] = $e->getMessage();
-			return $response;
-		}
-
-		return $response;
-	}
-
-	/**
 	 * Check for post author and send back the appropriate user_id.
 	 *
 	 * @return boolean
@@ -619,6 +553,74 @@ class Articles {
 
 		// Update in the database
 		update_option( Config::PLUGIN_PREFIX . 'imported_articles', $imported_articles );
+	}
+
+	/**
+	 * Making call to the API for fetching the article.
+	 *
+	 * @param string $article_id Article ID used to make a call to the API endpoint
+	 * @param array  $response Array containing default response
+	 *
+	 * @return array
+	 */
+	protected function _fetch_article_call( $article_id, $response ) : array {
+		$transient = get_transient( Config::PLUGIN_PREFIX . 'single_' . $article_id );
+
+		// Check for transient
+		if ( $transient ) {
+			$response['code']     = 'success';
+			$response['response'] = $transient;
+
+			return $response;
+		}
+
+		try {
+			// Make connection to API
+			$api  = new Api();
+			$call = $api->call(
+				'/articles/' . $article_id,
+				'PATCH',
+				array( 'state' => 'Read' )
+			);
+
+			// If there was a valid response
+			if ( $call ) {
+				$data = json_decode( $api->response, true );
+
+				// Check if an error is thrown by the API
+				if ( isset( $data['errors'] ) ) {
+					$response['error'] = $data['errors'][0];
+					return $response;
+				}
+
+				// Check for exceptions
+				if ( isset( $data[0] ) ) {
+					if ( isset( $data[0]['exception'] ) ) {
+						$response['error'] = $data[0]['exception'];
+					}
+
+					if ( isset( $data[0]['message'] ) ) {
+						$response['error'] = $data[0]['message'];
+					}
+
+					return $response;
+				}
+
+				// Looks good, add response to the array
+				$response['code']     = 'success';
+				$response['response'] = $data;
+
+				// Set transient with expiry set to 24 hours
+				set_transient( Config::PLUGIN_PREFIX . 'single_' . $data['id'], $data, 86400 );
+
+				return $response;
+			}
+		} catch ( \Exception $e ) {
+			$response['error'] = $e->getMessage();
+			return $response;
+		}
+
+		return $response;
 	}
 
 	/**

@@ -10,7 +10,7 @@ use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
- * Class for checking niches in the API and respective logos.
+ * Class for checking niches & languages via the API.
  *
  * @package Niteo\Kafkai\Plugin
  */
@@ -30,17 +30,17 @@ class Updater {
 	 * Check for new niches when one of the plugin page is active.
 	 */
 	public function __construct() {
-		add_action( 'current_screen', array( $this, 'check_niches' ) );
-		add_action( 'admin_notices', array( $this, 'add_notification' ) );
-		add_action( Config::PLUGIN_PREFIX . 'settings', array( $this, 'add_update_niche_button' ) );
+		add_action( 'current_screen', array( $this, 'check_niches_and_languages' ) );
+		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
+		add_action( Config::PLUGIN_PREFIX . 'settings', array( $this, 'add_update_button' ) );
 	}
 
 	/**
-	 * Queries the API for niches.
+	 * Queries the API for niches & languages.
 	 *
 	 * @return void
 	 */
-	public function check_niches() : void {
+	public function check_niches_and_languages() : void {
 		$screen = \get_current_screen();
 
 		// Check if the request is made within the plugin.
@@ -49,9 +49,9 @@ class Updater {
 		}
 
 		// Check for transient.
-		$transient = get_transient( Config::PLUGIN_PREFIX . 'temporary_niche_data' );
+		$data = get_transient( Config::PLUGIN_PREFIX . 'temporary_openapi_data' );
 
-		if ( ! $transient ) {
+		if ( ! $data ) {
 			$data = $this->api_call();
 
 			// API call returned false for some reason.
@@ -59,14 +59,11 @@ class Updater {
 			if ( ! $data ) {
 				return;
 			}
-
-			// We have data from the API to be processed.
-			$this->yaml_parse_and_check( $data );
-			return;
 		}
 
-		// We have data from transient to be processed.
-		$this->yaml_parse_and_check( $transient );
+		// We have data to be processed.
+		$this->yaml_parse_and_check( $data );
+		$this->yaml_parse_and_check( $data, 'languages', 'articleLanguage' );
 	}
 
 	/**
@@ -86,19 +83,19 @@ class Updater {
 		$data = $api->response;
 
 		// Set transient for 24 hours.
-		set_transient( Config::PLUGIN_PREFIX . 'temporary_niche_data', $data, 60 * 60 * 24 );
+		set_transient( Config::PLUGIN_PREFIX . 'temporary_openapi_data', $data, 60 * 60 * 24 );
 
 		return $data;
 	}
 
 	/**
-	 * Convert YAML to array and check for niches.
+	 * Convert YAML to array and check for updates.
 	 *
 	 * @param string $data YAML string to be parsed.
 	 * @return void
 	 */
-	public function yaml_parse_and_check( string $data ) : void {
-		if ( get_transient( Config::PLUGIN_PREFIX . 'new_niches' ) ) {
+	public function yaml_parse_and_check( string $data, string $type = 'niches', string $schema = 'niche' ) : void {
+		if ( get_transient( Config::PLUGIN_PREFIX . 'new_' . $type ) ) {
 			return;
 		}
 
@@ -113,73 +110,99 @@ class Updater {
 			}
 		}
 
-		if ( ! isset( $parsed_data['components']['schemas']['niche']['enum'] ) ) {
+		if ( ! isset( $parsed_data['components']['schemas'][ $schema ]['enum'] ) ) {
 			return;
 		}
 
-		// Convert niches into the right format.
-		$fetched_niches = $parsed_data['components']['schemas']['niche']['enum'];
-		$niches         = array();
+		// Convert into correct format.
+		$fetched_data   = $parsed_data['components']['schemas'][ $schema ]['enum'];
+		$formatted_data = array();
 
-		foreach ( $fetched_niches as $niche ) {
-			if ( isset( $niches[ $niche ] ) ) {
+		foreach ( $fetched_data as $single ) {
+			if ( isset( $formatted_data[ $single ] ) ) {
 				continue;
 			}
 
-			// Split string by uppercase for display.
-			$niche_name = preg_replace( '/(?<!\ )[A-Z]/', ' $0', $niche );
+			// Value should be equal to key as well.
+			$data_value = $single;
 
-			// Special replacements for Home & Family, SEO niches
-			$niche_name = str_replace( 'And', 'and', $niche_name );
-			$niche_name = str_replace( 'Seo', 'SEO', $niche_name );
+			if ( 'niches' === $type ) {
+				// Split string by uppercase for display.
+				$data_value = preg_replace( '/(?<!\ )[A-Z]/', ' $0', $single );
 
-			$niches[ $niche ] = sanitize_text_field( $niche_name );
+				// Special replacements for Home & Family, SEO niches
+				$data_value = str_replace( 'And', 'and', $data_value );
+				$data_value = str_replace( 'Seo', 'SEO', $data_value );
+			}
+
+			$formatted_data[ $single ] = sanitize_text_field( $data_value );
 		}
 
-		// Check for any new niches by finding difference of two arrays.
-		$new_niches = array_diff( $niches, Config::$niches );
+		// Check for any new entries by finding difference of two arrays.
+		$new_data = array_diff( $formatted_data, Config::${$type} );
 
-		// Store the niches as transient for the notification to update.
+		// Store the data as transient for the notification to update.
 		// Set to 7 days.
-		if ( ! empty( $new_niches ) ) {
-			set_transient( Config::PLUGIN_PREFIX . 'new_niches', $new_niches, 60 * 60 * 24 * 7 );
+		if ( ! empty( $new_data ) ) {
+			set_transient( Config::PLUGIN_PREFIX . 'new_' . $type, $new_data, 60 * 60 * 24 * 7 );
 		}
 	}
 
 	/**
-	 * Adds a notification to update niches if the transient is present.
+	 * Shows notification in the admin panel when an update for
+	 * niches and/or languages is available.
 	 *
 	 * @return void
 	 */
-	public function add_notification() : void {
+	public function admin_notices() : void {
 		global $current_screen;
 
 		if ( ! $this->is_plugin_page( $current_screen->id ) ) {
 			return;
 		}
 
-		$niche_transient = get_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+		$niche_transient    = get_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+		$language_transient = get_transient( Config::PLUGIN_PREFIX . 'new_languages' );
 
-		if ( ! $niche_transient ) {
-			return;
+		if ( $niche_transient ) {
+			$message = sprintf(
+				esc_html__( 'New niches are available for the plugin. Please go to %1$sSettings page%2$s to update.', 'kafkai' ),
+				'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'settings' ) . '">',
+				'</a>'
+			);
+
+			$this->add_notification( $message );
 		}
 
-		echo '<div class="notice notice-info"><p>';
-		echo sprintf(
-			esc_html__( 'New niches are available for the plugin. Please go to %1$sSettings page%2$s to update.', 'kafkai' ),
-			'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'settings' ) . '">',
-			'</a>'
-		);
+		if ( $language_transient ) {
+			$message = sprintf(
+				esc_html__( 'New languages are available for the plugin. Please go to %1$sSettings page%2$s to update.', 'kafkai' ),
+				'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'settings' ) . '">',
+				'</a>'
+			);
+
+			$this->add_notification( $message );
+		}
+	}
+
+	/**
+	 * Contains notification message structure.
+	 *
+	 * @return void
+	 */
+	public function add_notification( string $message, string $code = 'info' ) : void {
+		echo '<div class="notice notice-' . $code . '"><p>';
+		echo $message;
 		echo '</p></div>';
 	}
 
 	/**
-	 * Add update niche button to `Settings` page.
+	 * Add update button to `Settings` page.
 	 *
 	 * @return void
 	 */
-	public function add_update_niche_button() : void {
-		echo '&nbsp;<input type="submit" name="' . Config::PLUGIN_PREFIX . 'update_niches" value="' . esc_html__( 'Update Niches', 'kafkai' ) . '" class="button button-secondary">';
+	public function add_update_button() : void {
+		echo '&nbsp;<input type="submit" name="' . Config::PLUGIN_PREFIX . 'update_data" value="' . esc_html__( 'Update Niches & Languages', 'kafkai' ) . '" class="button button-secondary">';
 	}
 
 	/**
@@ -189,7 +212,10 @@ class Updater {
 	 * @return boolean
 	 */
 	protected function is_plugin_page( $page ) : bool {
-		return false !== strpos( $page, Config::PLUGIN_PREFIX );
+		return (
+			false !== strpos( $page, Config::PLUGIN_PREFIX . 'import' )
+			|| false !== strpos( $page, Config::PLUGIN_PREFIX . 'generate' )
+		);
 	}
 
 }

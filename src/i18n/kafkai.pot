@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-04-21T13:26:56+05:30\n"
+"POT-Creation-Date: 2021-04-29T07:56:12+05:30\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: kafkai\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #. Author of the plugin
 #: inc/Admin.php:54
-#: inc/Config.php:124
+#: inc/Config.php:128
 msgid "Kafkai"
 msgstr ""
 
@@ -39,7 +39,7 @@ msgstr ""
 #: inc/Admin.php:65
 #: inc/Admin.php:66
 #: inc/Admin/views/generate.php:12
-#: inc/Admin/views/generate.php:75
+#: inc/Admin/views/generate.php:94
 msgid "Generate Article"
 msgstr ""
 
@@ -96,32 +96,32 @@ msgstr ""
 
 #: inc/Admin/Articles.php:272
 #: inc/Admin/Helper.php:70
-#: inc/Admin/Helper.php:145
+#: inc/Admin/Helper.php:146
 msgid "Request could not be validated."
 msgstr ""
 
-#: inc/Admin/Articles.php:291
+#: inc/Admin/Articles.php:292
 msgid "Niche is required for article generation."
 msgstr ""
 
-#: inc/Admin/Articles.php:320
+#: inc/Admin/Articles.php:322
 msgid "Article generation has been scheduled. Please wait a few minutes, then go to %1$sImport Article%2$s and click Refresh List."
 msgstr ""
 
-#: inc/Admin/Articles.php:328
+#: inc/Admin/Articles.php:330
 msgid "Something went wrong while receiving response from the API. Please try again."
 msgstr ""
 
-#: inc/Admin/Articles.php:347
-#: inc/Admin/Articles.php:375
+#: inc/Admin/Articles.php:349
+#: inc/Admin/Articles.php:377
 msgid "Request does not seem to be a valid one. Please try again."
 msgstr ""
 
-#: inc/Admin/Articles.php:418
+#: inc/Admin/Articles.php:420
 msgid "Article has been imported successfully. %1$sOpen the Post%2$s"
 msgstr ""
 
-#: inc/Admin/Articles.php:424
+#: inc/Admin/Articles.php:426
 msgid "There was a problem inserting article in the database. Please refresh the page and try again."
 msgstr ""
 
@@ -137,24 +137,32 @@ msgstr ""
 msgid "Authentication token has been generated successfully via API."
 msgstr ""
 
-#: inc/Admin/Helper.php:153
-msgid "No new niches are available for the update."
+#: inc/Admin/Helper.php:155
+msgid "No new %1$s are available for the update."
 msgstr ""
 
-#: inc/Admin/Helper.php:179
-msgid "No new niches were added. Either the list is updated or download of niche icons failed."
+#: inc/Admin/Helper.php:190
+msgid "No new %1$s were added. Either the list is updated or API request failed."
 msgstr ""
 
-#: inc/Admin/Helper.php:201
-msgid "There was an error updating niches. Please try agin later."
+#: inc/Admin/Helper.php:210
+msgid "%1$s new %2$s have been added successfully."
+msgstr ""
+
+#: inc/Admin/Helper.php:219
+msgid "There was an error updating %1$s. Please try agin later."
 msgstr ""
 
 #: inc/Admin/Updater.php:169
 msgid "New niches are available for the plugin. Please go to %1$sSettings page%2$s to update."
 msgstr ""
 
-#: inc/Admin/Updater.php:182
-msgid "Update Niches"
+#: inc/Admin/Updater.php:179
+msgid "New languages are available for the plugin. Please go to %1$sSettings page%2$s to update."
+msgstr ""
+
+#: inc/Admin/Updater.php:205
+msgid "Update Niches & Languages"
 msgstr ""
 
 #: inc/Admin/views/generate.php:34
@@ -164,19 +172,23 @@ msgstr ""
 msgid "Niche"
 msgstr ""
 
-#: inc/Admin/views/generate.php:54
+#: inc/Admin/views/generate.php:53
+msgid "Language"
+msgstr ""
+
+#: inc/Admin/views/generate.php:73
 msgid "Advanced"
 msgstr ""
 
-#: inc/Admin/views/generate.php:60
+#: inc/Admin/views/generate.php:79
 msgid "Give me a paragraph to start with (upto 250 characters). It could be taken from any page on the Internet and it won’t be used as-is in the new article."
 msgstr ""
 
-#: inc/Admin/views/generate.php:67
+#: inc/Admin/views/generate.php:86
 msgid "Optional"
 msgstr ""
 
-#: inc/Admin/views/generate.php:68
+#: inc/Admin/views/generate.php:87
 msgid "Please note that advanced articles take longer to finish."
 msgstr ""
 
@@ -281,138 +293,170 @@ msgstr ""
 msgid "Save Settings"
 msgstr ""
 
-#: inc/Config.php:76
+#: inc/Config.php:81
 msgid "Affiliate"
 msgstr ""
 
-#: inc/Config.php:77
+#: inc/Config.php:82
 msgid "Automotive"
 msgstr ""
 
-#: inc/Config.php:78
+#: inc/Config.php:83
 msgid "Beauty"
 msgstr ""
 
-#: inc/Config.php:79
+#: inc/Config.php:84
 msgid "Business"
 msgstr ""
 
-#: inc/Config.php:80
+#: inc/Config.php:85
 msgid "Careers"
 msgstr ""
 
-#: inc/Config.php:81
+#: inc/Config.php:86
 msgid "Cyber Security"
 msgstr ""
 
-#: inc/Config.php:82
+#: inc/Config.php:87
 msgid "Dental"
 msgstr ""
 
-#: inc/Config.php:83
+#: inc/Config.php:88
 msgid "Dating"
 msgstr ""
 
-#: inc/Config.php:84
+#: inc/Config.php:89
 msgid "Dogs"
 msgstr ""
 
-#: inc/Config.php:85
+#: inc/Config.php:90
 msgid "Education"
 msgstr ""
 
-#: inc/Config.php:86
+#: inc/Config.php:91
 msgid "Fashion"
 msgstr ""
 
-#: inc/Config.php:87
+#: inc/Config.php:92
 msgid "Finance"
 msgstr ""
 
-#: inc/Config.php:88
+#: inc/Config.php:93
 msgid "Food"
 msgstr ""
 
-#: inc/Config.php:89
+#: inc/Config.php:94
 msgid "Gambling"
 msgstr ""
 
-#: inc/Config.php:90
-msgid "Gardening"
-msgstr ""
-
-#: inc/Config.php:91
-msgid "General"
-msgstr ""
-
-#: inc/Config.php:92
-msgid "Health"
-msgstr ""
-
-#: inc/Config.php:93
-msgid "Home and Family"
-msgstr ""
-
-#: inc/Config.php:94
-msgid "Home Improvement"
-msgstr ""
-
 #: inc/Config.php:95
-msgid "Nutrition"
+msgid "Gaming"
 msgstr ""
 
 #: inc/Config.php:96
-msgid "Online Marketing"
+msgid "Gardening"
 msgstr ""
 
 #: inc/Config.php:97
-msgid "Outdoors"
+msgid "General"
 msgstr ""
 
 #: inc/Config.php:98
-msgid "Real Estate"
+msgid "Health"
 msgstr ""
 
 #: inc/Config.php:99
-msgid "Self Improvement"
+msgid "Home and Family"
 msgstr ""
 
 #: inc/Config.php:100
-msgid "SEO"
+msgid "Home Improvement"
 msgstr ""
 
 #: inc/Config.php:101
-msgid "Sexuality"
+msgid "Nutrition"
 msgstr ""
 
 #: inc/Config.php:102
-msgid "Software"
+msgid "Online Marketing"
 msgstr ""
 
 #: inc/Config.php:103
-msgid "Spirituality"
+msgid "Outdoors"
 msgstr ""
 
 #: inc/Config.php:104
-msgid "Sports"
+msgid "Real Estate"
 msgstr ""
 
 #: inc/Config.php:105
-msgid "Technology"
+msgid "Self Improvement"
 msgstr ""
 
 #: inc/Config.php:106
-msgid "Travel"
+msgid "SEO"
 msgstr ""
 
 #: inc/Config.php:107
+msgid "Sexuality"
+msgstr ""
+
+#: inc/Config.php:108
+msgid "Software"
+msgstr ""
+
+#: inc/Config.php:109
+msgid "Spirituality"
+msgstr ""
+
+#: inc/Config.php:110
+msgid "Sports"
+msgstr ""
+
+#: inc/Config.php:111
+msgid "Technology"
+msgstr ""
+
+#: inc/Config.php:112
+msgid "Travel"
+msgstr ""
+
+#: inc/Config.php:113
 msgid "Weight Loss"
 msgstr ""
 
-#: inc/Config.php:177
+#: inc/Config.php:118
+msgid "Dutch"
+msgstr ""
+
+#: inc/Config.php:119
+msgid "English"
+msgstr ""
+
+#: inc/Config.php:120
+msgid "French"
+msgstr ""
+
+#: inc/Config.php:121
+msgid "German"
+msgstr ""
+
+#: inc/Config.php:122
+msgid "Italian"
+msgstr ""
+
+#: inc/Config.php:123
+msgid "Spanish"
+msgstr ""
+
+#: inc/Config.php:124
+msgid "Swedish"
+msgstr ""
+
+#: inc/Config.php:210
 msgid "%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s"
 msgstr ""
 
-#: inc/Config.php:223
+#: inc/Config.php:256
 msgid "The minimum PHP version required for this plugin is %1$s. You are running %2$s."
 msgstr ""

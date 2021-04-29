@@ -40,7 +40,26 @@ use Niteo\Kafkai\Plugin\Config;
 
 								// Article niches
 							foreach ( Config::$niches as $key => $niche ) {
-								echo '<option value="' . esc_attr( $key ) . '">' . esc_html( $niche ) . '</option>\n';
+								echo '<option value="' . esc_attr( $key ) . '">' . esc_html( $niche ) . "</option>\n";
+							}
+
+							?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="<?php echo Config::PLUGIN_PREFIX; ?>language">
+							<?php esc_html_e( 'Language', 'kafkai' ); ?>
+						</label>
+					</th>
+					<td>
+						<select name="<?php echo Config::PLUGIN_PREFIX; ?>language" id="<?php echo Config::PLUGIN_PREFIX; ?>language" class="regular-text">
+							<?php
+
+								// Languages
+							foreach ( Config::$languages as $language ) {
+								echo '<option value="' . esc_attr( $language ) . '" ' . selected( 'English', $language, false ) . '>' . esc_html( $language ) . "</option>\n";
 							}
 
 							?>

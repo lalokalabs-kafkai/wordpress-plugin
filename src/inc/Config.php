@@ -33,6 +33,11 @@ class Config {
 	public static $niches = array();
 
 	/**
+	 * @var array
+	 */
+	public static $languages = array();
+
+	/**
 	 * @var string
 	 */
 	const PLUGIN_BASE = 'kafkai/kafkai.php';
@@ -87,6 +92,7 @@ class Config {
 			'Finance'         => esc_html__( 'Finance', 'kafkai' ),
 			'Food'            => esc_html__( 'Food', 'kafkai' ),
 			'Gambling'        => esc_html__( 'Gambling', 'kafkai' ),
+			'Gaming'          => esc_html__( 'Gaming', 'kafkai' ),
 			'Gardening'       => esc_html__( 'Gardening', 'kafkai' ),
 			'General'         => esc_html__( 'General', 'kafkai' ),
 			'Health'          => esc_html__( 'Health', 'kafkai' ),
@@ -107,26 +113,24 @@ class Config {
 			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai' ),
 		);
 
-		// Check for niches from options.
-		$niches = get_option( self::PLUGIN_PREFIX . 'niches' );
+		// Manually added languages.
+		self::$languages = array(
+			'Dutch'   => esc_html__( 'Dutch', 'kafkai' ),
+			'English' => esc_html__( 'English', 'kafkai' ),
+			'French'  => esc_html__( 'French', 'kafkai' ),
+			'German'  => esc_html__( 'German', 'kafkai' ),
+			'Italian' => esc_html__( 'Italian', 'kafkai' ),
+			'Spanish' => esc_html__( 'Spanish', 'kafkai' ),
+			'Swedish' => esc_html__( 'Swedish', 'kafkai' ),
+		);
 
-		if ( $niches ) {
-			/**
-			 * Use niches from the options if they are more than the ones
-			 * listed above.
-			 */
-			if ( count( $niches ) > count( self::$niches ) ) {
-				self::$niches = $niches;
-			}
-		}
-
-		// Plugin name.
+		// Plugin details.
 		self::$plugin_name = esc_html__( 'Kafkai', 'kafkai' );
 
+		add_action( 'plugins_loaded', array( $this, 'init' ) );
 		add_action( 'admin_init', array( $this, 'check_environment' ) );
 		add_action( 'admin_init', array( $this, 'add_plugin_notices' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ), 15 );
-		add_action( 'init', array( $this, 'init' ) );
 	}
 
 	/**
@@ -135,8 +139,37 @@ class Config {
 	 * @return void
 	 */
 	public function init() : void {
+		// Check for niches & languages from options.
+		self::$niches    = $this->updated_data( self::$niches, 'niches' );
+		self::$languages = $this->updated_data( self::$languages, 'languages' );
+
 		self::$plugin_url  = plugin_dir_url( dirname( __FILE__ ) );
 		self::$plugin_path = plugin_dir_path( dirname( __FILE__ ) );
+	}
+
+	/**
+	 * Checks for data in the options table to verify if it's
+	 * the updated one.
+	 *
+	 * @param array  $data  Data to check against.
+	 * @param string $type Data type to check for in DB.
+	 * @return array
+	 */
+	public function updated_data( array $data, string $type ) : array {
+		$db_data = get_option( self::PLUGIN_PREFIX . $type );
+
+		// Verify $db_data count to use the updated one.
+		if ( $db_data ) {
+			/**
+			 * Use data from the options if it contains more entries than
+			 * the manually updated one.
+			 */
+			if ( count( $db_data ) > count( $data ) ) {
+				return $db_data;
+			}
+		}
+
+		return $data;
 	}
 
 	/**

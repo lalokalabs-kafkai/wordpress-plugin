@@ -14,12 +14,7 @@ trait Helper {
 	/**
 	 * @var string
 	 */
-	private $response;
-
-	/**
-	 * @var string
-	 */
-	private $code = 'error';
+	private $notices = array();
 
 	/**
 	 * @var string
@@ -67,7 +62,10 @@ trait Helper {
 
 		// Verify nonce
 		if ( ! MainHelper::verify_nonce() ) {
-			$this->response = esc_html__( 'Request could not be validated.', 'kafkai' );
+			$this->notices[] = array(
+				esc_html__( 'Request could not be validated.', 'kafkai' ),
+				'error',
+			);
 			return;
 		}
 
@@ -77,7 +75,10 @@ trait Helper {
 
 		// Empty fields
 		if ( empty( $user_email ) || empty( $user_password ) ) {
-			$this->response = esc_html__( 'Please provide both email and password for authentication.', 'kafkai' );
+			$this->notices[] = array(
+				esc_html__( 'Please provide both email and password for authentication.', 'kafkai' ),
+				'error',
+			);
 			return;
 		}
 
@@ -94,7 +95,10 @@ trait Helper {
 
 		// Request did not go through correctly
 		if ( ! $response ) {
-			$this->response = $api->error;
+			$this->notices[] = array(
+				$api->error,
+				'error',
+			);
 			return;
 		}
 
@@ -103,16 +107,22 @@ trait Helper {
 
 		// Look for errors
 		if ( isset( $data['errors'] ) ) {
-			$this->response = $data['errors'][0];
+			$this->notices[] = array(
+				$data['errors'][0],
+				'error',
+			);
 			return;
 		}
 
 		// Continue with processing the token
 		if ( ! isset( $data['token'] ) ) {
-			$this->response = sprintf(
-				esc_html__( 'Unable to fetch token from the API. Please try again or %1$scontact support%2$s.', 'kafkai' ),
-				'<a href="https://help.kafkai.com/" target="_blank">',
-				'</a>'
+			$this->notices[] = array(
+				sprintf(
+					esc_html__( 'Unable to fetch token from the API. Please try again or %1$scontact support%2$s.', 'kafkai' ),
+					'<a href="https://help.kafkai.com/" target="_blank">',
+					'</a>'
+				),
+				'error',
 			);
 			return;
 		}
@@ -125,80 +135,115 @@ trait Helper {
 		update_option( Config::PLUGIN_PREFIX . 'token', $user_data['token'] );
 		update_option( Config::PLUGIN_PREFIX . 'api_user', $user_data );
 
-		// Add to response and change code
-		$this->code     = 'success';
-		$this->response = esc_html__( 'Authentication token has been generated successfully via API.', 'kafkai' );
+		// Add to notices.
+		$this->notices[] = array(
+			esc_html__( 'Authentication token has been generated successfully via API.', 'kafkai' ),
+			'success',
+		);
 	}
 
 	/**
-	 * Fetch new niches along with icons from the API.
+	 * Fetch new data from the API.
+	 * Used for getting updates for niches and languages.
 	 *
 	 * @return void
 	 */
-	public function update_niches() : void {
-		if ( ! isset( $_POST[ Config::PLUGIN_PREFIX . 'update_niches' ] ) ) {
+	public function update_data( string $type = 'niches' ) : void {
+		if ( ! isset( $_POST[ Config::PLUGIN_PREFIX . 'update_data' ] ) ) {
 			return;
 		}
 
 		// Verify nonce.
 		if ( ! MainHelper::verify_nonce() ) {
-			$this->response = esc_html__( 'Request could not be validated.', 'kafkai' );
+			$this->notices[] = array(
+				esc_html__( 'Request could not be validated.', 'kafkai' ),
+				'error',
+			);
 			return;
 		}
 
-		// Check for and merge new niches.
-		$niches = get_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+		// Check for and merge new data.
+		$data = get_transient( Config::PLUGIN_PREFIX . 'new_' . $type );
 
-		if ( ! $niches ) {
-			$this->response = esc_html__( 'No new niches are available for the update.', 'kafkai' );
+		if ( ! $data ) {
+			$this->notices[] = array(
+				sprintf(
+					esc_html__( 'No new %1$s are available for the update.', 'kafkai' ),
+					$type
+				),
+				'error',
+			);
 			return;
 		}
 
-		// Counter for new niches.
-		$new_niches = 0;
+		// Counter for new data.
+		$new_data = 0;
 
-		foreach ( $niches as $key => $value ) {
-			if ( isset( Config::$niches[ $key ] ) ) {
+		foreach ( $data as $key => $value ) {
+			if ( isset( Config::${$type}[ $key ] ) ) {
 				continue;
 			}
 
-			Config::$niches[ $key ] = $value;
+			Config::${$type}[ $key ] = $value;
 
-			// Download icon.
-			if ( $this->download_icon( $key ) ) {
-				++$new_niches;
+			if ( 'niches' === $type ) {
+				// Download icon.
+				if ( $this->download_icon( $key ) ) {
+					++$new_data;
+				}
+
+				continue;
 			}
+
+			++$new_data;
 		}
 
-		// Confirm if new niches were added.
-		if ( ! $new_niches ) {
-			// Delete the new_niches transient as no update was required.
-			delete_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+		// Confirm if new data was added.
+		if ( ! $new_data ) {
+			// Delete the transient as no update was required.
+			delete_transient( Config::PLUGIN_PREFIX . 'new_' . $type );
 
-			$this->code     = 'info';
-			$this->response = esc_html__( 'No new niches were added. Either the list is updated or download of niche icons failed.', 'kafkai' );
+			$this->notices[] = array(
+				sprintf(
+					esc_html__( 'No new %1$s were added. Either the list is updated or API request failed.', 'kafkai' ),
+					$type
+				),
+				'info',
+			);
 
 			return;
 		}
 
-		// Sort niches array.
-		ksort( Config::$niches, SORT_STRING );
+		// Sort data array.
+		ksort( Config::${$type}, SORT_STRING );
 
-		// Add option for new niches.
-		$update = update_option( Config::PLUGIN_PREFIX . 'niches', Config::$niches );
+		// Add option for new data.
+		$update = update_option( Config::PLUGIN_PREFIX . $type, Config::${$type} );
 
 		// Add to response and change code.
 		if ( $update ) {
-			// Delete the new_niches transient as the update was done.
-			delete_transient( Config::PLUGIN_PREFIX . 'new_niches' );
+			// Delete the transient as the update was done.
+			delete_transient( Config::PLUGIN_PREFIX . 'new_' . $type );
 
-			$this->code     = 'success';
-			$this->response = esc_html__( $new_niches . ' new niche(s) have been added successfully.', 'kafkai' );
+			$this->notices[] = array(
+				sprintf(
+					esc_html__( '%1$s new %2$s have been added successfully.', 'kafkai' ),
+					$new_data,
+					$type
+				),
+				'success',
+			);
 
 			return;
 		}
 
-		$this->response = esc_html__( 'There was an error updating niches. Please try agin later.', 'kafkai' );
+		$this->notices[] = array(
+			sprintf(
+				esc_html__( 'There was an error updating %1$s. Please try agin later.', 'kafkai' ),
+				$type
+			),
+			'error',
+		);
 	}
 
 	/**

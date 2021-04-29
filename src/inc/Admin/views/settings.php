@@ -14,9 +14,11 @@ use Niteo\Kafkai\Plugin\Config;
 
   <?php
 
-	// Show notification if $response is set
-	if ( ! empty( $this->response ) ) {
-		$this->add_notice( $this->code, $this->response );
+	// Show notifications.
+	if ( ! empty( $this->notices ) ) {
+		foreach ( $this->notices as $notice ) {
+			$this->add_notice( $notice[1], $notice[0] );
+		}
 	}
 
 	?>
