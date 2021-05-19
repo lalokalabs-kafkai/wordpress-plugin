@@ -98,6 +98,7 @@ class Config {
 			'Health'          => esc_html__( 'Health', 'kafkai' ),
 			'HomeAndFamily'   => esc_html__( 'Home and Family', 'kafkai' ),
 			'HomeImprovement' => esc_html__( 'Home Improvement', 'kafkai' ),
+			'Music'           => esc_html__( 'Music', 'kafkai' ),
 			'Nutrition'       => esc_html__( 'Nutrition', 'kafkai' ),
 			'OnlineMarketing' => esc_html__( 'Online Marketing', 'kafkai' ),
 			'Outdoors'        => esc_html__( 'Outdoors', 'kafkai' ),
