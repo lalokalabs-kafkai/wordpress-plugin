@@ -105,6 +105,8 @@ class Config {
 			'RealEstate'      => esc_html__( 'Real Estate', 'kafkai' ),
 			'SelfImprovement' => esc_html__( 'Self Improvement', 'kafkai' ),
 			'Seo'             => esc_html__( 'SEO', 'kafkai' ),
+			'Shopping'        => esc_html__( 'Shopping', 'kafkai' ),
+			'SkinCare'        => esc_html__( 'Skin Care', 'kafkai' ),
 			'Sexuality'       => esc_html__( 'Sexuality', 'kafkai' ),
 			'Software'        => esc_html__( 'Software', 'kafkai' ),
 			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai' ),

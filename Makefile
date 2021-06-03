@@ -1,4 +1,4 @@
-VERSION := 1.5.1
+VERSION := 1.5.2
 PLUGINSLUG := kafkai
 SRCPATH := $(shell pwd)/src
 
@@ -47,14 +47,6 @@ dist: install update_version
 	cp -r $(SRCPATH)/. dist/
 	make remove_version
 
-publish: build bin/linux/amd64/github-release
-	bin/linux/amd64/github-release upload \
-		--user akshitsethi \
-		--repo $(PLUGINSLUG) \
-		--tag "v$(VERSION)" \
-		--name $(PLUGINSLUG)-$(VERSION).zip \
-		--file build/$(PLUGINSLUG).zip
-
 release:
 	git stash
 	git fetch -p
@@ -77,7 +69,7 @@ psr: src/vendor
 	cd src && composer dump-autoload -o
 
 i18n: src/vendor
-	wp i18n make-pot src src/i18n/$(PLUGINSLUG).pot --slug=kafkai --skip-js --exclude=vendor
+	bin/wp i18n make-pot src "src/i18n/${PLUGINSLUG}.pot" --slug=$(PLUGINSLUG) --skip-js --exclude=vendor
 
 cover: vendor
 	bin/coverage-check clover.xml 80
