@@ -82,6 +82,7 @@ class Config {
 			'Automotive'      => esc_html__( 'Automotive', 'kafkai' ),
 			'Beauty'          => esc_html__( 'Beauty', 'kafkai' ),
 			'Business'        => esc_html__( 'Business', 'kafkai' ),
+			'CarInsurance'    => esc_html__( 'Car Insurance', 'kafkai' ),
 			'Careers'         => esc_html__( 'Careers', 'kafkai' ),
 			'CyberSecurity'   => esc_html__( 'Cyber Security', 'kafkai' ),
 			'Dental'          => esc_html__( 'Dental', 'kafkai' ),
@@ -111,7 +112,9 @@ class Config {
 			'Software'        => esc_html__( 'Software', 'kafkai' ),
 			'Spirituality'    => esc_html__( 'Spirituality', 'kafkai' ),
 			'Sports'          => esc_html__( 'Sports', 'kafkai' ),
+			'Supplements'     => esc_html__( 'Supplements', 'kafkai' ),
 			'Technology'      => esc_html__( 'Technology', 'kafkai' ),
+			'Trading'         => esc_html__( 'Trading', 'kafkai' ),
 			'Travel'          => esc_html__( 'Travel', 'kafkai' ),
 			'WeightLoss'      => esc_html__( 'Weight Loss', 'kafkai' ),
 		);

@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-06-03T12:25:38+00:00\n"
+"POT-Creation-Date: 2021-08-16T05:40:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: kafkai\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #. Author of the plugin
 #: inc/Admin.php:54
-#: inc/Config.php:131
+#: inc/Config.php:134
 msgid "Kafkai"
 msgstr ""
 
@@ -310,165 +310,177 @@ msgid "Business"
 msgstr ""
 
 #: inc/Config.php:85
-msgid "Careers"
+msgid "Car Insurance"
 msgstr ""
 
 #: inc/Config.php:86
-msgid "Cyber Security"
+msgid "Careers"
 msgstr ""
 
 #: inc/Config.php:87
-msgid "Dental"
+msgid "Cyber Security"
 msgstr ""
 
 #: inc/Config.php:88
-msgid "Dating"
+msgid "Dental"
 msgstr ""
 
 #: inc/Config.php:89
-msgid "Dogs"
+msgid "Dating"
 msgstr ""
 
 #: inc/Config.php:90
-msgid "Education"
+msgid "Dogs"
 msgstr ""
 
 #: inc/Config.php:91
-msgid "Fashion"
+msgid "Education"
 msgstr ""
 
 #: inc/Config.php:92
-msgid "Finance"
+msgid "Fashion"
 msgstr ""
 
 #: inc/Config.php:93
-msgid "Food"
+msgid "Finance"
 msgstr ""
 
 #: inc/Config.php:94
-msgid "Gambling"
+msgid "Food"
 msgstr ""
 
 #: inc/Config.php:95
-msgid "Gaming"
+msgid "Gambling"
 msgstr ""
 
 #: inc/Config.php:96
-msgid "Gardening"
+msgid "Gaming"
 msgstr ""
 
 #: inc/Config.php:97
-msgid "General"
+msgid "Gardening"
 msgstr ""
 
 #: inc/Config.php:98
-msgid "Health"
+msgid "General"
 msgstr ""
 
 #: inc/Config.php:99
-msgid "Home and Family"
+msgid "Health"
 msgstr ""
 
 #: inc/Config.php:100
-msgid "Home Improvement"
+msgid "Home and Family"
 msgstr ""
 
 #: inc/Config.php:101
-msgid "Music"
+msgid "Home Improvement"
 msgstr ""
 
 #: inc/Config.php:102
-msgid "Nutrition"
+msgid "Music"
 msgstr ""
 
 #: inc/Config.php:103
-msgid "Online Marketing"
+msgid "Nutrition"
 msgstr ""
 
 #: inc/Config.php:104
-msgid "Outdoors"
+msgid "Online Marketing"
 msgstr ""
 
 #: inc/Config.php:105
-msgid "Real Estate"
+msgid "Outdoors"
 msgstr ""
 
 #: inc/Config.php:106
-msgid "Self Improvement"
+msgid "Real Estate"
 msgstr ""
 
 #: inc/Config.php:107
-msgid "SEO"
+msgid "Self Improvement"
 msgstr ""
 
 #: inc/Config.php:108
-msgid "Shopping"
+msgid "SEO"
 msgstr ""
 
 #: inc/Config.php:109
-msgid "Skin Care"
+msgid "Shopping"
 msgstr ""
 
 #: inc/Config.php:110
-msgid "Sexuality"
+msgid "Skin Care"
 msgstr ""
 
 #: inc/Config.php:111
-msgid "Software"
+msgid "Sexuality"
 msgstr ""
 
 #: inc/Config.php:112
-msgid "Spirituality"
+msgid "Software"
 msgstr ""
 
 #: inc/Config.php:113
-msgid "Sports"
+msgid "Spirituality"
 msgstr ""
 
 #: inc/Config.php:114
-msgid "Technology"
+msgid "Sports"
 msgstr ""
 
 #: inc/Config.php:115
-msgid "Travel"
+msgid "Supplements"
 msgstr ""
 
 #: inc/Config.php:116
+msgid "Technology"
+msgstr ""
+
+#: inc/Config.php:117
+msgid "Trading"
+msgstr ""
+
+#: inc/Config.php:118
+msgid "Travel"
+msgstr ""
+
+#: inc/Config.php:119
 msgid "Weight Loss"
 msgstr ""
 
-#: inc/Config.php:121
+#: inc/Config.php:124
 msgid "Dutch"
 msgstr ""
 
-#: inc/Config.php:122
+#: inc/Config.php:125
 msgid "English"
 msgstr ""
 
-#: inc/Config.php:123
+#: inc/Config.php:126
 msgid "French"
 msgstr ""
 
-#: inc/Config.php:124
+#: inc/Config.php:127
 msgid "German"
 msgstr ""
 
-#: inc/Config.php:125
+#: inc/Config.php:128
 msgid "Italian"
 msgstr ""
 
-#: inc/Config.php:126
+#: inc/Config.php:129
 msgid "Spanish"
 msgstr ""
 
-#: inc/Config.php:127
+#: inc/Config.php:130
 msgid "Swedish"
 msgstr ""
 
-#: inc/Config.php:213
+#: inc/Config.php:216
 msgid "%1$s requires WordPress version %2$s or higher. Please %3$supdate WordPress &raquo;%4$s"
 msgstr ""
 
-#: inc/Config.php:259
+#: inc/Config.php:262
 msgid "The minimum PHP version required for this plugin is %1$s. You are running %2$s."
 msgstr ""

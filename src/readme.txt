@@ -2,8 +2,8 @@
 Contributors: niteoweb
 Tags: articles, content, seo, kafkai
 Requires at least: 4.2
-Tested up to: 5.7.2
-Stable tag: 1.5.2
+Tested up to: 5.8
+Stable tag: 1.5.3
 Requires PHP: 7.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -31,9 +31,13 @@ https://github.com/niteoweb/kafkai-plugin
 
 == Changelog ==
 
+= 1.5.3 =
+* Added 3 new niches
+* Updated POT file
+
 = 1.5.2 =
 * Added 2 new niches
-* Update POT file
+* Updated POT file
 
 = 1.5.1 =
 * Added 1 new niche
@@ -49,7 +53,7 @@ https://github.com/niteoweb/kafkai-plugin
 * Option to manually update niches
 
 = 1.4.0 =
-* Update plugin to use new article state
+* Updated plugin to use new article state
 
 = 1.3.5 =
 * Added 2 new niches
@@ -67,14 +71,14 @@ https://github.com/niteoweb/kafkai-plugin
 * Compatibility with persistent cache plugins
 
 = 1.3.1 =
-* Fix for clearing transients when cache is enabled
+* Fixed clearing of transients when cache is enabled
 
 = 1.3.0 =
 * Auto-updation of niches via the API
 * Better flushing of cached data
 
 = 1.2.6 =
-* Separate "title" from "seed"
+* Separated "title" from "seed"
 
 = 1.2.5 =
 * Added 1 new niche
@@ -90,14 +94,14 @@ https://github.com/niteoweb/kafkai-plugin
 * Added user-agent for remote requests
 
 = 1.0.9 =
-* Update assets
-* Rename plugin slug
+* Updated assets
+* Renamed plugin slug
 
 = 1.0.7 =
-* Update niches
+* Updated niches
 
 = 1.0.6 =
-* Fix plugin activation error
+* Fixed plugin activation error
 
 = 1.0 =
 Plugin release
