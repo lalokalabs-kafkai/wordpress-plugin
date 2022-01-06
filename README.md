@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/niteoweb/kafkai-plugin/workflows/Tests/badge.svg)](https://github.com/niteoweb/kafkai-plugin/actions)
+[![Build Status](https://github.com/teamniteo/kafkai-plugin/workflows/Tests/badge.svg)](https://github.com/teamniteo/kafkai-plugin/actions)
 
 Kafkai for WordPress
 ====================
