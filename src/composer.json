@@ -1,5 +1,5 @@
 {
-  "name": "niteoweb/kafkai-plugin",
+  "name": "teamniteo/kafkai-plugin",
   "description": "Plugin to generate and/or import articles from Kafkai. It also fetches the corresponding featured image along with YouTube video for the article and adds it to the database.",
   "keywords": [
     "wordpress",

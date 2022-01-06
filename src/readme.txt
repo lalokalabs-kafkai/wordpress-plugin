@@ -1,5 +1,5 @@
 === Kafkai - AI Writer Plugin ===
-Contributors: niteoweb
+Contributors: teamniteo
 Tags: articles, content, seo, kafkai
 Requires at least: 4.2
 Tested up to: 5.8
@@ -21,7 +21,7 @@ This plugin can be used to generate and import articles from [Kafkai](https://ka
 1. Upload the entire `kafkai` folder to the /wp-content/plugins/ directory.
 2. Activate the plugin through the ‘Plugins’ menu in WordPress.
 
-https://github.com/niteoweb/kafkai-plugin
+https://github.com/teamniteo/kafkai-plugin
 
 == Frequently Asked Questions ==
 
