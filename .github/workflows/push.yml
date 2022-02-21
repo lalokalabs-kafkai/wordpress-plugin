@@ -5,12 +5,22 @@ jobs:
   run:
     strategy:
       matrix:
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['7.4', '8.0']
     runs-on: 'ubuntu-latest'
     name: Run tests
     steps:
     - name: Checkout code
       uses: actions/checkout@master
+    - name: Get composer cache directory
+      id: composer-cache
+      run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ matrix.php-versions }}-${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
     - name: Set up PHP environment
       uses: shivammathur/setup-php@v2
       with:
