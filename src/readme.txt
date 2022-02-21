@@ -2,8 +2,8 @@
 Contributors: teamniteo
 Tags: articles, content, seo, kafkai
 Requires at least: 4.2
-Tested up to: 5.8
-Stable tag: 1.5.3
+Tested up to: 5.9
+Stable tag: 1.5.4
 Requires PHP: 7.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -30,6 +30,9 @@ https://github.com/teamniteo/kafkai-plugin
 
 
 == Changelog ==
+
+= 1.5.4 =
+* Update compatibility
 
 = 1.5.3 =
 * Added 3 new niches
