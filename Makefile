@@ -57,12 +57,10 @@ release:
 	git pull -r
 
 fmt: install
-	bin/phpcbf --standard=WordPress src --ignore=src/vendor,src/assets
-	bin/phpcbf --standard=WordPress tests
+	composer fmt:wpcs
 
 lint: install
-	bin/phpcs --standard=WordPress src --ignore=src/vendor,src/assets
-	bin/phpcs --standard=WordPress tests
+	composer lint:wpcs
 
 psr: src/vendor
 	composer dump-autoload -o

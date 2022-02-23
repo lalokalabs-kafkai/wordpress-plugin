@@ -29,7 +29,7 @@ jobs:
     - name: Install Dependencies
       run: make vendor
     - name: Lint
-      run: make fmt
+      run: make lint
     - name: Tests
       run: make test
     - name: Cover

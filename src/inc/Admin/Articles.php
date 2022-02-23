@@ -93,7 +93,7 @@ class Articles {
 		}
 
 		// Make connection to API
-		$api      = new Api();
+		$api      = new API();
 		$response = $api->call(
 			sprintf(
 				'/articles?states=%s&page=%d&pageSize=%d',
@@ -294,7 +294,7 @@ class Articles {
 		}
 
 		// Make connection to API
-		$api      = new Api();
+		$api      = new API();
 		$response = $api->call(
 			'/articles/generate',
 			'POST',
@@ -576,7 +576,7 @@ class Articles {
 
 		try {
 			// Make connection to API
-			$api  = new Api();
+			$api  = new API();
 			$call = $api->call(
 				'/articles/' . $article_id,
 				'PATCH',

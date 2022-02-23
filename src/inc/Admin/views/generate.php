@@ -24,18 +24,18 @@ use Niteo\Kafkai\Plugin\Config;
 	?>
 
 	<form method="post">
-		<input type="hidden" name="_<?php echo Config::PLUGIN_PREFIX; ?>nonce" id="_<?php echo Config::PLUGIN_PREFIX; ?>nonce" value="<?php echo esc_attr( wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ) ); ?>">
+		<input type="hidden" name="_<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>nonce" id="_<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>nonce" value="<?php echo esc_attr( wp_create_nonce( Config::PLUGIN_SLUG . '-nonce' ) ); ?>">
 
 		<table class="form-table">
 			<tbody>
 				<tr>
 					<th scope="row">
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>niche">
+						<label for="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>niche">
 							<?php esc_html_e( 'Niche', 'kafkai' ); ?>
 						</label>
 					</th>
 					<td>
-						<select name="<?php echo Config::PLUGIN_PREFIX; ?>niche" id="<?php echo Config::PLUGIN_PREFIX; ?>niche" class="regular-text">
+						<select name="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>niche" id="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>niche" class="regular-text">
 							<?php
 
 								// Article niches
@@ -49,12 +49,12 @@ use Niteo\Kafkai\Plugin\Config;
 				</tr>
 				<tr>
 					<th scope="row">
-						<label for="<?php echo Config::PLUGIN_PREFIX; ?>language">
+						<label for="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>language">
 							<?php esc_html_e( 'Language', 'kafkai' ); ?>
 						</label>
 					</th>
 					<td>
-						<select name="<?php echo Config::PLUGIN_PREFIX; ?>language" id="<?php echo Config::PLUGIN_PREFIX; ?>language" class="regular-text">
+						<select name="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>language" id="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>language" class="regular-text">
 							<?php
 
 								// Languages
@@ -83,7 +83,7 @@ use Niteo\Kafkai\Plugin\Config;
 			<tbody>
 				<tr>
 					<td class="no-margin-left">
-						<textarea name="<?php echo Config::PLUGIN_PREFIX; ?>seed" id="<?php echo Config::PLUGIN_PREFIX; ?>seed" class="large-text" rows="4" placeholder="<?php esc_attr_e( 'Optional', 'kafkai' ); ?>"></textarea>
+						<textarea name="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>seed" id="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>seed" class="large-text" rows="4" placeholder="<?php esc_attr_e( 'Optional', 'kafkai' ); ?>"></textarea>
 						<p class="help-text"><?php esc_html_e( 'Please note that advanced articles take longer to finish.', 'kafkai' ); ?></p>
 					</td>
 				</tr>
@@ -91,7 +91,7 @@ use Niteo\Kafkai\Plugin\Config;
 		</table>
 
 		<p class="submit">
-			<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>generate" value="<?php esc_attr_e( 'Generate Article', 'kafkai' ); ?>" class="button button-primary">
+			<input type="submit" name="<?php echo esc_attr( Config::PLUGIN_PREFIX ); ?>generate" value="<?php esc_attr_e( 'Generate Article', 'kafkai' ); ?>" class="button button-primary">
 		</p>
 	</form>
 </div>

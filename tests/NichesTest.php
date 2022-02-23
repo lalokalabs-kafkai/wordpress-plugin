@@ -1,20 +1,20 @@
 <?php
 /**
- * Unit tests for `Updater` class.
+ * Unit tests for `Niches` class.
  */
 
 namespace Niteo\Kafkai\Plugin\Tests;
 
-use Niteo\Kafkai\Plugin\Admin\Updater;
+use Niteo\Kafkai\Plugin\Admin\Niches;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests Updater class functions in isolation.
+ * Tests Niches class functions in isolation.
  *
  * @package Niteo\Kafkai\Plugin
- * @coversDefaultClass \Niteo\Kafkai\Plugin\Admin\Updater
+ * @coversDefaultClass \Niteo\Kafkai\Plugin\Admin\Niches
  */
-class UpdaterTest extends TestCase {
+class NichesTest extends TestCase {
 
 	function setUp() : void {
 		\WP_Mock::setUsePatchwork( true );
@@ -33,13 +33,13 @@ class UpdaterTest extends TestCase {
 	 * @covers ::__construct
 	 */
 	public function testConstructor() {
-		$updater = new Updater();
+		$niches = new Niches();
 
-		\WP_Mock::expectActionAdded( 'current_screen', array( $updater, 'check_niches_and_languages' ) );
-		\WP_Mock::expectActionAdded( 'admin_notices', array( $updater, 'admin_notices' ) );
-		\WP_Mock::expectActionAdded( 'kafkaiwp_settings', array( $updater, 'add_update_button' ) );
+		\WP_Mock::expectActionAdded( 'current_screen', array( $niches, 'check_niches_and_languages' ) );
+		\WP_Mock::expectActionAdded( 'admin_notices', array( $niches, 'admin_notices' ) );
+		\WP_Mock::expectActionAdded( 'kafkaiwp_settings', array( $niches, 'add_update_button' ) );
 
-		$updater->__construct();
+		$niches->__construct();
 		\WP_Mock::assertHooksAdded();
 	}
 
@@ -49,7 +49,7 @@ class UpdaterTest extends TestCase {
 	 * @covers ::is_plugin_page
 	 */
 	public function testCheckNichesWrongPage() {
-		$updater        = new Updater();
+		$niches        = new Niches();
 		$current_screen = (object) array(
 			'id' => 'wrong_page',
 		);
@@ -62,7 +62,7 @@ class UpdaterTest extends TestCase {
 			)
 		);
 
-		$this->assertEmpty( $updater->check_niches_and_languages() );
+		$this->assertEmpty( $niches->check_niches_and_languages() );
 	}
 
 	/**
@@ -71,7 +71,7 @@ class UpdaterTest extends TestCase {
 	 * @covers ::is_plugin_page
 	 */
 	public function testCheckNichesNoTransientNoData() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Updater' )->makePartial();
+		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Niches' )->makePartial();
 		$mock->shouldReceive( 'api_call' )->andReturn( false );
 
 		$current_screen = (object) array(
@@ -103,7 +103,7 @@ class UpdaterTest extends TestCase {
 	 * @covers ::is_plugin_page
 	 */
 	public function testCheckNichesNoTransientWithData() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Updater' )->makePartial();
+		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Niches' )->makePartial();
 		$mock->shouldReceive( 'api_call' )->andReturn( 'DUMMY_DATA' );
 		$mock->shouldReceive( 'yaml_parse_and_check' )->andReturn( true );
 
@@ -136,7 +136,7 @@ class UpdaterTest extends TestCase {
 	 * @covers ::is_plugin_page
 	 */
 	public function testCheckNichesWithTransient() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Updater' )->makePartial();
+		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Niches' )->makePartial();
 		$mock->shouldReceive( 'yaml_parse_and_check' )->andReturn( true );
 
 		$current_screen = (object) array(
@@ -167,15 +167,15 @@ class UpdaterTest extends TestCase {
 	 * @covers ::admin_notices
 	 * @covers ::is_plugin_page
 	 */
-	public function testAddAdminNoticesWrongPage() {
+	public function testAddAdminNichesWrongPage() {
 		global $current_screen;
 
 		$current_screen = (object) array(
 			'id' => 'not_plugin_page',
 		);
-		$updater        = new Updater();
+		$niches        = new Niches();
 
-		$this->assertEmpty( $updater->admin_notices() );
+		$this->assertEmpty( $niches->admin_notices() );
 	}
 
 	/**
@@ -183,13 +183,13 @@ class UpdaterTest extends TestCase {
 	 * @covers ::admin_notices
 	 * @covers ::is_plugin_page
 	 */
-	public function testAdminNoticesNoTransient() {
+	public function testAdminNichesNoTransient() {
 		global $current_screen;
 
 		$current_screen = (object) array(
 			'id' => 'kafkaiwp_import',
 		);
-		$updater        = new Updater();
+		$niches        = new Niches();
 
 		\WP_Mock::userFunction(
 			'get_transient',
@@ -199,7 +199,7 @@ class UpdaterTest extends TestCase {
 			)
 		);
 
-		$this->assertEmpty( $updater->admin_notices() );
+		$this->assertEmpty( $niches->admin_notices() );
 	}
 
 	/**
@@ -208,13 +208,13 @@ class UpdaterTest extends TestCase {
 	 * @covers ::add_notification
 	 * @covers ::is_plugin_page
 	 */
-	public function testAdminNoticesSuccess() {
+	public function testAdminNichesSuccess() {
 		global $current_screen;
 
 		$current_screen = (object) array(
 			'id' => 'kafkaiwp_import',
 		);
-		$updater        = new Updater();
+		$niches        = new Niches();
 
 		\WP_Mock::userFunction(
 			'get_transient',
@@ -233,7 +233,7 @@ class UpdaterTest extends TestCase {
 		);
 
 		$this->expectOutputString( '<div class="notice notice-info"><p>New niches are available for the plugin. Please go to <a href="admin.php?page=kafkaiwp_settings">Settings page</a> to update.</p></div><div class="notice notice-info"><p>New languages are available for the plugin. Please go to <a href="admin.php?page=kafkaiwp_settings">Settings page</a> to update.</p></div>' );
-		$updater->admin_notices();
+		$niches->admin_notices();
 	}
 
 	/**
@@ -241,10 +241,10 @@ class UpdaterTest extends TestCase {
 	 * @covers ::add_update_button
 	 */
 	public function testUpdateButton() {
-		$updater = new Updater();
+		$niches = new Niches();
 
 		$this->expectOutputString( '&nbsp;<input type="submit" name="kafkaiwp_update_data" value="Update Niches & Languages" class="button button-secondary">' );
-		$updater->add_update_button();
+		$niches->add_update_button();
 	}
 
 }

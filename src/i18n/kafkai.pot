@@ -90,7 +90,7 @@ msgstr ""
 msgid "Website"
 msgstr ""
 
-#: inc/Admin/Api.php:173
+#: inc/Admin/API.php:173
 msgid "Authorization token is not available. Please go to %1$splugin settings%2$s and provide credentials or re-generate token."
 msgstr ""
 
@@ -153,15 +153,15 @@ msgstr ""
 msgid "There was an error updating %1$s. Please try agin later."
 msgstr ""
 
-#: inc/Admin/Updater.php:169
+#: inc/Admin/Niches.php:169
 msgid "New niches are available for the plugin. Please go to %1$sSettings page%2$s to update."
 msgstr ""
 
-#: inc/Admin/Updater.php:179
+#: inc/Admin/Niches.php:179
 msgid "New languages are available for the plugin. Please go to %1$sSettings page%2$s to update."
 msgstr ""
 
-#: inc/Admin/Updater.php:205
+#: inc/Admin/Niches.php:205
 msgid "Update Niches & Languages"
 msgstr ""
 

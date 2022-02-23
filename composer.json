@@ -16,6 +16,12 @@
     "phpro/grumphp": "^1.3.0",
     "wp-cli/wp-cli-bundle": "^2.5.0"
   },
+  "scripts": {
+    "post-install-cmd": "vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
+    "post-update-cmd" : "vendor/squizlabs/php_codesniffer/bin/phpcs --config-set installed_paths vendor/wp-coding-standards/wpcs",
+    "lint:wpcs": "vendor/squizlabs/php_codesniffer/bin/phpcs -s --standard=rules.xml",
+    "fmt:wpcs": "vendor/squizlabs/php_codesniffer/bin/phpcbf --standard=rules.xml"
+  },
   "config": {
     "bin-dir": "bin/",
     "allow-plugins": {

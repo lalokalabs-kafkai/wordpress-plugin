@@ -160,7 +160,7 @@ class AdminHelperTest extends TestCase {
 	/**
 	 * @covers ::process_settings
 	 */
-	public function testProcessSettingsApiFalseResponse() {
+	public function testProcessSettingsAPIFalseResponse() {
 		$mock = $this->getMockBuilder( '\Niteo\Kafkai\Plugin\Admin\Helper' )->getMockForTrait();
 
 		$_POST['kafkaiwp_settings'] = 'value';
@@ -200,8 +200,8 @@ class AdminHelperTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testProcessSettingsApiError() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testProcessSettingsAPIError() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'authenticate' )->andSet( 'response', '{"errors":["Error from the API"]}' )->andReturn( true );
 
 		$mock = $this->getMockBuilder( '\Niteo\Kafkai\Plugin\Admin\Helper' )->getMockForTrait();
@@ -244,7 +244,7 @@ class AdminHelperTest extends TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testProcessSettingsNoToken() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'authenticate' )->andSet( 'response', '{"response": "any response other than error"}' )->andReturn( true );
 
 		$mock = $this->getMockBuilder( '\Niteo\Kafkai\Plugin\Admin\Helper' )->getMockForTrait();
@@ -287,7 +287,7 @@ class AdminHelperTest extends TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testProcessSettingsTokenSet() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'authenticate' )->andSet( 'response', '{"token": "TOKEN"}' )->andReturn( true );
 
 		$mock = $this->getMockBuilder( '\Niteo\Kafkai\Plugin\Admin\Helper' )->getMockForTrait();

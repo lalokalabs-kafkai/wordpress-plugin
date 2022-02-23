@@ -6,7 +6,7 @@
 namespace Niteo\Kafkai\Plugin;
 
 use Niteo\Kafkai\Plugin\Admin\Articles;
-use Niteo\Kafkai\Plugin\Admin\Updater;
+use Niteo\Kafkai\Plugin\Admin\Niches;
 
 /**
  * Admin options for the plugin.
@@ -26,7 +26,7 @@ class Admin {
 	 * Class constructor.
 	 */
 	public function __construct() {
-		new Updater();
+		new Niches();
 
 		add_action( 'admin_menu', array( $this, 'add_menu' ), PHP_INT_MAX );
 		add_filter( 'plugin_row_meta', array( $this, 'meta_links' ), 10, 2 );

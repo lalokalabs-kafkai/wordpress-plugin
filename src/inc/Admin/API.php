@@ -12,7 +12,7 @@ use Niteo\Kafkai\Plugin\Config;
  *
  * @package Niteo\Kafkai\Plugin
  */
-class Api {
+class API {
 
 	/**
 	 * @var string

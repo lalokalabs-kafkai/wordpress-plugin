@@ -7,7 +7,7 @@ namespace Niteo\Kafkai\Plugin\Admin;
 
 use Niteo\Kafkai\Plugin\Config;
 use Niteo\Kafkai\Plugin\Helper as MainHelper;
-use Niteo\Kafkai\Plugin\Admin\Api;
+use Niteo\Kafkai\Plugin\Admin\API;
 
 trait Helper {
 
@@ -90,7 +90,7 @@ trait Helper {
 		update_option( Config::PLUGIN_PREFIX . 'settings', $credentials );
 
 		// API call for authentication
-		$api      = new Api();
+		$api      = new API();
 		$response = $api->authenticate();
 
 		// Request did not go through correctly
@@ -289,7 +289,7 @@ trait Helper {
 	 * @return void
 	 */
 	public function add_notice( $code, $response ) : void {
-		echo '<div class="notice notice-' . $code . ' is-dismissible"><p>' . $response . '</p></div>';
+		echo esc_html('<div class="notice notice-' . $code . ' is-dismissible"><p>' . $response . '</p></div>');
 	}
 
 }

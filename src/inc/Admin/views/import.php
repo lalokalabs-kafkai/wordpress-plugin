@@ -12,7 +12,7 @@ use Niteo\Kafkai\Plugin\Config;
 		<?php esc_html_e( 'Import Articles', 'kafkai' ); ?>
 	</h1>
 
-	<a href="<?php echo add_query_arg( array( 'action' => 'refresh_list' ) ); ?>" class="page-title-action">
+	<a href="<?php echo esc_attr( add_query_arg( array( 'action' => 'refresh_list' ) ) ); ?>" class="page-title-action">
 		<?php esc_html_e( 'Refresh List', 'kafkai' ); ?>
 	</a>
 
@@ -48,17 +48,17 @@ use Niteo\Kafkai\Plugin\Config;
 				<div class="tablenav-pages">
 					<?php if ( (int) $this->articles->response['pageCount'] > 1 && (int) $this->articles->response['pageNum'] !== 1 ) : ?>
 						<?php if ( (int) $this->articles->response['pageNum'] > 2 ) : ?>
-						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
+						<a class="prev-page button" href="<?php echo esc_attr( add_query_arg( 'paged', 1 ) ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
 					<?php endif; ?>
-						<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
+						<a class="prev-page button" href="<?php echo esc_attr( add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ) ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
 					<?php endif; ?>&nbsp;
 
-					<span class="displaying-num">Page <?php echo $this->articles->response['pageNum']; ?> of <?php echo $this->articles->response['pageCount']; ?></span>
+					<span class="displaying-num">Page <?php echo esc_html($this->articles->response['pageNum']); ?> of <?php echo esc_html($this->articles->response['pageCount']); ?></span>
 
 					<?php if ( (int) $this->articles->response['pageCount'] > $this->articles->response['pageNum'] ) : ?>
-						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
+						<a class="next-page button" href="<?php echo esc_attr( add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ) ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
 						<?php if ( (int) $this->articles->response['pageCount'] > 2 && ( $this->articles->response['pageCount'] - $this->articles->response['pageNum'] ) > 1 ) : ?>
-						<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
+						<a class="next-page button" href="<?php echo esc_attr( add_query_arg( 'paged', $this->articles->response['pageCount'] ) ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
 					<?php endif; ?>
 					<?php endif; ?>
 				</div>
@@ -100,10 +100,10 @@ use Niteo\Kafkai\Plugin\Config;
 					if ( isset( $this->articles->response['articles'] ) && ! empty( $this->articles->response['articles'] ) ) :
 						foreach ( $this->articles->response['articles'] as $key => $data ) :
 							$key         = esc_attr( $key );
-							$title       = trim( esc_html( $data['title'] ) );
+							$article_title       = trim( esc_html( $data['title'] ) );
 							$niche       = esc_html( $data['niche'] );
 							$state       = esc_attr( $data['state'] );
-							$status      = esc_attr__( 'raw', 'kafkai' );
+							$article_status      = esc_attr__( 'raw', 'kafkai' );
 							$niche_image = strtolower( str_replace( ' ', '_', $this->articles->niche_name( $niche ) ) );
 
 							// Date
@@ -112,33 +112,33 @@ use Niteo\Kafkai\Plugin\Config;
 
 							// Check for import status
 							if ( in_array( $key, $this->articles->imported_article_ids ) ) {
-								$status = esc_attr__( 'imported', 'kafkai' );
+								$article_status = esc_attr__( 'imported', 'kafkai' );
 							}
 
 							?>
-								<tr id="article-<?php echo $key; ?>" class="niche-<?php echo $niche; ?> state-<?php echo $state; ?> status-<?php echo $status; ?>">
+								<tr id="article-<?php echo esc_attr($key); ?>" class="niche-<?php echo esc_attr($niche); ?> state-<?php echo esc_attr($state); ?> status-<?php echo esc_attr($article_status); ?>">
 									<td class="image column-image">
-										<img src="<?php echo Config::$plugin_url . 'assets/admin/images/' . $niche_image . '.svg'; ?>" alt="<?php echo $niche; ?>" onerror="javascript:this.style.display='none'">
+										<img src="<?php echo esc_attr(Config::$plugin_url . 'assets/admin/images/' . $niche_image . '.svg'); ?>" alt="<?php echo esc_attr($niche); ?>" onerror="javascript:this.style.display='none'">
 									</td>
 
 									<td class="title column-title column-primary has-row-actions" data-colname="<?php esc_html_e( 'Title', 'kafkai' ); ?>">
 								<?php
 
-								if ( strlen( $title ) > 120 ) {
-									echo '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . substr( $title, 0, 120 ) . '</a>...';
+								if ( strlen( $article_title ) > 120 ) {
+									echo esc_html( '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . substr( $title, 0, 120 ) . '</a>...' );
 								} else {
-									echo '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . $title . '</a>';
+									echo esc_html( '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . $article_title . '</a>' );
 								}
 
 								?>
 									</td>
 
 									<td class="niche column-niche" data-colname="<?php esc_html_e( 'Niche', 'kafkai' ); ?>">
-									<?php echo $this->articles->niche_name( $niche ); ?>
+									<?php echo esc_html( $this->articles->niche_name( $niche ) ); ?>
 									</td>
 
 									<td class="date column-date" data-colname="<?php esc_html_e( 'Date', 'kafkai' ); ?>">
-									<?php echo $formatted_date; ?>
+									<?php echo esc_html( $formatted_date ); ?>
 									</td>
 								</tr>
 							<?php
@@ -150,11 +150,13 @@ use Niteo\Kafkai\Plugin\Config;
 									<td colspan="4">
 										<?php
 
-											echo sprintf(
-												esc_html__( 'There are no articles under your account. You can %1$sclick here%2$s to generate one.', 'kafkai' ),
-												'<a href="' . self_admin_url( 'admin.php?page=' . Config::PLUGIN_PREFIX . 'generate' ) . '">',
-												'</a>'
-											);
+											echo esc_html(
+                                                sprintf(
+                                                    esc_html__( 'There are no articles under your account. You can %1$sclick here%2$s to generate one.', 'kafkai' ),
+                                                    '<a href="' . self_admin_url( 'admin.php?page=' . esc_attr(Config::PLUGIN_PREFIX) . 'generate' ) . '">',
+                                                    '</a>'
+                                                )
+                                            );
 
 										?>
 										</td>
@@ -211,17 +213,17 @@ use Niteo\Kafkai\Plugin\Config;
 						<div class="tablenav-pages">
 						<?php if ( (int) $this->articles->response['pageCount'] > 1 && (int) $this->articles->response['pageNum'] !== 1 ) : ?>
 								<?php if ( (int) $this->articles->response['pageNum'] > 2 ) : ?>
-									<a class="prev-page button" href="<?php echo add_query_arg( 'paged', 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
+									<a class="prev-page button" href="<?php echo esc_attr( add_query_arg( 'paged', 1 ) ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">«</span></a>
 								<?php endif; ?>
-									<a class="prev-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
+									<a class="prev-page button" href="<?php echo esc_attr( add_query_arg( 'paged', $this->articles->response['pageNum'] - 1 ) ); ?>"><span class="screen-reader-text">Previous page</span><span aria-hidden="true">‹</span></a>&nbsp;
 								<?php endif; ?>&nbsp;
 
-								<span class="displaying-num">Page <?php echo $this->articles->response['pageNum']; ?> of <?php echo $this->articles->response['pageCount']; ?></span>
+								<span class="displaying-num">Page <?php echo esc_html($this->articles->response['pageNum']); ?> of <?php echo esc_html($this->articles->response['pageCount']); ?></span>
 
 							<?php if ( (int) $this->articles->response['pageCount'] > $this->articles->response['pageNum'] ) : ?>
-									<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
+									<a class="next-page button" href="<?php echo esc_attr( add_query_arg( 'paged', $this->articles->response['pageNum'] + 1 ) ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">›</span></a>&nbsp;
 									<?php if ( (int) $this->articles->response['pageCount'] > 2 && ( $this->articles->response['pageCount'] - $this->articles->response['pageNum'] ) > 1 ) : ?>
-									<a class="next-page button" href="<?php echo add_query_arg( 'paged', $this->articles->response['pageCount'] ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
+									<a class="next-page button" href="<?php echo esc_attr( add_query_arg( 'paged', $this->articles->response['pageCount'] ) ); ?>"><span class="screen-reader-text">Next page</span><span aria-hidden="true">»</span></a>
 								<?php endif; ?>
 							<?php endif; ?>
 						</div>
@@ -234,8 +236,8 @@ use Niteo\Kafkai\Plugin\Config;
 		</div>
 	</form>
 
-	<div id="<?php echo Config::PLUGIN_PREFIX; ?>inline-article-container" class="single-article-container">
-		<form method="post" id="<?php echo Config::PLUGIN_PREFIX; ?>import_form">
+	<div id="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>inline-article-container" class="single-article-container">
+		<form method="post" id="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>import_form">
 			<div class="single-article-scrollable">
 				<div class="article-actions top">
 					<button type="button" class="modal-close">
@@ -258,7 +260,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 			<div class="article-actions bottom">
 				<p>
-					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-status">
+					<label for="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>article-import-status">
 						<strong><?php esc_html_e( 'Status', 'kafkai' ); ?></strong>
 					</label>&nbsp;
 
@@ -269,15 +271,17 @@ use Niteo\Kafkai\Plugin\Config;
 
 						// Make sure the array is not empty
 					if ( ! empty( $statuses ) ) {
-						echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-status" id="' . Config::PLUGIN_PREFIX . 'article-import-status">';
+						echo '<select name="' . esc_attr(Config::PLUGIN_PREFIX) . 'article-import-status" id="' . esc_attr(Config::PLUGIN_PREFIX) . 'article-import-status">';
 
 						// Loop over array
 						foreach ( $statuses as $status_key => $status_name ) {
-							echo sprintf(
-								'<option value="%s">%s</option>',
-								$status_key,
-								$status_name
-							);
+							echo esc_html(
+                                sprintf(
+                                    '<option value="%s">%s</option>',
+                                    $status_key,
+                                    $status_name
+                                )
+                            );
 						}
 
 						echo '</select>';
@@ -289,7 +293,7 @@ use Niteo\Kafkai\Plugin\Config;
 				</p>
 
 				<p>
-					<label for="<?php echo Config::PLUGIN_PREFIX; ?>article-import-author">
+					<label for="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>article-import-author">
 						<strong><?php esc_html_e( 'Author', 'kafkai' ); ?></strong>
 					</label>&nbsp;
 		
@@ -305,15 +309,17 @@ use Niteo\Kafkai\Plugin\Config;
 
 						// Make sure the array is not empty
 						if ( ! empty( $users ) ) {
-							echo '<select name="' . Config::PLUGIN_PREFIX . 'article-import-author" id="' . Config::PLUGIN_PREFIX . 'article-import-author">';
+							echo '<select name="' . esc_attr(Config::PLUGIN_PREFIX) . 'article-import-author" id="' . esc_attr(Config::PLUGIN_PREFIX) . 'article-import-author">';
 
 							// Loop over array
 							foreach ( $users as $user ) {
-								echo sprintf(
-									'<option value="%s">%s</option>',
-									$user->data->ID,
-									$user->data->user_login
-								);
+								echo esc_html(
+                                    sprintf(
+                                        '<option value="%s">%s</option>',
+                                        $user->data->ID,
+                                        $user->data->user_login
+                                    )
+                                );
 							}
 
 							echo '</select>';
@@ -325,8 +331,8 @@ use Niteo\Kafkai\Plugin\Config;
 				</p>
 
 				<p class="align-right">
-					<input type="hidden" name="<?php echo Config::PLUGIN_PREFIX; ?>article_id" id="<?php echo Config::PLUGIN_PREFIX; ?>article_id">
-					<input type="submit" name="<?php echo Config::PLUGIN_PREFIX; ?>article_import" id="<?php echo Config::PLUGIN_PREFIX; ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai' ); ?>" class="button button-primary">
+					<input type="hidden" name="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>article_id" id="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>article_id">
+					<input type="submit" name="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>article_import" id="<?php echo esc_attr(Config::PLUGIN_PREFIX); ?>article_import" value="<?php esc_attr_e( 'Import Article', 'kafkai' ); ?>" class="button button-primary">
 				</p>
 			</div>
 	</form><!-- form -->

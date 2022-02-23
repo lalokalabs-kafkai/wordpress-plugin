@@ -68,8 +68,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testFetchArticlesApiError() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testFetchArticlesAPIError() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '{"errors":["Error from the API"]}' )->andReturn( true );
 
 		$articles = new Articles();
@@ -93,7 +93,7 @@ class ArticlesTest extends TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testFetchArticlesWithData() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '{"articles":[{"id":"abc0-def1-ghi3-jkl4","state":"Generated","niche":"Sports","title":"Article Title","createdAt":"1900-01-01 0000:00:00"}],"pageCount":10,"total":50}' )->andReturn( true );
 
 		$articles = new Articles();
@@ -140,7 +140,7 @@ class ArticlesTest extends TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testFetchArticlesCallError() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'error', 'API returned an error.' )->andReturn( false );
 
 		$articles = new Articles();
@@ -559,8 +559,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testGenerateArticleApiError() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testGenerateArticleAPIError() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '{"errors":["Error from the API"]}' )->andReturn( true );
 
 		$articles = new Articles();
@@ -607,8 +607,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testGenerateArticleApiSuccess() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testGenerateArticleAPISuccess() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '{"id":"ARTICLE_ID"}' )->andReturn( true );
 
 		$articles = new Articles();
@@ -663,8 +663,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testGenerateArticleOtherApiError() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testGenerateArticleOtherAPIError() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '{"unknown":"error"}' )->andReturn( true );
 
 		$articles = new Articles();
@@ -711,8 +711,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testGenerateArticleFalseApiResponse() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testGenerateArticleFalseAPIResponse() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'error', 'false response received from the API' )->andReturn( false );
 
 		$articles = new Articles();
@@ -863,8 +863,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testFetchSingleArticleApiError() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testFetchSingleArticleAPIError() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '{"errors":["Error from the API"]}' )->andReturn( true );
 
 		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Articles' )->makePartial()->shouldAllowMockingProtectedMethods();
@@ -911,8 +911,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testFetchSingleArticleApiException() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testFetchSingleArticleAPIException() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '[{"exception":"This exception is coming from the API"}]' )->andReturn( true );
 
 		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Articles' )->makePartial()->shouldAllowMockingProtectedMethods();
@@ -959,8 +959,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testFetchSingleArticleApiMessage() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testFetchSingleArticleAPIMessage() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '[{"message":"This message is coming from the API"}]' )->andReturn( true );
 
 		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Articles' )->makePartial()->shouldAllowMockingProtectedMethods();
@@ -1008,7 +1008,7 @@ class ArticlesTest extends TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testFetchSingleArticleSuccess() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andSet( 'response', '{"id":"ARTICLE_ID"}' )->andReturn( true );
 
 		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Articles' )->makePartial()->shouldAllowMockingProtectedMethods();
@@ -1063,8 +1063,8 @@ class ArticlesTest extends TestCase {
 	 * @runInSeparateProcess
 	 * @preserveGlobalState disabled
 	 */
-	public function testFetchSingleArticleFalseApiCall() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+	public function testFetchSingleArticleFalseAPICall() {
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andReturn( false );
 
 		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Articles' )->makePartial()->shouldAllowMockingProtectedMethods();
@@ -1112,7 +1112,7 @@ class ArticlesTest extends TestCase {
 	 * @preserveGlobalState disabled
 	 */
 	public function testFetchSingleArticleExceptionHandling() {
-		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\Api' );
+		$api_mock = \Mockery::mock( 'overload:\Niteo\Kafkai\Plugin\Admin\API' );
 		$api_mock->shouldReceive( 'call' )->andThrow( 'exception', 'API exception was handled gracefully by the plugin.' );
 
 		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Articles' )->makePartial()->shouldAllowMockingProtectedMethods();

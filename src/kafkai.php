@@ -91,7 +91,7 @@ class KafKai {
 }
 
 // Initialize plugin
-$plugin = new KafKai();
+$KafKaiPlugin = new KafKai();
 
 // Tasks to be taken care of on activation
-register_activation_hook( __FILE__, array( $plugin, 'activate' ) );
+register_activation_hook( __FILE__, array( $KafKaiPlugin, 'activate' ) );

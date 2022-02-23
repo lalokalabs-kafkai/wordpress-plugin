@@ -1,6 +1,6 @@
 <?php
 /**
- * Niche updater for the plugin.
+ * Niches for the plugin.
  */
 
 namespace Niteo\Kafkai\Plugin\Admin;
@@ -14,7 +14,7 @@ use Symfony\Component\Yaml\Exception\ParseException;
  *
  * @package Niteo\Kafkai\Plugin
  */
-class Updater {
+class Niches {
 
 	/**
 	 * @var array
@@ -71,7 +71,7 @@ class Updater {
 	 */
 	public function api_call() {
 		// Make an API call.
-		$api = new Api();
+		$api = new API();
 		$api->set_apiurl( $this->_apiurl );
 		$call = $api->call( '/openapi.yaml', 'GET' );
 
@@ -191,9 +191,7 @@ class Updater {
 	 * @return void
 	 */
 	public function add_notification( string $message, string $code = 'info' ) : void {
-		echo '<div class="notice notice-' . $code . '"><p>';
-		echo $message;
-		echo '</p></div>';
+		echo esc_html( sprintf( '<div class="notice notice-%s"><p>%s</p></div>', $code, $message ) );
 	}
 
 	/**
@@ -202,7 +200,7 @@ class Updater {
 	 * @return void
 	 */
 	public function add_update_button() : void {
-		echo '&nbsp;<input type="submit" name="' . Config::PLUGIN_PREFIX . 'update_data" value="' . esc_html__( 'Update Niches & Languages', 'kafkai' ) . '" class="button button-secondary">';
+		echo esc_html( '&nbsp;<input type="submit" name="' . Config::PLUGIN_PREFIX . 'update_data" value="' . __( 'Update Niches & Languages', 'kafkai' ) . '" class="button button-secondary">' );
 	}
 
 	/**

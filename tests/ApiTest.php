@@ -1,20 +1,20 @@
 <?php
 /**
- * Unit tests for `Api` class.
+ * Unit tests for `API` class.
  */
 
 namespace Niteo\Kafkai\Plugin\Tests;
 
-use Niteo\Kafkai\Plugin\Admin\Api;
+use Niteo\Kafkai\Plugin\Admin\API;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Tests Api class functions in isolation.
+ * Tests API class functions in isolation.
  *
  * @package Niteo\Kafkai\Plugin
- * @coversDefaultClass \Niteo\Kafkai\Plugin\Admin\Api
+ * @coversDefaultClass \Niteo\Kafkai\Plugin\Admin\API
  */
-class ApiTest extends TestCase {
+class APITest extends TestCase {
 
 	function setUp() : void {
 		\WP_Mock::setUsePatchwork( true );
@@ -34,7 +34,7 @@ class ApiTest extends TestCase {
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateNoCredentials() {
-		$api = new Api();
+		$api = new API();
 
 		\WP_Mock::userFunction(
 			'get_option',
@@ -52,7 +52,7 @@ class ApiTest extends TestCase {
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateNotArray() {
-		$api = new Api();
+		$api = new API();
 
 		\WP_Mock::userFunction(
 			'get_option',
@@ -70,7 +70,7 @@ class ApiTest extends TestCase {
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateWrongKeys() {
-		$api = new Api();
+		$api = new API();
 
 		\WP_Mock::userFunction(
 			'get_option',
@@ -91,7 +91,7 @@ class ApiTest extends TestCase {
 	 * @covers ::get_credentials
 	 */
 	public function testAuthenticateReturnTrue() {
-		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\Api' )->makePartial();
+		$mock = \Mockery::mock( '\Niteo\Kafkai\Plugin\Admin\API' )->makePartial();
 		$mock->shouldReceive( 'call' )->andReturn( true );
 
 		\WP_Mock::userFunction(
@@ -115,7 +115,7 @@ class ApiTest extends TestCase {
 	 * @covers ::verify_token
 	 */
 	public function testCallUnverifiedToken() {
-		$api = new Api();
+		$api = new API();
 
 		\WP_Mock::userFunction(
 			'get_option',
@@ -143,7 +143,7 @@ class ApiTest extends TestCase {
 	 * @covers ::verify_token
 	 */
 	public function testCallVerifiedToken() {
-		$api = new Api();
+		$api = new API();
 
 		\WP_Mock::userFunction(
 			'get_option',
@@ -185,7 +185,7 @@ class ApiTest extends TestCase {
 	 * @covers ::verify_token
 	 */
 	public function testCallPostSuccess() {
-		$api = new Api();
+		$api = new API();
 
 		\WP_Mock::userFunction(
 			'get_option',
@@ -219,8 +219,8 @@ class ApiTest extends TestCase {
 	/**
 	 * @covers ::set_apiurl
 	 */
-	public function testSetApiUrl() {
-		$api = new Api();
+	public function testSetAPIUrl() {
+		$api = new API();
 
 		$this->assertEmpty( $api->set_apiurl( 'URL' ) );
 	}
@@ -229,7 +229,7 @@ class ApiTest extends TestCase {
 	 * @covers ::set_args
 	 */
 	public function testSetArgs() {
-		$api = new Api();
+		$api = new API();
 
 		$this->assertEmpty( $api->set_args( array() ) );
 	}
@@ -238,7 +238,7 @@ class ApiTest extends TestCase {
 	 * @covers ::set_headers
 	 */
 	public function testSetHeader() {
-		$api = new Api();
+		$api = new API();
 
 		$this->assertEmpty( $api->set_headers( array() ) );
 	}
