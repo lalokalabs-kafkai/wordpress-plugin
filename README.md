@@ -1,4 +1,4 @@
-[![Build Status](https://github.com/teamniteo/kafkai-plugin/workflows/Tests/badge.svg)](https://github.com/teamniteo/kafkai-plugin/actions) [![Deploy to WordPress.org](https://github.com/teamniteo/kafkai-plugin/actions/workflows/deploy.yml/badge.svg)](https://github.com/teamniteo/kafkai-plugin/actions/workflows/deploy.yml)
+[![Tests](https://github.com/teamniteo/kafkai-plugin/actions/workflows/push.yml/badge.svg)](https://github.com/teamniteo/kafkai-plugin/actions/workflows/push.yml) [![Deploy to WordPress.org](https://github.com/teamniteo/kafkai-plugin/actions/workflows/deploy.yml/badge.svg)](https://github.com/teamniteo/kafkai-plugin/actions/workflows/deploy.yml)
 
 # Kafkai for WordPress
 
