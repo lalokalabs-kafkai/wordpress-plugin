@@ -1,4 +1,4 @@
-VERSION := 1.5.4
+VERSION := 1.5.6
 PLUGINSLUG := kafkai
 SRCPATH := $(shell pwd)/src
 
