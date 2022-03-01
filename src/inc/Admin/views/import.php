@@ -125,9 +125,9 @@ use Niteo\Kafkai\Plugin\Config;
 								<?php
 
 								if ( strlen( $article_title ) > 120 ) {
-									echo esc_html( '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . substr( $title, 0, 120 ) . '</a>...' );
+									echo '<a href="javascript:;" class="fetch-article" data-id="' . esc_attr( $key) . '">' . esc_attr(substr( $title, 0, 120 )) . '</a>...';
 								} else {
-									echo esc_html( '<a href="javascript:;" class="fetch-article" data-id="' . $key . '">' . $article_title . '</a>' );
+									echo '<a href="javascript:;" class="fetch-article" data-id="' . esc_attr($key) . '">' . esc_attr($article_title) . '</a>';
 								}
 
 								?>
@@ -152,7 +152,7 @@ use Niteo\Kafkai\Plugin\Config;
 
 											echo esc_html(
                                                 sprintf(
-                                                    esc_html__( 'There are no articles under your account. You can %1$sclick here%2$s to generate one.', 'kafkai' ),
+                                                    __( 'There are no articles under your account. You can %1$sclick here%2$s to generate one.', 'kafkai' ),
                                                     '<a href="' . self_admin_url( 'admin.php?page=' . esc_attr(Config::PLUGIN_PREFIX) . 'generate' ) . '">',
                                                     '</a>'
                                                 )
@@ -275,12 +275,10 @@ use Niteo\Kafkai\Plugin\Config;
 
 						// Loop over array
 						foreach ( $statuses as $status_key => $status_name ) {
-							echo esc_html(
-                                sprintf(
-                                    '<option value="%s">%s</option>',
-                                    $status_key,
-                                    $status_name
-                                )
+							echo sprintf(
+                                '<option value="%s">%s</option>',
+                                esc_attr($status_key),
+                                esc_attr($status_name)
                             );
 						}
 
@@ -313,12 +311,10 @@ use Niteo\Kafkai\Plugin\Config;
 
 							// Loop over array
 							foreach ( $users as $user ) {
-								echo esc_html(
-                                    sprintf(
-                                        '<option value="%s">%s</option>',
-                                        $user->data->ID,
-                                        $user->data->user_login
-                                    )
+								echo sprintf(
+                                    '<option value="%s">%s</option>',
+                                    esc_attr($user->data->ID),
+                                    esc_attr($user->data->user_login)
                                 );
 							}
 

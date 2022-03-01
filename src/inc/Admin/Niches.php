@@ -191,7 +191,9 @@ class Niches {
 	 * @return void
 	 */
 	public function add_notification( string $message, string $code = 'info' ) : void {
-		echo esc_html( sprintf( '<div class="notice notice-%s"><p>%s</p></div>', $code, $message ) );
+
+		echo sprintf( '<div class="notice notice-%s"><p>%s</p></div>', esc_html($code), esc_html($message ) );
+
 	}
 
 	/**
@@ -200,7 +202,9 @@ class Niches {
 	 * @return void
 	 */
 	public function add_update_button() : void {
-		echo esc_html( '&nbsp;<input type="submit" name="' . Config::PLUGIN_PREFIX . 'update_data" value="' . __( 'Update Niches & Languages', 'kafkai' ) . '" class="button button-secondary">' );
+		// phpcs:disable
+		echo '&nbsp;<input type="submit" name="' . esc_attr(Config::PLUGIN_PREFIX) . 'update_data" value="' . __( 'Update Niches & Languages', 'kafkai' ) . '" class="button button-secondary">';
+	// phpcs:enable
 	}
 
 	/**

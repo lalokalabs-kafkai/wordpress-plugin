@@ -289,7 +289,7 @@ trait Helper {
 	 * @return void
 	 */
 	public function add_notice( $code, $response ) : void {
-		echo esc_html('<div class="notice notice-' . $code . ' is-dismissible"><p>' . $response . '</p></div>');
+		echo '<div class="notice notice-' . esc_html($code) . ' is-dismissible"><p>' . esc_html($response) . '</p></div>';
 	}
 
 }

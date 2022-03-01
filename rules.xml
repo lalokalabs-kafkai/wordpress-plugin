@@ -36,7 +36,6 @@
         <exclude name="WordPress.PHP.YodaConditions.NotYoda" />
         <exclude name="WordPress.Security.NonceVerification.Missing" />
         <exclude name="WordPress.Security.NonceVerification.Recommended" />
-        <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotValidated" />
         <exclude name="WordPress.Security.ValidatedSanitizedInput.MissingUnslash" />
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceAfterOpenParenthesis" />
         <exclude name="WordPress.WhiteSpace.ControlStructureSpacing.NoSpaceBeforeCloseParenthesis" />
@@ -49,5 +48,6 @@
         <exclude name="WordPress.WP.AlternativeFunctions.json_encode_json_encode" />
         <exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
         <exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
+        <exclude name="WordPress.Security.ValidatedSanitizedInput.InputNotValidated" />
     </rule>
 </ruleset>
